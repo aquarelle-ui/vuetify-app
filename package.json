@@ -1,0 +1,14 @@
+{
+  "name": "@aquarelle/vuetify-app",
+  "version": "0.0.1",
+  "main": "index.js",
+  "private": true,
+  "dependencies": {
+    "@aquarelle/vuetify-json-form": "https://github.com/aquarelle-ui/vuetify-json-form.git",
+    "vue-router": "^3.0.1",
+    "vuetify": "^1.0.8"
+  },
+  "peerDependencies": {
+    "vue": "^2.5.16"
+  }
+}

@@ -1,0 +1,1 @@
+export {default as DOMPortal} from "./vue-dom-portal";
