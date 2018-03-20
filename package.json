@@ -6,9 +6,7 @@
   "dependencies": {
     "@aquarelle/vuetify-json-form": "https://github.com/aquarelle-ui/vuetify-json-form.git",
     "vue-router": "^3.0.1",
-    "vuetify": "^1.0.8"
-  },
-  "peerDependencies": {
+    "vuetify": "^1.0.8",
     "vue": "^2.5.16"
   }
 }
