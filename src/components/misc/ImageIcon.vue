@@ -17,6 +17,7 @@
 </style>
 <script>
     import LetterAvatar from "./LetterAvatar";
+    import Requestor from "../../loader/Requestor";
 
     const SVG = /^\s*\<svg(\s|\>)/i;
     const URL = /^(https?\:|data\:|\/)/i;
@@ -46,6 +47,10 @@
                         src = src.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
                     }
                     return 'data:image/svg+xml;base64,' + btoa(src);
+                }
+                const base = Requestor.getBaseUrl();
+                if (base && src.startsWith('/')) {
+                    src = base + src;
                 }
                 return src;
             },

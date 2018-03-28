@@ -98,6 +98,14 @@ export default class Requestor
   }
 
   /**
+   * @returns {String|null}
+   */
+  static getBaseUrl()
+  {
+    return fetchBaseUrl;
+  }
+
+  /**
    * @param {String} credentials
    */
   static setCredentials(credentials)

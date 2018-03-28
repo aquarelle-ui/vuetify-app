@@ -98,7 +98,7 @@
                 promise = promise.then(data => {
                     this.$emit('dataloaded', data);
                     return {
-                        items: data[this.collectionKey],
+                        items: data[this.collectionKey] || [],
                         types: this.types,
                         setItems: (result) => {
                             this.items = result;
