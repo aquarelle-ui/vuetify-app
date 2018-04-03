@@ -4,18 +4,27 @@ import {vendorRoute, extensionRoute} from "./helpers";
 
 const App = {
     _extensions: {},
+    _vendors: {},
 
-    get router() {
+    get router()
+    {
         return Router;
     },
 
-    get loaders() {
+    get loaders()
+    {
         return Loaders;
     },
 
-    register(vendor, extensions = [], defaultExtension = null) {
+    register(vendor, extensions = [], defaultExtension = null)
+    {
         const routes = [];
-        this._extensions[vendor] = extensions.map(ext => {
+        if (typeof vendor === 'string') {
+            vendor = {name: vendor, title: vendor};
+        }
+
+        this._vendors[vendor.name] = vendor;
+        this._extensions[vendor.name] = extensions.map(ext => {
             if (defaultExtension === null) {
                 defaultExtension = ext.name;
             }
@@ -35,7 +44,7 @@ const App = {
             }
 
             return {
-                vendor,
+                vendor: vendor.name,
                 name: ext.name || null,
                 title: ext.title || null,
                 description: ext.description || null,
@@ -46,23 +55,36 @@ const App = {
         });
         if (routes.length > 0) {
             this.router.addRoutes([
-                vendorRoute(vendor, defaultExtension, routes)
+                vendorRoute(vendor.name, defaultExtension, routes)
             ]);
         }
     },
 
-    getAllExtensions() {
+    getAllVendors()
+    {
+        return this._vendors;
+    },
+
+    getVendor(name)
+    {
+        return this._vendors[name];
+    },
+
+    getAllExtensions()
+    {
         return this._extensions;
     },
 
-    getAllVendorExtensions(vendor) {
+    getAllVendorExtensions(vendor)
+    {
         if (!this._extensions.hasOwnProperty(vendor)) {
             return null;
         }
         return this._extensions[vendor];
     },
 
-    getVendorExtension(vendor, name) {
+    getVendorExtension(vendor, name)
+    {
         const extensions = this.getAllVendorExtensions(vendor);
         if (!extensions) {
             return null;

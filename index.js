@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuetify from 'vuetify';
 import VueRouter from 'vue-router';
 import VuetifyJsonForm from '@aquarelle/vuetify-json-form';
-import {DOMPortal, User, EntityTypeControl, EntityInstanceControl, Router, AppRoot} from "./src"
+import {DOMPortal, User, EntityTypeControl, EntityInstanceControl, Router, AppRoot, AppDashboard} from "./src"
 
 Vue.use(DOMPortal);
 Vue.use(VueRouter);
@@ -16,11 +16,20 @@ Vue.directive('title', {
 });
 Vue.prototype.$user = User;
 
+Router.addRoutes([
+    {
+        path: '/',
+        component: AppDashboard
+    }
+]);
+
 export * from "./src";
-export default (new Vue({
+const AppConfig = {
     el: '#app',
     router: Router,
     render(h) {
         return h(AppRoot)
     }
-}));
+};
+
+export default AppConfig;
