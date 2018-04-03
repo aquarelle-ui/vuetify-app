@@ -4,7 +4,7 @@
 
         <template slot="app-right-drawer">
             <app-user :user="appInfo.user"></app-user>
-            <app-extensions :items="extensions"></app-extensions>
+            <app-extensions :items="vendors"></app-extensions>
         </template>
 
         <router-view></router-view>
@@ -28,50 +28,32 @@
             }
         },
         computed: {
-            extensions() {
-                let extensions = [];
-                const all = this.appInfo.app.getAllExtensions();
+            vendors() {
+                let vendors = [];
+                const all = this.appInfo.app.getAllVendors();
+
                 for (const p in all) {
                     if (!all.hasOwnProperty(p)) {
                         continue;
                     }
-
-                    const filtered = [];
-
-                    all[p].map(app => {
-                        // Check permissions
-                        if (!this.hasPermissions(app.permissions)) {
-                            return;
-                        }
-                        if (app.menu.length > 0) {
-                            const hasItems = app.menu.some(region => {
-                                if (!this.hasPermissions(region.permissions)) {
-                                    return false;
-                                }
-                                return region.items.some(item => this.hasPermissions(item.permissions));
-                            });
-                            if (!hasItems) {
-                                return;
-                            }
-                        }
-
-                        const item = {
-                            vendor: app.vendor,
-                            name: app.name,
-                            title: app.title,
-                            description: app.description,
-                            icon: app.icon,
-                            href: '/' + app.vendor + '/' + app.name
-                        };
-
-                        filtered.push(item);
-                    });
-                    if (filtered.length > 0) {
-                        extensions = extensions.concat(filtered);
+                    const vendor = all[p];
+                    if (!this.hasPermissions(vendor.permissions || [])) {
+                        continue;
                     }
+                    const extensions = this.getVendorExtensions(vendor.name);
+                    if (extensions.length === 0) {
+                        continue;
+                    }
+                    vendors.push({
+                        name: vendor.name,
+                        title: vendor.title || vendor.name,
+                        description: vendor.description || null,
+                        icon: vendor.icon || null,
+                        extensions,
+                    });
                 }
 
-                return extensions;
+                return vendors;
             },
             hrefPrefix() {
                 return '/' + this.appInfo.vendor + '/' + this.appInfo.extension + '/';
@@ -123,6 +105,40 @@
         methods: {
             hasPermissions(perm) {
                 return this.appInfo.user.hasPermission(perm);
+            },
+            getVendorExtensions(vendor)
+            {
+                const filtered = [];
+                this.appInfo.app.getAllVendorExtensions(vendor).map(ext => {
+                    // Check permissions
+                    if (!this.hasPermissions(ext.permissions)) {
+                        return;
+                    }
+                    if (ext.menu.length > 0) {
+                        const hasItems = ext.menu.some(region => {
+                            if (!this.hasPermissions(region.permissions)) {
+                                return false;
+                            }
+                            return region.items.some(item => this.hasPermissions(item.permissions));
+                        });
+                        if (!hasItems) {
+                            return;
+                        }
+                    }
+
+                    const item = {
+                        vendor: ext.vendor,
+                        name: ext.name,
+                        title: ext.title,
+                        description: ext.description,
+                        icon: ext.icon,
+                        href: '/' + ext.vendor + '/' + ext.name
+                    };
+
+                    filtered.push(item);
+                });
+
+                return filtered;
             }
         }
     };
