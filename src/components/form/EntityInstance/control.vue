@@ -74,7 +74,7 @@
                     this.loader.cached('instances').then(data => {
                         this.loadedItems = data.collection;
                         this.loading = false;
-                        this.validate();
+                        this.reset();
                     });
                 }
             }

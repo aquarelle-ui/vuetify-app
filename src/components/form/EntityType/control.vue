@@ -79,7 +79,7 @@
                     this.loader.cached('types').then(data => {
                         this.loadedItems = this.translateItems(data.collection);
                         this.loading = false;
-                        this.validate();
+                        this.reset();
                     });
                 }
             },
