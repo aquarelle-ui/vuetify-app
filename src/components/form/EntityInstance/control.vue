@@ -38,7 +38,7 @@
                     {{data.item[titleProp]}}
                 </v-list-tile-title>
                 <v-list-tile-sub-title v-if="!display.hideType">
-                    {{data.item.type}}:{{data.item.behavior}}
+                    {{data.item.behavior ? data.item.type + ':' + data.item.behavior : data.item.type}}
                 </v-list-tile-sub-title>
             </v-list-tile-content>
         </template>
@@ -71,7 +71,7 @@
                 this.loading = true;
                 const loader = this.loader;
                 if (loader) {
-                    this.loader.cached('instances').then(data => {
+                    this.loader.cached(this.config.cacheKey).then(data => {
                         this.loadedItems = data.collection;
                         this.loading = false;
                         this.reset();

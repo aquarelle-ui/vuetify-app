@@ -14,7 +14,7 @@ export default {
             else {
                 promise = loader.getTypes();
             }
-            return promise.then(types => types.collection);
+            return promise;
         },
         entityType(name, type, behavior, cached = true) {
             return this.entityTypes(name, cached).then(types => this.entityTypeFromList(types, type, behavior));

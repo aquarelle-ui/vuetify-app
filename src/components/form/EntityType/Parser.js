@@ -2,10 +2,11 @@ import {setConfigUsingValidation, ControlParser} from "@aquarelle/json-form";
 
 export default class extends ControlParser {
 
-    constructor(name, entity = null, display = {}) {
+    constructor(name, entity = null, display = {}, cacheKey = 'types') {
         super(name);
         this._entity = entity;
         this._display = display;
+        this._cacheKey = cacheKey;
     }
 
     getDisplay(definition, form) {
@@ -23,6 +24,7 @@ export default class extends ControlParser {
         return {
             multiple: false,
             entity: this._entity,
+            cacheKey: this._cacheKey,
             ...definition.config
         };
     }

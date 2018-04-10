@@ -40,7 +40,7 @@
                 </v-list-tile-title>
                 <v-list-tile-sub-title>
                     {{data.item[descriptionProp]}}
-                    <small v-if="!display.hideType">({{data.item.type}}:{{data.item.behavior}})</small>
+                    <small v-if="!display.hideType">({{data.item.behavior ? data.item.type + ':' + data.item.behavior : data.item.type}})</small>
                 </v-list-tile-sub-title>
             </v-list-tile-content>
         </template>
@@ -76,8 +76,8 @@
                 this.loading = true;
                 const loader = this.loader;
                 if (loader) {
-                    this.loader.cached('types').then(data => {
-                        this.loadedItems = this.translateItems(data.collection);
+                    this.loader.cached(this.config.cacheKey).then(data => {
+                        this.loadedItems = this.translateItems(data);
                         this.loading = false;
                         this.reset();
                     });

@@ -26,6 +26,6 @@ export default class DataLoader extends BaseLoader {
         if (!this._hasTypes) {
             return null;
         }
-        return this._fetch(this._url + '/types');
+        return this._fetch(this._url + '/types').then(data => data.collection);
     }
 }

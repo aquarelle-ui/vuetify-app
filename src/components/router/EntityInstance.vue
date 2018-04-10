@@ -62,9 +62,9 @@
                     .then(data => {
                         this.entityInstance = data;
                         if (this.entityLoader.hasTypes()) {
-                            this.entityLoader.cached('types')
+                            this.entityLoader.cached(this.cacheKey)
                                 .then(types => {
-                                    this.entityType = this.entityTypeFromList(this.entityInstance, types.collection);
+                                    this.entityType = this.entityTypeFromList(this.entityInstance, types);
                                     this.entityError = null;
                                     this.entityIsLoading = false;
                                 })

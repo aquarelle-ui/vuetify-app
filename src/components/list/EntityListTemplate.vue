@@ -50,6 +50,10 @@
                 type: String,
                 default: 'collection'
             },
+            typeCacheKey: {
+                type: String,
+                default: 'types'
+            },
             dataLoader: {
                 type: Function,
                 default: null
@@ -84,8 +88,8 @@
 
                 let promise = null;
                 if (this.loaderObject.hasTypes()) {
-                    promise = this.loaderObject.cached('types').then(data => {
-                        this.types = data.collection;
+                    promise = this.loaderObject.cached(this.typeCacheKey).then(data => {
+                        this.types = data;
                         return this.loaderObject.getAll(args);
                     });
                 }
