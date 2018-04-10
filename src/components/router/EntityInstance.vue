@@ -14,6 +14,10 @@
             entityId: {
                 type: String,
                 required: true
+            },
+            typeCacheKey: {
+                type: String,
+                default: 'types'
             }
         },
         data() {
@@ -62,7 +66,7 @@
                     .then(data => {
                         this.entityInstance = data;
                         if (this.entityLoader.hasTypes()) {
-                            this.entityLoader.cached(this.cacheKey)
+                            this.entityLoader.cached(this.typeCacheKey)
                                 .then(types => {
                                     this.entityType = this.entityTypeFromList(this.entityInstance, types);
                                     this.entityError = null;
