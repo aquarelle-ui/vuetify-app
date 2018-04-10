@@ -1,6 +1,6 @@
 <template>
     <v-list v-bind="$attrs" two-line>
-        <v-list-group v-for="vendor in items" :key="vendor.name" v-model="active">
+        <v-list-group v-for="vendor in items" :key="vendor.name" :value="vendor.name === currentVendor">
             <v-list-tile slot="activator">
                 <v-list-tile-action>
                     <image-icon :src="vendor.icon || $intl.translate(vendor.title)"></image-icon>
@@ -40,13 +40,11 @@
             items: {
                 type: Array,
                 default: () => ([])
+            },
+            currentVendor: {
+                type: String,
+                default: null
             }
         },
-        data()
-        {
-            return {
-                active: true
-            }
-        }
     };
 </script>

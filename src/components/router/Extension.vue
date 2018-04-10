@@ -4,7 +4,7 @@
 
         <template slot="app-right-drawer">
             <app-user :user="appInfo.user"></app-user>
-            <app-extensions :items="vendors"></app-extensions>
+            <app-extensions :items="vendors" :current-vendor="currentVendor"></app-extensions>
         </template>
 
         <router-view></router-view>
@@ -28,6 +28,9 @@
             }
         },
         computed: {
+            currentVendor() {
+                return this.$route.params.vendor || null;
+            },
             vendors() {
                 let vendors = [];
                 const all = this.appInfo.app.getAllVendors();
@@ -106,8 +109,7 @@
             hasPermissions(perm) {
                 return this.appInfo.user.hasPermission(perm);
             },
-            getVendorExtensions(vendor)
-            {
+            getVendorExtensions(vendor) {
                 const filtered = [];
                 this.appInfo.app.getAllVendorExtensions(vendor).map(ext => {
                     // Check permissions
