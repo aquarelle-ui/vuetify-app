@@ -21,7 +21,7 @@
                         <v-list-tile-title>{{item.title}}</v-list-tile-title>
                         <v-list-tile-sub-title v-if="type !== null">
                             {{type.title}}
-                            <small>({{item.type}}:{{item.behavior}})</small>
+                            <small>({{ item.behavior ? item.type + ':' + item.behavior : item.type }})</small>
                         </v-list-tile-sub-title>
                     </slot>
                 </v-list-tile-content>
