@@ -1,6 +1,10 @@
 export default {
     id: null,
-    isAdmin: false,
+    name: null,
+    email: null,
+    avatar: null,
+    // TODO: change this
+    isAdmin: true,
     permissions: [],
     hasPermission(permission) {
         if (this.isAdmin || !permission) {
