@@ -20,8 +20,28 @@ export default class extends DataLoader {
         }
     }
 
+    create(data)
+    {
+        return super.create(data).then(r => this._clearCache(r));
+    }
+
+    update(id, data)
+    {
+        return super.update(id, data).then(r => this._clearCache(r));
+    }
+
+    delete(id)
+    {
+        return super.delete(id).then(r => this._clearCache(r));
+    }
+
     cached(what) {
         return Cache.load(this._key + '/' + what);
+    }
+
+    _clearCache(data) {
+        Cache.clear(this._key + '/instances');
+        return data;
     }
 
     static cacheStorage() {
