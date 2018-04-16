@@ -40,6 +40,9 @@
                 <v-list-tile-sub-title v-if="!display.hideType">
                     {{data.item.behavior ? data.item.type + ':' + data.item.behavior : data.item.type}}
                 </v-list-tile-sub-title>
+                <v-list-tile-sub-title v-else>
+                    {{data.item[descriptionProp] || ''}}
+                </v-list-tile-sub-title>
             </v-list-tile-content>
         </template>
     </v-select>
@@ -85,6 +88,9 @@
             },
             titleProp() {
                 return this.config.titleProp || 'title';
+            },
+            descriptionProp() {
+                return this.config.descriptionProp || 'description';
             },
             valueProp() {
                 return this.config.valueProp || 'id';
