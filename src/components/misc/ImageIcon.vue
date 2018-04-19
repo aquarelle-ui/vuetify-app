@@ -1,6 +1,8 @@
 <template>
-    <img v-if="isURL" :class="{'image-icon': true, 'squared': squared}" :src="source" v-bind="$attrs">
-    <letter-avatar v-else-if="letterFallback" :text="src" :squared="squared" v-bind="$attrs"></letter-avatar>
+    <img v-if="isURL" :style="{width: size + 'px', height: size + 'px'}"
+         :class="{'image-icon': true, 'squared': squared}" :src="source" v-bind="$attrs">
+    <letter-avatar v-else-if="letterFallback" :style="{width: size + 'px', height: size + 'px'}" :text="src"
+                   :squared="squared" v-bind="$attrs"></letter-avatar>
 </template>
 <style>
     .image-icon {
@@ -11,6 +13,7 @@
         align-items: center;
         justify-content: center;
     }
+
     .image-icon.squared {
         border-radius: 5% !important;
     }
@@ -37,10 +40,15 @@
             squared: {
                 type: Boolean,
                 default: false
+            },
+            size: {
+                type: Number,
+                default: 40
             }
         },
         computed: {
-            source() {
+            source()
+            {
                 let src = this.src;
                 if (SVG.test(src)) {
                     if (src.indexOf('xmlns="http://www.w3.org/2000/svg"') === -1) {
@@ -54,7 +62,8 @@
                 }
                 return src;
             },
-            isURL() {
+            isURL()
+            {
                 return URL.test(this.source);
             }
         }

@@ -12,6 +12,8 @@
     </v-app>
 </template>
 <script>
+    import User from "../../User";
+
     export default {
         name: 'app-root',
         data() {
@@ -21,22 +23,17 @@
             }
         },
         created() {
-            // TODO: ...
             this.status = "Initialising...";
 
-            // this.status = "Loading user data...";
-
-            // this.status = "Loading locale...";
-
-            this.status = "Enjoy!";
-            this.ready = true;
-
-            return;
-            setTimeout(() => {
-                this.status = "Enjoy!";
-                this.ready = true;
-            }, 3000)
-
+            User.refresh()
+                .then(ok => {
+                    // this.status = "Loading locale...";
+                    return true;
+                })
+                .then(() => {
+                    this.status = 'Enjoy!';
+                    this.ready = true;
+                });
         }
     }
 </script>

@@ -16,6 +16,8 @@ Vue.directive('title', {
 });
 Vue.prototype.$user = User;
 
+User.setLoaderUrl('/api/aquarelle/users/users');
+
 Router.addRoutes([
     {
         path: '/',
