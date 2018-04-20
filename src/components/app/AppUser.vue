@@ -35,7 +35,7 @@
             signOut()
             {
                 User.signOut().then(() => {
-                   window.location = '/';
+                   window.location.replace(window.location.toString().split('#')[0]);
                 });
             }
         }
