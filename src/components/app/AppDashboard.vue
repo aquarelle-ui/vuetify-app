@@ -1,8 +1,8 @@
 <template>
     <v-container>
         <h1>Welcome</h1>
+        <app-user :user="$user"></app-user>
         <v-layout row wrap>
-            <app-user :user="$user"></app-user>
             <v-list two-line>
                 <v-list-tile v-for="item in vendors()" avatar :key="item.name" :to="item.url">
                     <v-list-tile-avatar>
