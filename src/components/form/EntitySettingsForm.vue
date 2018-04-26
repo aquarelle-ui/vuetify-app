@@ -1,5 +1,5 @@
 <template>
-    <app-page :title="$intl.translate(title)" :back="back" :loading="entityInfo.loading">
+    <app-page ref="page" :title="$intl.translate(title)" :back="back" :loading="entityInfo.loading">
         <v-layout v-if="entityInfo.error !== null" fill-height justify-center align-center>
             Server error
         </v-layout>
@@ -12,6 +12,7 @@
                     :title="entityInfo.instance.title"
                     v-model="model"
                     :items="fields"
+                    :submitButton="submitButton"
             >
             </block-form>
         </template>
@@ -44,6 +45,10 @@
             back: {
                 type: String,
                 default: ''
+            },
+            submitButton: {
+                type: String,
+                default: "Save"
             }
         },
         data() {
@@ -65,6 +70,11 @@
                     this.setupModel();
                     this.setupFields();
                 }
+            }
+        },
+        computed: {
+            notifier() {
+                return this.$refs.page.notifier;
             }
         },
         methods: {
@@ -112,12 +122,13 @@
                 this.entityInfo.loader.update(this.entityInfo.id, data)
                     .then(() => {
                         this.processing = false;
-                        // TODO: show notification ...
+                        this.notifier.showSuccess("Saved");
                     })
                     .catch(error => {
                         this.processing = false;
                         error.response.json().then(data => {
                             // TODO: handle error
+                            this.notifier.showSuccess("An error has occurred");
                         });
                     });
             }

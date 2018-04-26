@@ -7,14 +7,16 @@
             <v-progress-circular indeterminate color="secondary"></v-progress-circular>
         </v-layout>
         <slot v-else></slot>
+        <app-notifier ref="notifier"></app-notifier>
     </v-content>
 </template>
 <script>
     import AppToolbar from "./AppToolbar";
+    import AppNotifier from "./AppNotifier";
 
     export default {
         name: 'app-page',
-        components: {AppToolbar},
+        components: {AppToolbar, AppNotifier},
         props: {
             title: {
                 type: String,
@@ -27,6 +29,17 @@
             loading: {
                 type: Boolean,
                 default: false
+            }
+        },
+        computed: {
+            notifier() {
+                return this.$refs.notifier;
+            }
+        },
+        methods: {
+            notify(type, message, timeout = 3000)
+            {
+                this.notifier.show(type, message, timeout);
             }
         }
     };

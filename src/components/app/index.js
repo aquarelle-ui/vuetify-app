@@ -6,3 +6,4 @@ export {default as AppRoot} from "./AppRoot";
 export {default as AppToolbar} from "./AppToolbar";
 export {default as AppPage} from "./AppPage";
 export {default as AppDashboard} from "./AppDashboard";
+export {default as AppNotifier} from "./AppNotifier";
