@@ -20,11 +20,11 @@
 </template>
 <script>
     import AppPage from "../app/AppPage";
-    import {EntityInfoMixin, CloseDialogsBeforeLeave} from "../../mixins";
+    import {EntityInfoMixin, CloseDialogsBeforeLeave, PageNotifier} from "../../mixins";
 
     export default {
         components: {AppPage},
-        mixins: [EntityInfoMixin, CloseDialogsBeforeLeave],
+        mixins: [EntityInfoMixin, CloseDialogsBeforeLeave, PageNotifier],
         props: {
             fieldName: {
                 type: String,
@@ -70,11 +70,6 @@
                     this.setupModel();
                     this.setupFields();
                 }
-            }
-        },
-        computed: {
-            notifier() {
-                return this.$refs.page.notifier;
             }
         },
         methods: {
