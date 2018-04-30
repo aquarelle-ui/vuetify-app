@@ -79,7 +79,7 @@
                     return;
                 }
                 if (typeof this.formFields === 'function') {
-                    const f = this.formFields(this.entityInfo.instance);
+                    const f = this.formFields(this.entityInfo.instance, this);
                     if (f instanceof Promise) {
                         f.then(data => this.fields = data);
                     }
