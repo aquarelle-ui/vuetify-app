@@ -62,6 +62,7 @@
             showDialog(value) {
                 if (value) {
                     this.processingMode = false;
+                    this.error = null;
                     this.itemTitle = this.item.title;
                 }
             }
