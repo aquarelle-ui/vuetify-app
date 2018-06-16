@@ -64,6 +64,7 @@
         watch: {
             showDialog(show) {
                 if (show) {
+                    this.error = null;
                     this.deleteMode = false;
                 }
             }
