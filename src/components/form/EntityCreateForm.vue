@@ -217,7 +217,7 @@
                         }
                     }
                     else {
-                        data = this.preProcessModelData(data);
+                        data = this.preProcessModelData(data, this);
                     }
                 }
 
