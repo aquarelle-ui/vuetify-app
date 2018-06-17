@@ -7,7 +7,7 @@
             <slot name="app-right-drawer"></slot>
         </v-navigation-drawer>
 
-        <v-toolbar app fixed clipped-left clipped-right color="primary" dark>
+        <v-toolbar style="z-index: 10" app fixed clipped-left clipped-right color="primary" dark>
             <v-toolbar-side-icon @click.stop="leftDrawer = !leftDrawer"></v-toolbar-side-icon>
 
             <v-toolbar-title id="app-title" class="ml-0"></v-toolbar-title>
