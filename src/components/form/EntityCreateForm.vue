@@ -199,10 +199,10 @@
             {
                 this.processing = true;
 
+                data = this.$clone(data);
+
                 if (this.extraModelData) {
                     data = {...data, ...this.extraModelData};
-                } else {
-                    data = {...data};
                 }
 
                 if (this.preProcessModelData) {

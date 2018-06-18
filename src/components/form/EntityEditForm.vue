@@ -219,6 +219,8 @@
             {
                 this.processing = true;
 
+                data = this.$clone(data);
+
                 if (this.modelFieldName) {
                     data = {[this.modelFieldName]: data}
                 }
@@ -241,8 +243,6 @@
 
                 if (this.extraModelData) {
                     data = {...data, ...this.extraModelData};
-                } else {
-                    data = {...data};
                 }
 
                 const promise = this.saveHandler
