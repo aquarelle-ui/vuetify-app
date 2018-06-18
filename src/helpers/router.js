@@ -1,4 +1,4 @@
-import {EntityInstanceRoute, ExtensionRoute} from "../components/router";
+import {ExtensionRoute} from "../components/router";
 import {EntityCreateForm, EntityEditForm, EntityListForm} from "../components/form";
 
 import App from "../App";
@@ -50,31 +50,6 @@ export function permissionRoute(route, permissions = [])
     route.beforeEnter = permissionHook;
     route.meta.permissions = permissions;
     return route;
-}
-
-export function entityInstanceRoute(
-    entityName,
-    children = [],
-    permissions = [],
-    param = 'entityId',
-    infoName = 'entityInfo',
-    options = {}
-)
-{
-    return permissionRoute({
-        path: ':' + param + '([a-zA-Z0-9]{3,32})',
-        component: EntityInstanceRoute,
-        props(route)
-        {
-            return {
-                infoName,
-                entityName: entityName,
-                entityId: route.params[param],
-            }
-        },
-        children,
-        ...options
-    }, permissions);
 }
 
 export function extensionRoute(extension, url, children = [], options = {})
