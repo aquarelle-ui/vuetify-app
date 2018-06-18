@@ -1,12 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1456.0702" height="225.6917" viewBox="0 0 1456.0702 225.6917">
     <defs>
-        <style>
-            .a {
-            fill: #1976d2;
-            }
-        </style>
+        <style>.a {fill: #1976d2}</style>
     </defs>
-    <title>Asset 36</title>
+    <title>Aquarelle</title>
     <g>
         <g>
             <path class="a" d="M833.1928,55.05V78.7856a66.6284,66.6284,0,1,0,0,85.7866v23.7351H848.85V55.05ZM782.2219,172.65a50.9708,50.9708,0,1,1,50.9709-50.9706A50.97,50.97,0,0,1,782.2219,172.65Z"/>
