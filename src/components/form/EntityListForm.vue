@@ -29,6 +29,11 @@
                 @itemdeleted="onItemDeleted($event)"
         >
 
+            <template v-if="customText != null" slot="item-text" slot-scope="{item, type}">
+                <v-list-tile-title>{{getCustomTitle(item, type)}}</v-list-tile-title>
+                <v-list-tile-sub-title>{{getCustomDescription(item, type)}}</v-list-tile-sub-title>
+            </template>
+
             <template v-if="actions.length > 0" slot="item-actions" slot-scope="{item, type}">
                 <v-list-tile v-for="action in actions" :key="$uniqueObjectId(action)"
                         :to="actionHref(action.href, item, type)" :disabled="!canEdit">
@@ -134,6 +139,11 @@
                 default: 'icon'
             },
 
+            customText: {
+                type: Object,
+                default: null
+            },
+
             visiblePages: {
                 type: Number,
                 default: 7
@@ -154,6 +164,25 @@
             }
         },
         methods: {
+            getCustomTitle(item, type)
+            {
+                return this.getCustomText(this.customText.title, item, type);
+            },
+            getCustomDescription(item, type)
+            {
+                return this.getCustomText(this.customText.description, item, type);
+            },
+            getCustomText(text, item, type)
+            {
+                if (!text) {
+                    return null;
+                }
+                if (typeof text === 'function') {
+                    return text(item, type, this);
+                }
+
+                return item[text] || null;
+            },
             actionHref(action, item, type)
             {
                 if (typeof action === 'function') {
