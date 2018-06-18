@@ -1,5 +1,5 @@
 <template>
-    <router-view v-if="!ready"></router-view>
+    <router-view v-if="ready"></router-view>
     <v-app v-else>
         <v-container fluid fill-height>
             <v-layout justify-center align-center>
