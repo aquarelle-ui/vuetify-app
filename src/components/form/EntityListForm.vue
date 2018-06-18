@@ -170,7 +170,16 @@
             },
             loadHandler(data)
             {
-                if (!this.hasIcon || !this.iconKey || !data.types) {
+                if (!this.hasIcon || !this.iconKey) {
+                    data.setItems(data.items);
+                    return;
+                }
+
+                if (!data.types) {
+                    data.items.map(item => {
+                        item.icon = item[this.iconKey] || null;
+                    });
+                    data.setItems(data.items);
                     return;
                 }
 
@@ -182,7 +191,7 @@
                         item.icon = null;
                     }
                     else {
-                        item.icon = type[this.iconKey] || null;
+                        item.icon = item[this.iconKey] || null;
                     }
                 });
 
