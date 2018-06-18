@@ -218,10 +218,10 @@
                         this.behaviorKey ? item[this.behaviorKey] : null, this.typeKey, this.behaviorKey || null);
 
                     if (!type) {
-                        item.icon = null;
+                        item.icon = item[this.iconKey] || null;;
                     }
                     else {
-                        item.icon = item[this.iconKey] || null;
+                        item.icon = type[this.iconKey] || null;
                     }
                 });
 
