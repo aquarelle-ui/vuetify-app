@@ -46,6 +46,9 @@ export default {
         },
         entityTypeFromList(types, type, behavior = null, type_field = 'type', behavior_field = 'behavior')
         {
+            if (!types) {
+                return null;
+            }
             for (let i = 0; i < types.length; i++) {
                 if (types[i][type_field] !== type) {
                     continue;

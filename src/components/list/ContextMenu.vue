@@ -18,6 +18,7 @@
                                 :show-dialog.sync="showTitleDialog"
                                 :item="item"
                                 :loader="loader"
+                                ref="titleDialog"
                                 @changed="onTitleChanged"
                                 max-width="300">
                         </entity-change-title-dialog>
@@ -42,6 +43,7 @@
                                 :show-dialog.sync="showDeleteDialog"
                                 :item="item"
                                 :loader="loader"
+                                ref="deleteDialog"
                                 @delete="onDelete"
                                 max-width="300">
                         </entity-delete-dialog>
@@ -104,6 +106,24 @@
             },
             onDelete(item) {
                this.$emit('delete', item);
+            },
+            onRouteLeave(func)
+            {
+                if (this.showTitle) {
+                    if (!func(this.$refs.titleDialog)) {
+                        return false;
+                    }
+                }
+
+                if (this.showDelete) {
+                    if (!func(this.$refs.deleteDialog)) {
+                        return false;
+                    }
+                }
+
+                this.contextMenu = false;
+
+                return true;
             }
         }
     }

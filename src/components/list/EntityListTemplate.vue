@@ -24,18 +24,18 @@
     </v-container>
 </template>
 <script>
-    import DataLoader from "../../loader/DataLoader";
-    import Loaders from "../../Loaders";
+    import {EntityMixin} from "../../mixins";
 
     export default {
         name: 'entity-list-template',
+        mixins: [EntityMixin],
         props: {
             emptyText: {
                 type: [Object, String],
                 default: () => ({text: 'No items to display', key: 'ui:common.emptyList'})
             },
             loader: {
-                type: [DataLoader, String],
+                type: [Object, String],
                 required: true
             },
             handler: {
@@ -54,12 +54,23 @@
                 type: String,
                 default: 'types'
             },
+            typeKey: {
+                type: String,
+                default: 'type',
+                required: false
+            },
+            behaviorKey: {
+                type: String,
+                default: 'behavior',
+                required: false
+            },
             dataLoader: {
                 type: Function,
                 default: null
-            },
+            }
         },
-        data() {
+        data()
+        {
             return {
                 items: [],
                 types: null,
@@ -67,20 +78,24 @@
             };
         },
         watch: {
-            filterArgs(val) {
+            filterArgs(val)
+            {
                 this.refreshList(val);
             }
         },
         computed: {
-            loaderObject() {
-                return typeof this.loader === 'string' ? Loaders.get(this.loader) : this.loader;
+            loaderObject()
+            {
+                return typeof this.loader === 'string' ? this.entityLoader(this.loader) : this.loader;
             }
         },
-        created() {
+        created()
+        {
             this.refreshList();
         },
         methods: {
-            refreshList(args = this.filterArgs) {
+            refreshList(args = this.filterArgs)
+            {
                 this.$emit('refresh', args);
                 this.ready = false;
                 this.items = [];
@@ -122,16 +137,14 @@
                 }
                 return promise;
             },
-            getItemType(item) {
+            getItemType(item)
+            {
                 if (!Array.isArray(this.types)) {
                     return null;
                 }
-                for (let i = 0, m = this.types.length; i < m; i++) {
-                    if (item.type === this.types[i].type && item.behavior === this.types[i].behavior) {
-                        return this.types[i];
-                    }
-                }
-                return null;
+
+                return this.entityTypeFromList(this.types, item[this.typeKey],
+                    this.behaviorKey ? item[this.behaviorKey] : null, this.typeKey, this.behaviorKey || null);
             }
         }
     };

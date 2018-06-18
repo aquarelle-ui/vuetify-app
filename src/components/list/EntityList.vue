@@ -52,13 +52,11 @@
     </entity-list-template>
 </template>
 <script>
-    import DataLoader from "../../loader/DataLoader";
-    import Loaders from "../../Loaders";
     import EntityListTemplate from "./EntityListTemplate";
     import ImageIcon from "../misc/ImageIcon";
-    import User from "../../User";
     import {EntityChangeTitleDialog, EntityDeleteDialog} from "../dialog";
     import ContextMenu from "./ContextMenu";
+    import {EntityMixin} from "../../mixins";
 
     export default {
         name: 'entity-list',
@@ -69,9 +67,10 @@
             ImageIcon,
             EntityListTemplate
         },
+        mixins: [EntityMixin],
         props: {
             loader: {
-                type: [DataLoader, String],
+                type: [Object, String],
                 required: true
             },
             deletable: {
@@ -125,6 +124,14 @@
             refreshList(args) {
                 const list = this.$refs.list;
                 list.refreshList(args === undefined ? list.filterArgs : args);
+            },
+            onRouteLeave(func)
+            {
+                if (!func(this.$refs.contextMenu)) {
+                    return false;
+                }
+
+                return func(this.$refs.list);
             }
         },
         computed: {
@@ -132,19 +139,19 @@
                 return {...this.filterArgs, page: this.page, rows: this.rows};
             },
             loaderObject() {
-                return typeof this.loader === 'string' ? Loaders.get(this.loader) : this.loader;
+                return typeof this.loader === 'string' ? this.entityLoader(this.loader) : this.loader;
             },
             isDeletable() {
                 if (typeof this.deletable === 'boolean') {
                     return this.deletable;
                 }
-                return User.hasPermission(this.deletable);
+                return this.$user.hasPermission(this.deletable);
             },
             isTitleEditable() {
                 if (typeof this.editableTitle === 'boolean') {
                     return this.editableTitle;
                 }
-                return User.hasPermission(this.editableTitle);
+                return this.$user.hasPermission(this.editableTitle);
             }
         }
     };

@@ -88,6 +88,18 @@
                     this.error = err.toString();
                     this.deleteMode = false;
                 });
+            },
+            onRouteLeave(func)
+            {
+                if (this.showDialog) {
+                    if (this.processingMode) {
+                        return false;
+                    }
+                    this.cancelDialog();
+                    return false;
+                }
+
+                return true;
             }
         }
     }
