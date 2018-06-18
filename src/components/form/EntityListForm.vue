@@ -45,6 +45,7 @@
                             {{$intl.translate(action.title)}}
                         </v-list-tile-title>
                     </v-list-tile-content>
+                    <v-list-tile-action></v-list-tile-action>
                 </v-list-tile>
             </template>
 
