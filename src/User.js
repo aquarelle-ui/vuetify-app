@@ -23,7 +23,7 @@ export default {
     name: "Admin",
     email: "admin@example.com",
     avatar: null,
-    isAdmin: false,
+    isAdmin: true,
     permissions: [],
     roles: [],
     signOutKey: '',
