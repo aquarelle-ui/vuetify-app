@@ -1,10 +1,10 @@
 <template>
-    <router-view v-if="ready"></router-view>
+    <router-view v-if="!ready"></router-view>
     <v-app v-else>
         <v-container fluid fill-height>
             <v-layout justify-center align-center>
                 <v-flex class="text-xs-center">
-                    <img style="max-width: 80%" src="./logo.svg">
+                    <img style="max-width: 80%" :src="logo">
                     <v-progress-linear indeterminate></v-progress-linear>
                     <v-flex >{{status}}</v-flex>
                 </v-flex>
@@ -14,11 +14,13 @@
 </template>
 <script>
     import User from "../../User";
+    import Logo from "./logo.svg";
 
     export default {
         name: 'app-root',
         data() {
             return {
+                logo: Logo,
                 status: null,
                 ready: false
             }
