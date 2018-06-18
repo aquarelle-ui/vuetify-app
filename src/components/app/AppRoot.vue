@@ -3,9 +3,10 @@
     <v-app v-else>
         <v-container fluid fill-height>
             <v-layout justify-center align-center>
-                <v-flex>
-                    <v-flex class="text-xs-center">{{status}}</v-flex>
+                <v-flex class="text-xs-center">
+                    <img style="max-width: 80%" src="./logo.svg">
                     <v-progress-linear indeterminate></v-progress-linear>
+                    <v-flex >{{status}}</v-flex>
                 </v-flex>
             </v-layout>
         </v-container>
