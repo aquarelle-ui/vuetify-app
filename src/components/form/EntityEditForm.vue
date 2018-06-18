@@ -8,7 +8,7 @@
                 ref="form"
                 :fill-height="fillHeight"
                 :processing="processing"
-                :title="instance && instance.title || ''"
+                :title="instance && instance[titleKey] || ''"
                 v-model="model"
                 :items="parsedFields"
                 :submit-button="submitButtonText"
@@ -116,6 +116,11 @@
             fillHeight: {
                 type: Boolean,
                 default: true
+            },
+
+            titleKey: {
+                type: String,
+                default: 'title'
             }
         },
         data()
