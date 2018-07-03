@@ -5,6 +5,8 @@ import {vendorRoute, extensionRoute} from "./helpers";
 const App = {
     _extensions: {},
     _vendors: {},
+    _parsed: false,
+    _vendorRoutes: {},
 
     get router()
     {
@@ -24,40 +26,67 @@ const App = {
         }
 
         this._vendors[vendor.name] = vendor;
-        this._extensions[vendor.name] = extensions.map(ext => {
+
+        const mapped = extensions.map(ext => {
             if (defaultExtension === null) {
                 defaultExtension = ext.name;
             }
-
-            if (ext.routes && Array.isArray(ext.routes)) {
-                let defaultRoute = ext.defaultRoute || null;
-                if (defaultRoute === null) {
-                    ext.routes.some(route => {
-                        if (typeof route.path === 'string') {
-                            defaultRoute = route.path;
-                            return true;
-                        }
-                        return false;
-                    });
-                }
-                routes.push(extensionRoute(ext.name, defaultRoute, ext.routes));
-            }
-
-            return {
-                vendor: vendor.name,
-                name: ext.name || null,
-                title: ext.title || null,
-                description: ext.description || null,
-                icon: ext.icon || null,
-                permissions: ext.permissions || [],
-                menu: ext.menu || []
-            };
+            return this._mapExtension(routes, ext, vendor.name);
         });
-        if (routes.length > 0) {
-            this.router.addRoutes([
-                vendorRoute(vendor.name, defaultExtension, routes)
-            ]);
+
+        if (!this._extensions.hasOwnProperty(vendor.name)) {
+            this._extensions[vendor.name] = [];
         }
+        this._extensions[vendor.name] = this._extensions[vendor.name].concat(mapped);
+
+        if (routes.length > 0) {
+            this._vendorRoutes[vendor.name] = true;
+            this.router.addRoutes([vendorRoute(vendor.name, defaultExtension, routes)]);
+        }
+    },
+
+    registerExtension(vendor, extension)
+    {
+        const routes = [];
+        const ext = this._mapExtension(routes, extension, vendor);
+
+        if (routes.length > 0 && this._vendorRoutes[vendor]) {
+            this.router.addRoutes([vendorRoute(vendor, null, routes)]);
+        }
+
+        if (!this._extensions.hasOwnProperty(vendor)) {
+            this._extensions[vendor] = [];
+        }
+        this._extensions[vendor].push(ext);
+
+        return ext;
+    },
+
+    _mapExtension(routes, ext, vendor)
+    {
+        if (ext.routes && Array.isArray(ext.routes)) {
+            let defaultRoute = ext.defaultRoute || null;
+            if (defaultRoute === null) {
+                ext.routes.some(route => {
+                    if (typeof route.path === 'string') {
+                        defaultRoute = route.path;
+                        return true;
+                    }
+                    return false;
+                });
+            }
+            routes.push(extensionRoute(ext.name, defaultRoute, ext.routes));
+        }
+
+        return {
+            vendor: vendor,
+            name: ext.name || null,
+            title: ext.title || null,
+            description: ext.description || null,
+            icon: ext.icon || null,
+            permissions: ext.permissions || [],
+            menu: ext.menu || []
+        };
     },
 
     getAllVendors()
