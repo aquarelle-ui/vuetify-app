@@ -1,5 +1,6 @@
 <template>
-    <img v-if="isURL" :style="{width: size + 'px', height: size + 'px'}"
+    <v-icon v-if="isIcon" :style="{width: size + 'px', height: size + 'px'}" v-bind="$attrs">{{$controlIcon(source)}}</v-icon>
+    <img v-else-if="isURL" :style="{width: size + 'px', height: size + 'px'}"
          :class="{'image-icon': true, 'squared': squared}" :src="source" v-bind="$attrs">
     <letter-avatar v-else-if="letterFallback" :style="{width: size + 'px', height: size + 'px'}" :text="src"
                    :squared="squared" v-bind="$attrs"></letter-avatar>
@@ -50,6 +51,9 @@
             source()
             {
                 let src = this.src;
+                if (this.isIcon) {
+                    return src.substring(1);
+                }
                 if (SVG.test(src)) {
                     if (src.indexOf('xmlns="http://www.w3.org/2000/svg"') === -1) {
                         src = src.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
@@ -65,6 +69,10 @@
             isURL()
             {
                 return URL.test(this.source);
+            },
+            isIcon()
+            {
+                return this.src.length > 0 && this.src[0] === '@';
             }
         }
     }
