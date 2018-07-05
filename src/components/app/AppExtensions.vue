@@ -1,6 +1,6 @@
 <template>
     <v-list v-bind="$attrs" two-line>
-        <v-list-group v-for="vendor in items" :key="vendor.name" :value="vendor.name === currentVendor">
+        <v-list-group v-for="vendor in vendors" :key="vendor.name" :value="alwaysOpen || vendor.name === currentVendor">
             <v-list-tile slot="activator">
                 <v-list-tile-action>
                     <image-icon :src="vendor.icon || $intl.translate(vendor.title)"></image-icon>
@@ -37,14 +37,99 @@
         components: {ImageIcon},
         name: 'app-extensions',
         props: {
-            items: {
-                type: Array,
-                default: () => ([])
-            },
             currentVendor: {
                 type: String,
                 default: null
+            },
+            app: {
+                type: Object,
+                required: true
+            },
+            user: {
+                type: Object,
+                required: true
+            },
+            alwaysOpen: {
+                type: Boolean,
+                default: false
             }
         },
+        computed: {
+            vendors() {
+                let vendors = [];
+                const all = this.app.getAllVendors();
+
+                for (const p in all) {
+                    if (!all.hasOwnProperty(p)) {
+                        continue;
+                    }
+                    const vendor = all[p];
+                    if (!this.hasPermissions(vendor.permissions || [])) {
+                        continue;
+                    }
+                    const extensions = this.getVendorExtensions(vendor.name);
+                    if (extensions.length === 0) {
+                        continue;
+                    }
+                    vendors.push({
+                        name: vendor.name,
+                        title: vendor.title || vendor.name,
+                        description: vendor.description || null,
+                        icon: vendor.icon || null,
+                        extensions,
+                    });
+                }
+
+                return vendors;
+            },
+        },
+        methods: {
+            hasPermissions(perm) {
+                return this.user.hasPermission(perm);
+            },
+            getVendorExtensions(vendor) {
+                const filtered = [];
+                this.app.getAllVendorExtensions(vendor).map(ext => {
+                    // Check permissions
+                    if (!this.hasPermissions(ext.permissions)) {
+                        return;
+                    }
+                    if (!ext.menu || ext.menu.length === 0) {
+                        return;
+                    }
+
+                    let href = '';
+                    const hasItems = ext.menu.some(region => {
+                        if (!region.items || region.items.length === 0 || !this.hasPermissions(region.permissions)) {
+                            return false;
+                        }
+                        return region.items.some(item => {
+                            if (this.hasPermissions(item.permissions)) {
+                                href = item.href || '';
+                                return true;
+                            }
+                            return false;
+                        });
+                    });
+
+                    if (!hasItems) {
+                        return;
+                    }
+
+                    const item = {
+                        vendor: ext.vendor,
+                        name: ext.name,
+                        title: ext.title,
+                        description: ext.description,
+                        icon: ext.icon,
+                        href: '/' + ext.vendor + '/' + ext.name + '/' + href
+                    };
+
+                    filtered.push(item);
+                });
+
+                return filtered;
+            }
+        }
     };
 </script>

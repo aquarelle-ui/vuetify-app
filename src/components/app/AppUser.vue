@@ -2,16 +2,14 @@
     <v-card flat>
         <v-container fluid grid-list-sm>
             <v-layout row>
-                <v-flex xs5>
+                <v-flex>
                     <image-icon squared :size="80" :letters-count="2" :src="user.avatar || user.name"></image-icon>
                 </v-flex>
-                <v-flex xs7>
+                <v-flex>
+                    <div class="headline">{{user.name}}</div>
+                    <div>{{user.email}}</div>
                     <div>
-                        <div class="headline">{{user.name}}</div>
-                        <div>{{user.email}}</div>
-                        <div>
-                            <a @click.prevent.stop="signOut" href="#">Sign out</a>
-                        </div>
+                        <a @click.prevent.stop="signOut" href="#">Sign out</a>
                     </div>
                 </v-flex>
             </v-layout>
@@ -20,7 +18,6 @@
 </template>
 <script>
     import ImageIcon from "../misc/ImageIcon";
-    import User from "../../User";
 
     export default {
         name: 'app-user',
@@ -34,7 +31,7 @@
         methods: {
             signOut()
             {
-                User.signOut().then(() => {
+                this.user.signOut().then(() => {
                    window.location.replace(window.location.toString().split('#')[0]);
                 });
             }

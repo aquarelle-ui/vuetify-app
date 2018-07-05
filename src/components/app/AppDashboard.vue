@@ -1,30 +1,32 @@
 <template>
-    <v-container>
-        <h1>Welcome</h1>
-        <app-user :user="$user"></app-user>
-        <v-layout row wrap>
-            <v-list two-line>
-                <v-list-tile v-for="item in vendors()" avatar :key="item.name" :to="item.url">
-                    <v-list-tile-avatar>
-                        <image-icon :src="item.icon || item.title"></image-icon>
-                    </v-list-tile-avatar>
-                    <v-list-tile-content>
-                        <v-list-tile-title>{{item.title}}</v-list-tile-title>
-                        <v-list-tile-sub-title>{{item.description}}</v-list-tile-sub-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-            </v-list>
-        </v-layout>
-    </v-container>
+    <v-app>
+        <v-card flat>
+            <v-toolbar color="primary" dark>
+                <v-toolbar-title>Welcome to Aquarelle</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-menu offset-x max-width="320">
+                    <v-btn icon slot="activator"><v-icon>person</v-icon></v-btn>
+                    <app-user style="width: 320px" :user="$user"></app-user>
+                </v-menu>
+            </v-toolbar>
+            <app-extensions :user="$user" :app="app" always-open></app-extensions>
+        </v-card>
+    </v-app>
 </template>
 <script>
     import App from "../../App";
+    import AppExtensions from "./AppExtensions";
     import AppUser from "./AppUser";
     import ImageIcon from "../misc/ImageIcon";
 
     export default {
         name: 'app-dashboard',
-        components: {ImageIcon, AppUser},
+        components: {ImageIcon, AppUser, AppExtensions},
+        computed: {
+            app() {
+                return App;
+            }
+        },
         methods: {
             vendors() {
                 let vendors = [];
@@ -46,7 +48,8 @@
                         title: vendor.title || vendor.name,
                         description: vendor.description || null,
                         icon: vendor.icon || null,
-                        url: vendor.url
+                        url: vendor.url,
+                        extensions: App.getAllVendorExtensions(vendor.name)
                     });
                 }
                 return vendors;
