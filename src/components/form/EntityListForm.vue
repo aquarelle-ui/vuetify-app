@@ -135,7 +135,7 @@
             },
 
             iconKey: {
-                type: String,
+                type: [String, Function],
                 required: false,
                 default: 'icon'
             },
@@ -205,9 +205,16 @@
                     return;
                 }
 
+                const isFunc = typeof this.iconKey === 'function';
+
                 if (!data.types) {
                     data.items.map(item => {
-                        item.icon = item[this.iconKey] || null;
+                        if (isFunc) {
+                            item.icon = this.iconKey(item, this);
+                        }
+                        else {
+                            item.icon = item[this.iconKey] || null;
+                        }
                     });
                     data.setItems(data.items);
                     return;
@@ -218,10 +225,10 @@
                         this.behaviorKey ? item[this.behaviorKey] : null, this.typeKey, this.behaviorKey || null);
 
                     if (!type) {
-                        item.icon = item[this.iconKey] || null;;
+                        item.icon = (isFunc ? this.iconKey(item, this) : item[this.iconKey]) || null;
                     }
                     else {
-                        item.icon = type[this.iconKey] || null;
+                        item.icon = (isFunc ? this.iconKey(type, this) : type[this.iconKey]);
                     }
                 });
 
