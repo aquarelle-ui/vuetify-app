@@ -8,7 +8,7 @@
                 ref="form"
                 :fill-height="fillHeight"
                 :processing="processing"
-                :title="instance && instance[titleKey] || ''"
+                :title="instanceTitle"
                 v-model="model"
                 :items="parsedFields"
                 :submit-button="submitButtonText"
@@ -119,7 +119,7 @@
             },
 
             titleKey: {
-                type: String,
+                type: [String, Function],
                 default: 'title'
             }
         },
@@ -176,6 +176,16 @@
             loader()
             {
                 return this.entityLoader(this.entity);
+            },
+            instanceTitle()
+            {
+                if (!this.instance) {
+                    return '';
+                }
+                if (typeof this.titleKey === 'function') {
+                    return this.titleKey(this.instance, this) || '';
+                }
+                return this.instance[this.titleKey] || '';
             }
         },
         methods: {
