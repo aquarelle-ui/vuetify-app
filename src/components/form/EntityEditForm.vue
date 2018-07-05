@@ -154,17 +154,16 @@
             this.loader.get(this.id)
                 .then(data => {
                     this.instance = data;
+                    initModel(data, this.modelFieldName);
                     const fields = this.parseFormFields(this.fields, data);
                     if (fields instanceof Promise) {
                         fields.then(fields => {
                             this.parsedFields = fields;
-                            initModel(data, this.modelFieldName);
                             this.loading = false;
                         });
                     }
                     else {
                         this.parsedFields = fields;
-                        initModel(data, this.modelFieldName);
                         this.loading = false;
                     }
                 })
