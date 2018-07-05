@@ -124,7 +124,7 @@ export function entityCreateRoute(name, props, permissions = [], options = {})
 export function entityEditRoute(name, props, permissions = [], idParam = 'entityInstanceId', options = {})
 {
     return permissionRoute({
-        path: ':' + idParam + '([a-zA-Z0-9-]{3,32})' + '/' + name,
+        path: ':' + idParam + '([a-zA-Z0-9-:]{3,32})' + '/' + name,
         component: EntityEditForm,
         props(route)
         {
