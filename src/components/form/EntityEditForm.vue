@@ -3,18 +3,39 @@
         <div v-if="loaderError">
             Error! Cannot load {{entity}}:{{id}}
         </div>
-        <block-form
-                v-else
-                ref="form"
-                :fill-height="fillHeight"
-                :processing="processing"
-                :title="instanceTitle"
-                v-model="model"
-                :items="parsedFields"
-                :submit-button="submitButtonText"
-                @submit="onSubmit($event)"
-        >
-        </block-form>
+        <template v-else>
+            <template v-if="contextActions && contextActions.length" slot="toolbar">
+                <v-menu offset-y>
+                    <v-btn icon slot="activator">
+                        <v-icon>edit</v-icon>
+                    </v-btn>
+                    <v-list>
+                        <v-list-tile v-for="item in contextActions" :key="$uniqueObjectId(item)" @click="contextItemAction(item)" :disabled="isContextItemDisabled(item)">
+                            <v-list-tile-avatar>
+                                <v-icon>{{$controlIcon(item.icon || '')}}</v-icon>
+                            </v-list-tile-avatar>
+                            <v-list-tile-content>
+                                <v-list-tile-title>
+                                    {{$intl.translate(item.title)}}
+                                </v-list-tile-title>
+                            </v-list-tile-content>
+                            <v-list-tile-action></v-list-tile-action>
+                        </v-list-tile>
+                    </v-list>
+                </v-menu>
+            </template>
+            <block-form
+                    ref="form"
+                    :fill-height="fillHeight"
+                    :processing="processing"
+                    :title="instanceTitle"
+                    v-model="model"
+                    :items="parsedFields"
+                    :submit-button="submitButtonText"
+                    @submit="onSubmit($event)"
+            >
+            </block-form>
+        </template>
     </app-page>
 </template>
 <script>
@@ -121,6 +142,11 @@
             titleKey: {
                 type: [String, Function],
                 default: 'title'
+            },
+
+            contextActions: {
+                type: Array,
+                default: null
             }
         },
         data()
@@ -189,6 +215,30 @@
             }
         },
         methods: {
+            contextItemAction(item) {
+                if (this.isContextItemDisabled(item)) {
+                    return false;
+                }
+                if (item.action && typeof item.action === 'function') {
+                    return item.action(this, item);
+                }
+                return false;
+            },
+            isContextItemDisabled(item) {
+                if (!item.hasOwnProperty('disabled')) {
+                    return false;
+                }
+                if (typeof item.disabled === 'boolean') {
+                    return item.disabled;
+                }
+                if (Array.isArray(item.disabled)) {
+                    return !this.$user.hasPermission(item.disabled)
+                }
+                if (typeof item.disabled === "function") {
+                    return item.disabled(this, item);
+                }
+                return false;
+            },
             parseFormFields(fields, data)
             {
                 if (Array.isArray(fields)) {

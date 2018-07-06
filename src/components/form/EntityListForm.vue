@@ -107,7 +107,7 @@
             },
             rows: {
                 type: Number,
-                default: 2
+                default: 30
             },
             addHref: {
                 type: String,
