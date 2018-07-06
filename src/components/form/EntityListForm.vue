@@ -2,11 +2,12 @@
     <app-page ref="page" :title="$intl.translate(title)" :back="back">
 
         <template ref="filterDialog" v-if="filterForm && filterForm.length" slot="toolbar">
-            <v-dialog v-model="dialog" max-width="500">
+            <v-dialog v-model="dialog">
                 <v-btn icon slot="activator">
                     <v-icon>filter_list</v-icon>
                 </v-btn>
                 <block-form
+                        ref="filterForm"
                         title="Filter items"
                         :items="filterForm"
                         v-model="dialogModel"
@@ -340,6 +341,13 @@
             },
             onRouteLeave(func)
             {
+                if (this.dialog) {
+                    if (func(this.$refs.filterForm)) {
+                        this.dialog = false;
+                    }
+                    return false;
+                }
+
                 return func(this.$refs.list);
             }
         }
