@@ -1,9 +1,21 @@
 <template>
     <app-page ref="page" :title="$intl.translate(title)" :back="back">
 
-        <v-layout v-if="lastPage > 1" v-show="listLoaded" class="white" align-center justify-center>
-            <v-pagination circle v-model="page" :length="lastPage" :total-visible="visiblePages"></v-pagination>
-        </v-layout>
+        <template ref="filterDialog" v-if="filterForm && filterForm.length" slot="toolbar">
+            <v-dialog v-model="dialog" max-width="500">
+                <v-btn icon slot="activator">
+                    <v-icon>filter_list</v-icon>
+                </v-btn>
+                <block-form
+                        title="Filter items"
+                        :items="filterForm"
+                        v-model="dialogModel"
+                        submit-button="Filter"
+                        @submit="filterItems($event)"
+                >
+                </block-form>
+            </v-dialog>
+        </template>
 
         <entity-list
                 :page="page"
@@ -16,13 +28,15 @@
 
                 :handler="loadHandler"
 
-                :filter-args="filterArgs"
+                :filter-args="filters"
 
                 :collection-key="collectionKey"
                 :type-key="typeKey"
                 :behavior-key="behaviorKey"
                 :type-cache-key="typeCacheKey"
+                :rows="rows"
 
+                :squared-icon="squaredIcon"
                 @load="onListLoaded()"
                 @refresh="onListRefresh()"
                 @dataloaded="onListDataLoaded($event)"
@@ -50,6 +64,10 @@
             </template>
 
         </entity-list>
+
+        <v-layout v-if="lastPage > 1" v-show="listLoaded" class="white" align-center justify-center>
+            <v-pagination circle v-model="page" :length="lastPage" :total-visible="visiblePages"></v-pagination>
+        </v-layout>
 
         <v-fab-transition v-if="canAdd">
             <v-btn v-show="listLoaded" fixed fab bottom right color="accent" :to="addHref">
@@ -86,6 +104,10 @@
                 type: Object,
                 require: true
             },
+            rows: {
+                type: Number,
+                default: 2
+            },
             addHref: {
                 type: String,
                 default: 'add.html'
@@ -113,6 +135,10 @@
 
             filterArgs: {
                 type: Object,
+                default: null
+            },
+            filterForm: {
+                type: Array,
                 default: null
             },
             collectionKey: {
@@ -148,9 +174,27 @@
             visiblePages: {
                 type: Number,
                 default: 7
+            },
+
+            squaredIcon: {
+                type: Boolean,
+                default: false
             }
         },
+        data() {
+            return {
+                dialog: false,
+                dialogModel: null
+            }
+        },
+        created()
+        {
+            this.dialogModel = this.$clone(this.queryFilters) || {};
+        },
         computed: {
+            filters() {
+                return {...this.filterArgs, ...this.queryFilters};
+            },
             canAdd()
             {
                 return this.checkPermission(this.permissions.add);
@@ -165,6 +209,66 @@
             }
         },
         methods: {
+            filterItems(data) {
+                this.dialog = false;
+                this.page = 1;
+                this.queryFilters = this.clearFilters(this.$clone(data));
+            },
+            clearFilters(obj) {
+                if (obj == null || typeof obj !== 'object') {
+                    return obj;
+                }
+                const keys = Object.keys(obj);
+                if (keys.length === 0) {
+                    return null;
+                }
+                keys.map(key => {
+                    if (obj[key] == null || obj[key] === '') {
+                        delete obj[key];
+                        return;
+                    }
+
+                    const type = typeof obj[key];
+
+                    if (type === 'string') {
+                        obj[key] = obj[key].trim();
+                        if (obj[key] === '') {
+                            delete obj[key];
+                        }
+                        return;
+                    }
+                    if (type === 'number') {
+                        if (isNaN(obj[key]) || !isFinite(obj[key])) {
+                            delete obj[key];
+                        }
+                        return;
+                    }
+
+                    if (Array.isArray(obj[key])) {
+                        obj[key] = obj[key].map(this.clearFilters(obj[key])).filter(Boolean);
+                        if (obj[key].length === 0) {
+                            delete obj[key];
+                        }
+                        return;
+                    }
+
+                    if (type !== 'object') {
+                        delete obj[key];
+                        return;
+                    }
+
+                    obj[key] = this.clearFilters(obj[key]);
+                    if (Object.keys(obj[key]).length === 0) {
+                        delete obj[key];
+                    }
+                });
+
+                if (Object.keys(obj).length === 0) {
+                    return null;
+                }
+
+                return obj;
+            },
             getCustomTitle(item, type)
             {
                 return this.getCustomText(this.customText.title, item, type);
@@ -228,7 +332,7 @@
                         item.icon = (isFunc ? this.iconKey(item, this) : item[this.iconKey]) || null;
                     }
                     else {
-                        item.icon = (isFunc ? this.iconKey(type, this) : type[this.iconKey]);
+                        item.icon = (isFunc ? this.iconKey(type, this) : (type[this.iconKey] || type.title));
                     }
                 });
 

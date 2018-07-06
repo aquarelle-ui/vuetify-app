@@ -9,7 +9,7 @@ export default {
     methods: {
         onListDataLoaded(data) {
             this.totalItems = data.total;
-            this.lastPage = data.lastPage;
+            this.lastPage = data.rows > 0 ? Math.ceil(data.total / data.rows) : 0;
         },
         onListLoaded() {
             this.listLoaded = true

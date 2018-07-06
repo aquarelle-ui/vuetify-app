@@ -13,7 +13,7 @@
             <v-list-tile :key="item.id" @click="showContextMenu(item, type, $event)">
                 <v-list-tile-avatar v-if="hasIcon" class="avatar--tile">
                     <slot name="item-avatar" :item="item" :type="type" :loader="loaderObject">
-                        <image-icon v-if="!!item.icon" :src="item.icon"></image-icon>
+                        <image-icon :squared="squaredIcon" v-if="!!item.icon" :src="item.icon"></image-icon>
                     </slot>
                 </v-list-tile-avatar>
                 <v-list-tile-content>
@@ -96,6 +96,10 @@
             filterArgs: {
                 type: Object,
                 default: () => ({})
+            },
+            squaredIcon: {
+                type: Boolean,
+                default: false
             }
         },
         data() {
