@@ -7,7 +7,7 @@
             <template v-if="contextActions && contextActions.length" slot="toolbar">
                 <v-menu offset-y>
                     <v-btn icon slot="activator">
-                        <v-icon>edit</v-icon>
+                        <v-icon>{{$controlIcon(contextIcon)}}</v-icon>
                     </v-btn>
                     <v-list>
                         <v-list-tile v-for="item in contextActions" :key="$uniqueObjectId(item)" @click="contextItemAction(item)" :disabled="isContextItemDisabled(item)">
@@ -147,7 +147,11 @@
             contextActions: {
                 type: Array,
                 default: null
-            }
+            },
+            contextIcon: {
+                type: String,
+                default: 'edit'
+            },
         },
         data()
         {

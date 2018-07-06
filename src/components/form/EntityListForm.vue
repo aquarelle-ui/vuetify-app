@@ -4,7 +4,7 @@
         <template ref="filterDialog" v-if="filterForm && filterForm.length" slot="toolbar">
             <v-dialog v-model="dialog" max-width="500">
                 <v-btn icon slot="activator">
-                    <v-icon>filter_list</v-icon>
+                    <v-icon>{{$controlIcon(contextIcon)}}</v-icon>
                 </v-btn>
                 <block-form
                         ref="filterForm"
@@ -180,7 +180,11 @@
             squaredIcon: {
                 type: Boolean,
                 default: false
-            }
+            },
+            contextIcon: {
+                type: String,
+                default: 'filter_list'
+            },
         },
         data() {
             return {
