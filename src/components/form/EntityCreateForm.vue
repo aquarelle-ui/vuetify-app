@@ -61,7 +61,7 @@
 
             // Initial model data
             initialModelData: {
-                type: Object,
+                type: [Function, Object],
                 required: false
             },
 
@@ -131,7 +131,12 @@
             }
 
             if (this.initialModelData) {
-                this.model = {...this.initialModelData}
+                if (typeof this.initialModelData === 'function') {
+                    this.model = this.initialModelData(this);
+                }
+                else {
+                    this.model = {...this.initialModelData}
+                }
             }
 
             const wrap = (step, prop, copy = true) => {
