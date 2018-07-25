@@ -41,7 +41,7 @@
                 @load="onListLoaded()"
                 @refresh="onListRefresh()"
                 @dataloaded="onListDataLoaded($event)"
-                @itemdeleted="onItemDeleted($event)"
+                @itemdeleted="onItemDeletedCheck($event)"
         >
 
             <template v-if="customText != null" slot="item-text" slot-scope="{item, type}">
@@ -185,6 +185,10 @@
                 type: String,
                 default: 'filter_list'
             },
+            afterDelete: {
+                type: Function,
+                default: null
+            }
         },
         data() {
             return {
@@ -214,6 +218,12 @@
             }
         },
         methods: {
+            onItemDeletedCheck(data) {
+                if (this.afterDelete) {
+                    this.afterDelete(data, this);
+                }
+                this.onItemDeleted(data);
+            },
             filterItems(data) {
                 this.dialog = false;
                 this.page = 1;

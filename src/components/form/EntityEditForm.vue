@@ -152,6 +152,11 @@
                 type: String,
                 default: 'edit'
             },
+
+            afterSave: {
+                type: Function,
+                default: null
+            }
         },
         data()
         {
@@ -315,6 +320,10 @@
                 promise
                     .then(result => {
                         this.processing = false;
+
+                        if (this.afterSave) {
+                            this.afterSave(data, result, this);
+                        }
 
                         let path = this.redirectPath;
 
