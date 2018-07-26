@@ -356,6 +356,7 @@
             },
             onRouteLeave(func)
             {
+
                 if (this.dialog) {
                     if (func(this.$refs.filterForm)) {
                         this.dialog = false;

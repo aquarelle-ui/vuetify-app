@@ -84,15 +84,15 @@
                 this.loaderObject.update(this.item.id, {title: this.itemTitle}).then(() => {
                     this.$emit('update:showDialog', false);
                     this.$emit('changed', this.item, this.itemTitle);
-                }).catch(err => {
-                    if (err.response && err.response.status === 401) {
+                }).catch(error => {
+                    if (error.response && error.response.status === 401) {
                         this.$emit('mustlogin', () => {
                            this.confirmDialog();
                         });
                         return;
                     }
                     this.processingMode = false;
-                    this.error = err.toString();
+                    this.error = error.toString();
                 });
             },
             onRouteLeave(func)

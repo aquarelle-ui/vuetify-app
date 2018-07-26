@@ -10,21 +10,23 @@
         <app-notifier ref="notifier"></app-notifier>
         <v-dialog lazy v-model="showLogin" persistent max-width="320">
             <v-card>
-                <v-card-title class="headline">You are not logged in</v-card-title>
+                <v-card-title class="headline">You are not signed in</v-card-title>
                 <v-card-text>
-                    <v-text-field v-model="email" :rules="emailRules" label="E-mail" type="email"
+                    <v-text-field :disabled="processingLogin" v-model="email" :rules="emailRules" label="E-mail" type="email"
                                   prepend-icon="email"></v-text-field>
-                    <v-text-field v-model="pass" :rules="passRules" label="Password" type="password"
+                    <v-text-field :disabled="processingLogin" v-model="pass" :rules="passRules" label="Password" type="password"
                                   prepend-icon="lock"></v-text-field>
                 </v-card-text>
                 <v-card-actions>
-                    <span class="red--text" v-show="loginError">Login failed</span>
+                    <span class="red--text" v-show="loginError">
+                        <v-icon color="red">error</v-icon>Sign in failed
+                    </span>
                     <v-spacer></v-spacer>
                     <v-btn flat
                            :disabled="processingLogin || !canLogin"
                            :loading="processingLogin"
                            @click.stop="tryLogin(email, pass)">
-                        Login <v-icon>navigate_next</v-icon>
+                        Sign in <v-icon>navigate_next</v-icon>
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -108,24 +110,18 @@
                 this.$user.signIn(email, pass)
                     .then(() => {
                         this.processingLogin = false;
-                        this.pass = '';
                         this.showLogin = false;
                         const cb = this.loginCallback;
                         this.loginCallback = null;
                         if (typeof cb === 'function') {
-                            cb();
+                            this.$nextTick(cb);
                         }
-                        this.refreshMenu();
                     })
-                    .catch(err => {
+                    .catch(error => {
                         this.processingLogin = false;
                         this.loginError = true;
                     })
 
-            },
-            refreshMenu()
-            {
-                this.$emit('refreshmenu');
             }
         }
     };
