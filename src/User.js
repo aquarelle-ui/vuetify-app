@@ -16,6 +16,19 @@ class Loader extends DataLoader
     {
         return this._send(this._url + '/signout', {key}, 'post');
     }
+
+    signIn(email, password)
+    {
+        return this._send(this._url + '/signin', {email, password}, 'post');
+    }
+}
+
+function mapUser(user, data)
+{
+    ['id', 'name', 'email', 'avatar', 'roles', 'permissions', 'isAdmin', 'signOutKey'].map(p => {
+        user[p] = data[p];
+    });
+    return user;
 }
 
 export default {
@@ -49,12 +62,7 @@ export default {
     },
     refresh()
     {
-        return this.loader.whoAmI().then(data => {
-            ['id', 'name', 'email', 'avatar', 'roles', 'permissions', 'isAdmin', 'signOutKey'].map(p => {
-                this[p] = data[p];
-            });
-            return this;
-        });
+        return this.loader.whoAmI().then(data => mapUser(this, data));
     },
     signOut()
     {
@@ -69,5 +77,9 @@ export default {
             this.signOutKey = '';
             return true;
         });
+    },
+    signIn(email, pass)
+    {
+        return this.loader.signIn(email, pass).then(data => mapUser(this, data));
     }
 };

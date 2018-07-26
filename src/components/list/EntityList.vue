@@ -4,6 +4,7 @@
             @refresh="$emit('refresh', $event)"
             @load="$emit('load', $event)"
             @dataloaded="$emit('dataloaded', $event)"
+            @mustlogin="$emit('mustlogin', $event)"
             two-line
             v-bind="$attrs"
             :loader="loader"
@@ -35,6 +36,7 @@
         <context-menu ref="contextMenu"
                       @titlechanged="onTitleChanged"
                       @delete="onDelete"
+                      @mustlogin="$emit('mustlogin', $event)"
                       :loader="loaderObject"
                       :show-title="editableTitle !== false"
                       :show-delete="deletable !== false"

@@ -40,11 +40,11 @@
 </template>
 <script>
     import {AppPage} from "../app";
-    import {EntityMixin, CloseDialogsBeforeLeave, PageNotifier, ServerErrorMixin} from "../../mixins";
+    import {EntityMixin, CloseDialogsBeforeLeave, PageNotifier, ServerErrorMixin, LoginMixin} from "../../mixins";
 
     export default {
         components: {AppPage},
-        mixins: [EntityMixin, CloseDialogsBeforeLeave, PageNotifier, ServerErrorMixin],
+        mixins: [EntityMixin, CloseDialogsBeforeLeave, PageNotifier, ServerErrorMixin, LoginMixin],
         props: {
             // Page title
             title: {
@@ -177,35 +177,7 @@
                 return;
             }
 
-            const initModel = (data, field) => {
-                if (field == null) {
-                    this.model = data;
-                }
-                else {
-                    this.model = data[field];
-                }
-            };
-
-            this.loader.get(this.id)
-                .then(data => {
-                    this.instance = data;
-                    initModel(data, this.modelFieldName);
-                    const fields = this.parseFormFields(this.fields, data);
-                    if (fields instanceof Promise) {
-                        fields.then(fields => {
-                            this.parsedFields = fields;
-                            this.loading = false;
-                        });
-                    }
-                    else {
-                        this.parsedFields = fields;
-                        this.loading = false;
-                    }
-                })
-                .catch(error => {
-                    this.loaderError = true;
-                    this.loading = false;
-                });
+            this.onInit();
         },
         computed: {
             loader()
@@ -224,6 +196,41 @@
             }
         },
         methods: {
+            onInit() {
+                const initModel = (data, field) => {
+                    if (field == null) {
+                        this.model = data;
+                    }
+                    else {
+                        this.model = data[field];
+                    }
+                };
+
+                this.loader.get(this.id)
+                    .then(data => {
+                        this.instance = data;
+                        initModel(data, this.modelFieldName);
+                        const fields = this.parseFormFields(this.fields, data);
+                        if (fields instanceof Promise) {
+                            fields.then(fields => {
+                                this.parsedFields = fields;
+                                this.loading = false;
+                            });
+                        }
+                        else {
+                            this.parsedFields = fields;
+                            this.loading = false;
+                        }
+                    })
+                    .catch(error => {
+                        if (error.response && error.response.status === 401) {
+                            this.doLogin(() => this.onInit());
+                            return;
+                        }
+                        this.loaderError = true;
+                        this.loading = false;
+                    });
+            },
             contextItemAction(item) {
                 if (this.isContextItemDisabled(item)) {
                     return false;
@@ -283,11 +290,11 @@
 
                 return this.entityTypeFields(this.entity, type, fields.prop, [], this.typeProp, this.behaviorProp);
             },
-            onSubmit(data)
+            onSubmit(originalData)
             {
                 this.processing = true;
 
-                data = this.$clone(data);
+                let data = this.$clone(originalData);
 
                 if (this.modelFieldName) {
                     data = {[this.modelFieldName]: data}
@@ -341,6 +348,10 @@
                         this.$nextTick(() => this.$router.push(path));
                     })
                     .catch(error => {
+                        if (error.response && error.response.status === 401) {
+                            this.doLogin(() => this.onSubmit(originalData));
+                            return;
+                        }
                         if (this.errorHandler) {
                             let err = this.errorHandler(error, this);
                             if (err != null) {

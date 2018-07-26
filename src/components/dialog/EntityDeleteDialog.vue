@@ -85,6 +85,12 @@
                     this.$emit('update:showDialog', false);
                     this.$emit('delete', this.item);
                 }).catch(err => {
+                    if (err.response && err.response.status === 401) {
+                        this.$emit('mustlogin', () => {
+                            this.confirmDialog();
+                        });
+                        return;
+                    }
                     this.error = err.toString();
                     this.deleteMode = false;
                 });

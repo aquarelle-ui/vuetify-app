@@ -127,6 +127,14 @@
                     };
                 });
 
+                promise.catch(error => {
+                    if (error.response.status === 401) {
+                        this.$emit('mustlogin', () => {
+                            this.refreshList(args);
+                        });
+                    }
+                });
+
                 if (this.handler) {
                     promise = promise.then(this.handler);
                 }

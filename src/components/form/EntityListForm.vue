@@ -42,6 +42,7 @@
                 @refresh="onListRefresh()"
                 @dataloaded="onListDataLoaded($event)"
                 @itemdeleted="onItemDeletedCheck($event)"
+                @mustlogin="doLogin($event)"
         >
 
             <template v-if="customText != null" slot="item-text" slot-scope="{item, type}">
@@ -79,7 +80,7 @@
 </template>
 <script>
     import {AppPage} from "../app";
-    import {EntityMixin, PagerMixin, CloseDialogsBeforeLeave} from "../../mixins";
+    import {EntityMixin, PagerMixin, CloseDialogsBeforeLeave, LoginMixin} from "../../mixins";
     import {EntityList, EntityListLoadMixin} from "../list";
 
     export default {
@@ -87,7 +88,7 @@
             EntityList,
             AppPage
         },
-        mixins: [EntityListLoadMixin, EntityMixin, PagerMixin, CloseDialogsBeforeLeave],
+        mixins: [EntityListLoadMixin, EntityMixin, PagerMixin, CloseDialogsBeforeLeave, LoginMixin],
         props: {
             entity: {
                 type: String,

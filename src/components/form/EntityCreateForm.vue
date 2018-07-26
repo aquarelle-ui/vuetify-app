@@ -17,11 +17,11 @@
 </template>
 <script>
     import {AppPage} from "../app";
-    import {EntityMixin, CloseDialogsBeforeLeave, PageNotifier, ServerErrorMixin} from "../../mixins";
+    import {EntityMixin, CloseDialogsBeforeLeave, PageNotifier, ServerErrorMixin, LoginMixin} from "../../mixins";
 
     export default {
         components: {AppPage},
-        mixins: [EntityMixin, CloseDialogsBeforeLeave, PageNotifier, ServerErrorMixin],
+        mixins: [EntityMixin, CloseDialogsBeforeLeave, PageNotifier, ServerErrorMixin, LoginMixin],
         props: {
             // Page title
             title: {
@@ -205,11 +205,11 @@
             }
         },
         methods: {
-            onSubmit(data)
+            onSubmit(originalData)
             {
                 this.processing = true;
 
-                data = this.$clone(data);
+                let data = this.$clone(originalData);
 
                 if (this.extraModelData) {
                     data = {...data, ...this.extraModelData};
@@ -253,6 +253,10 @@
                         this.$nextTick(() => this.$router.push(path));
                     })
                     .catch(error => {
+                        if (error.response && error.response.status === 401) {
+                            this.doLogin(() => this.onSubmit(originalData));
+                            return;
+                        }
                         if (this.errorHandler) {
                             let err = this.errorHandler(error, this);
                             if (err != null) {

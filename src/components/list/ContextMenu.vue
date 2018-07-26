@@ -20,6 +20,7 @@
                                 :loader="loader"
                                 ref="titleDialog"
                                 @changed="onTitleChanged"
+                                @mustlogin="$emit('mustlogin', $event)"
                                 max-width="300">
                         </entity-change-title-dialog>
                     </v-list-tile-action>
@@ -45,6 +46,7 @@
                                 :loader="loader"
                                 ref="deleteDialog"
                                 @delete="onDelete"
+                                @mustlogin="$emit('mustlogin', $event)"
                                 max-width="300">
                         </entity-delete-dialog>
                     </v-list-tile-action>
