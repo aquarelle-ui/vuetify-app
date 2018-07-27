@@ -8,6 +8,7 @@
             two-line
             v-bind="$attrs"
             :loader="loader"
+            :handler="handler"
             :filterArgs="searchData">
         <template slot="item" slot-scope="{item, type, index}">
             <v-divider v-if="index > 0"></v-divider>
@@ -74,6 +75,10 @@
             loader: {
                 type: [Object, String],
                 required: true
+            },
+            handler: {
+                type: Function,
+                default: null
             },
             deletable: {
                 type: [Boolean, String, Array],
