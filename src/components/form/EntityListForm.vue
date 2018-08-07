@@ -52,7 +52,9 @@
 
             <template v-if="actions.length > 0" slot="item-actions" slot-scope="{item, type}">
                 <v-list-tile v-for="action in actions" :key="$uniqueObjectId(action)"
-                        :to="actionHref(action.href, item, type)" :disabled="!canEdit || (action.disabled && action.disabled(item, type))">
+                        :to="action.callback ? undefined : actionHref(action.href, item, type)"
+                             @click="action.callback && canEdit && !(action.disabled && action.disabled(item, type)) && action.callback(item, type)"
+                             :disabled="!canEdit || (action.disabled && action.disabled(item, type))">
                     <v-list-tile-avatar>
                         <v-icon v-if="action.icon">{{action.icon}}</v-icon>
                     </v-list-tile-avatar>
@@ -307,7 +309,8 @@
             actionHref(action, item, type)
             {
                 if (typeof action === 'function') {
-                    return action(item, type, this);
+                    const href = action(item, type, this);
+                    return typeof href === 'string' ? href : undefined;
                 }
                 return action.replace('{id}', item[this.idField]);
             },
