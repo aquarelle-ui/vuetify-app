@@ -64,8 +64,7 @@
                         <v-icon v-if="action.icon">{{action.icon}}</v-icon>
                     </v-list-tile-avatar>
                     <v-list-tile-content>
-                        <v-list-tile-title>
-                            {{$intl.translate(action.title)}}
+                        <v-list-tile-title v-html="actionTitle(action.title, item, type)">
                         </v-list-tile-title>
                     </v-list-tile-content>
                     <v-list-tile-action></v-list-tile-action>
@@ -294,6 +293,12 @@
                     return typeof href === 'string' ? href : undefined;
                 }
                 return action.replace('{id}', item[this.idField]);
+            },
+            actionTitle(action, item, type) {
+                if (typeof action === 'function') {
+                    return action(item, type, this);
+                }
+                return this.$intl.translate(action, item);
             },
             checkPermission(perm)
             {
