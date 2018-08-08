@@ -20,6 +20,17 @@ export default {
     },
     watch: {
         page(val) {
+            const qp = this.$route.query.page || 1;
+            if (val <= 1) {
+                if (qp <= 1) {
+                    return;
+                }
+            } else {
+                if (qp == val) {
+                    return;
+                }
+            }
+
             this.changeRouterQuery(this.queryFilters, val);
         },
         queryFilters(val) {

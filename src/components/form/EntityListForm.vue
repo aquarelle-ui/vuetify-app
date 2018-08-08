@@ -57,7 +57,7 @@
 
             <template v-if="actions.length > 0" slot="item-actions" slot-scope="{item, type}">
                 <v-list-tile v-for="action in actions" :key="$uniqueObjectId(action)"
-                        :to="action.callback ? undefined : actionHref(action.href, item, type)"
+                             :to="action.callback ? undefined : actionHref(action.href, item, type)"
                              @click="action.callback && canEdit && !(action.disabled && action.disabled(item, type)) && action.callback(item, type)"
                              :disabled="!canEdit || (action.disabled && action.disabled(item, type))">
                     <v-list-tile-avatar>
@@ -199,7 +199,8 @@
                 default: false
             }
         },
-        data() {
+        data()
+        {
             return {
                 totalLoaded: 0,
                 dialog: false,
@@ -207,17 +208,24 @@
             }
         },
         watch: {
-            '$route.query'() {
+            '$route.query'(val)
+            {
                 if (this.dialog) {
                     this.dialog = false;
+                }
+                if (val.page) {
+                    this.page = parseInt(val.page) || 1;
+                } else if (this.page > 1) {
+                    this.page = 1;
                 }
             }
         },
         computed: {
             pageTitle()
             {
-                const lastPage = Math.ceil(this.totalLoaded / this.rows) || 1;
-                return this.$intl.translate(this.title, {total: this.totalLoaded, page: this.listPage, last: lastPage, rows: this.rows}, null, this.totalLoaded);
+                return this.$intl.translate(this.title,
+                    {total: this.totalLoaded, page: this.listPage, last: this.lastPage, rows: this.rows}, null,
+                    this.totalLoaded);
             },
             canAdd()
             {
@@ -242,17 +250,20 @@
                 this.dialogModel = this.$clone(this.$route.query);
                 delete this.dialogModel.page;
             },
-            onListDataLoadedCheck(data) {
+            onListDataLoadedCheck(data)
+            {
                 this.totalLoaded = data.total || 0;
                 this.onListDataLoaded(data);
             },
-            onItemDeletedCheck(data) {
+            onItemDeletedCheck(data)
+            {
                 if (this.afterDelete) {
                     this.afterDelete(data, this);
                 }
                 this.onItemDeleted(data);
             },
-            filterItems(data) {
+            filterItems(data)
+            {
                 this.dialog = false;
                 this.page = 1;
                 this.queryFilters = this.clearFilters(this.$clone(data));
