@@ -224,7 +224,7 @@
             pageTitle()
             {
                 return this.$intl.translate(this.title,
-                    {total: this.totalLoaded, page: this.listPage, last: this.lastPage, rows: this.rows}, null,
+                    {total: this.totalLoaded, page: this.listPage, last: this.lastPage || 1, rows: this.rows}, null,
                     this.totalLoaded);
             },
             canAdd()
