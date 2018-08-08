@@ -6,7 +6,7 @@
                 <v-flex class="text-xs-center">
                     <img style="max-width: 80%" :src="logo">
                     <v-progress-linear indeterminate></v-progress-linear>
-                    <v-flex >{{status}}</v-flex>
+                    <v-flex>{{status}}</v-flex>
                 </v-flex>
             </v-layout>
         </v-container>
@@ -30,8 +30,12 @@
 
             User.refresh()
                 .then(ok => {
-                    // this.status = "Loading locale...";
-                    return true;
+                    this.status = "Loading locale...";
+                    const OPT = window['AQUARELLE'] || {};
+                    this.$intl.firstDayOfWeek = OPT.firstDayOfWeek || 0;
+                    return this.$intl.init({
+                        lng: OPT.language || undefined
+                    });
                 })
                 .then(() => {
                     this.status = 'Enjoy!';
