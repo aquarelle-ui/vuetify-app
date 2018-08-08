@@ -1,7 +1,7 @@
 <template>
     <div v-show="false">
         <span v-dom-portal="titleSelector">
-            <v-btn v-show="back.length > 0" exact small icon class="ml-0 mr-0" :to="back"><v-icon>arrow_back</v-icon></v-btn>
+            <v-btn v-if="showBack" v-show="back.length > 0" exact small icon class="ml-0 mr-0" :to="back"><v-icon>arrow_back</v-icon></v-btn>
             {{title}}
         </span>
         <div v-dom-portal="toolbarSelector">
@@ -24,6 +24,10 @@
             id: {
                 type: String,
                 default: 'app-toolbar'
+            },
+            showBack: {
+                type: Boolean,
+                default: true
             }
         },
         data() {

@@ -1,25 +1,30 @@
 <template>
-    <app-page ref="page" :title="$intl.translate(title)" :back="back">
+    <app-page ref="page" :title="pageTitle" :back="back">
 
-        <template ref="filterDialog" v-if="filterForm && filterForm.length" slot="toolbar">
-            <v-dialog v-model="dialog" max-width="500">
-                <v-btn icon slot="activator">
-                    <v-icon>{{$controlIcon(contextIcon)}}</v-icon>
-                </v-btn>
-                <block-form
-                        ref="filterForm"
-                        title="Filter items"
-                        :items="filterForm"
-                        v-model="dialogModel"
-                        submit-button="Filter"
-                        @submit="filterItems($event)"
-                >
-                </block-form>
-            </v-dialog>
-        </template>
+        <div slot="toolbar">
+            <v-btn v-if="refreshButton" icon @click.stop="$refs.list && $refs.list.refreshList()">
+                <v-icon>{{$controlIcon('refresh')}}</v-icon>
+            </v-btn>
+            <template ref="filterDialog" v-if="filterForm && filterForm.length">
+                <v-dialog v-model="dialog" max-width="500">
+                    <v-btn @click="makeDialogModel()" icon slot="activator">
+                        <v-icon>{{$controlIcon(contextIcon)}}</v-icon>
+                    </v-btn>
+                    <block-form
+                            ref="filterForm"
+                            title="Filter items"
+                            :items="filterForm"
+                            v-model="dialogModel"
+                            submit-button="Filter"
+                            @submit="filterItems($event)"
+                    >
+                    </block-form>
+                </v-dialog>
+            </template>
+        </div>
 
         <entity-list
-                :page="page"
+                :page="listPage"
                 :loader="entity"
                 ref="list"
 
@@ -40,14 +45,14 @@
                 :squared-icon="squaredIcon"
                 @load="onListLoaded()"
                 @refresh="onListRefresh()"
-                @dataloaded="onListDataLoaded($event)"
+                @dataloaded="onListDataLoadedCheck($event)"
                 @itemdeleted="onItemDeletedCheck($event)"
                 @mustlogin="doLogin($event)"
         >
 
             <template v-if="customText != null" slot="item-text" slot-scope="{item, type}">
-                <v-list-tile-title>{{getCustomTitle(item, type)}}</v-list-tile-title>
-                <v-list-tile-sub-title>{{getCustomDescription(item, type)}}</v-list-tile-sub-title>
+                <v-list-tile-title v-html="getCustomTitle(item, type) || ''"></v-list-tile-title>
+                <v-list-tile-sub-title v-html="getCustomDescription(item, type) || ''"></v-list-tile-sub-title>
             </template>
 
             <template v-if="actions.length > 0" slot="item-actions" slot-scope="{item, type}">
@@ -137,10 +142,6 @@
                 default: 'id'
             },
 
-            filterArgs: {
-                type: Object,
-                default: null
-            },
             filterForm: {
                 type: Array,
                 default: null
@@ -191,21 +192,32 @@
             afterDelete: {
                 type: Function,
                 default: null
+            },
+
+            refreshButton: {
+                type: Boolean,
+                default: false
             }
         },
         data() {
             return {
+                totalLoaded: 0,
                 dialog: false,
-                dialogModel: null
+                dialogModel: {}
             }
         },
-        created()
-        {
-            this.dialogModel = this.$clone(this.queryFilters) || {};
+        watch: {
+            '$route.query'() {
+                if (this.dialog) {
+                    this.dialog = false;
+                }
+            }
         },
         computed: {
-            filters() {
-                return {...this.queryFilters, ...this.filterArgs};
+            pageTitle()
+            {
+                const lastPage = Math.ceil(this.totalLoaded / this.rows) || 1;
+                return this.$intl.translate(this.title, {total: this.totalLoaded, page: this.page, last: lastPage}, null, this.totalLoaded);
             },
             canAdd()
             {
@@ -221,6 +233,19 @@
             }
         },
         methods: {
+            makeDialogModel()
+            {
+                if (!this.$route || !this.$route.query) {
+                    this.dialogModel = {};
+                    return;
+                }
+                this.dialogModel = this.$clone(this.$route.query);
+                delete this.dialogModel.page;
+            },
+            onListDataLoadedCheck(data) {
+                this.totalLoaded = data.total || 0;
+                this.onListDataLoaded(data);
+            },
             onItemDeletedCheck(data) {
                 if (this.afterDelete) {
                     this.afterDelete(data, this);
@@ -231,61 +256,6 @@
                 this.dialog = false;
                 this.page = 1;
                 this.queryFilters = this.clearFilters(this.$clone(data));
-            },
-            clearFilters(obj) {
-                if (obj == null || typeof obj !== 'object') {
-                    return obj;
-                }
-                const keys = Object.keys(obj);
-                if (keys.length === 0) {
-                    return null;
-                }
-                keys.map(key => {
-                    if (obj[key] == null || obj[key] === '') {
-                        delete obj[key];
-                        return;
-                    }
-
-                    const type = typeof obj[key];
-
-                    if (type === 'string') {
-                        obj[key] = obj[key].trim();
-                        if (obj[key] === '') {
-                            delete obj[key];
-                        }
-                        return;
-                    }
-                    if (type === 'number') {
-                        if (isNaN(obj[key]) || !isFinite(obj[key])) {
-                            delete obj[key];
-                        }
-                        return;
-                    }
-
-                    if (Array.isArray(obj[key])) {
-                        obj[key] = obj[key].map(this.clearFilters(obj[key])).filter(Boolean);
-                        if (obj[key].length === 0) {
-                            delete obj[key];
-                        }
-                        return;
-                    }
-
-                    if (type !== 'object') {
-                        delete obj[key];
-                        return;
-                    }
-
-                    obj[key] = this.clearFilters(obj[key]);
-                    if (Object.keys(obj[key]).length === 0) {
-                        delete obj[key];
-                    }
-                });
-
-                if (Object.keys(obj).length === 0) {
-                    return null;
-                }
-
-                return obj;
             },
             getCustomTitle(item, type)
             {
@@ -359,7 +329,6 @@
             },
             onRouteLeave(func)
             {
-
                 if (this.dialog) {
                     if (func(this.$refs.filterForm)) {
                         this.dialog = false;

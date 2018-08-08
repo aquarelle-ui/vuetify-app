@@ -1,6 +1,6 @@
 <template>
     <v-content>
-        <app-toolbar :title="title" :back="back">
+        <app-toolbar :title="title" :back="back" :show-back="showBack">
             <slot name="toolbar"></slot>
         </app-toolbar>
         <v-layout v-if="loading" fill-height justify-center align-center>
@@ -50,6 +50,10 @@
                 default: ''
             },
             loading: {
+                type: Boolean,
+                default: false
+            },
+            showBack: {
                 type: Boolean,
                 default: false
             }
