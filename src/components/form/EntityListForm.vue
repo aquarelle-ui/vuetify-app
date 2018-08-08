@@ -217,7 +217,7 @@
             pageTitle()
             {
                 const lastPage = Math.ceil(this.totalLoaded / this.rows) || 1;
-                return this.$intl.translate(this.title, {total: this.totalLoaded, page: this.page, last: lastPage}, null, this.totalLoaded);
+                return this.$intl.translate(this.title, {total: this.totalLoaded, page: this.listPage, last: lastPage, rows: this.rows}, null, this.totalLoaded);
             },
             canAdd()
             {
