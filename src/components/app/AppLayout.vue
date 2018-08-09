@@ -23,7 +23,11 @@
         <slot></slot>
     </v-app>
 </template>
-
+<style>
+    #app-actions > div, #app-actions .app-actions-wrapper {
+        display: inline-flex;
+    }
+</style>
 <script>
     export default {
         name: "app-layout",

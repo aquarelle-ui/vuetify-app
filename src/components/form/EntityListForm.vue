@@ -1,7 +1,7 @@
 <template>
     <app-page ref="page" :title="pageTitle" :back="back">
 
-        <div slot="toolbar">
+        <template slot="toolbar">
             <v-btn v-if="refreshButton" icon @click.stop="$refs.list && $refs.list.refreshList()">
                 <v-icon>{{$controlIcon('refresh')}}</v-icon>
             </v-btn>
@@ -21,7 +21,7 @@
                     </block-form>
                 </v-dialog>
             </template>
-        </div>
+        </template>
 
         <entity-list
                 :page="listPage"
