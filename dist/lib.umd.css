@@ -169,6 +169,10 @@ ul.indent-list>li.text-indent-7:before{content:"□"
 }
 ul.indent-list>li.text-indent-8:before{content:"•"
 }
+.letter-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center
+}
+.letter-avatar.squared{border-radius:5%!important
+}
 .ace-editor{width:100%;min-height:1px
 }
 .ace-editor .ace_gutter,.ace-editor .ace_scrollbar{z-index:2
@@ -176,8 +180,4 @@ ul.indent-list>li.text-indent-8:before{content:"•"
 .image-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center
 }
 .image-icon.squared{border-radius:5%!important
-}
-.letter-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center
-}
-.letter-avatar.squared{border-radius:5%!important
 }

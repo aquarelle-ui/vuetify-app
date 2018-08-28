@@ -1,5 +1,5 @@
 <template>
-    <v-content style="height: calc(100% - 64px)">
+    <v-flex grow>
         <app-toolbar :title="title" :back="back" :show-back="showBack">
             <slot name="toolbar"></slot>
         </app-toolbar>
@@ -31,7 +31,7 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-    </v-content>
+    </v-flex>
 </template>
 <script>
     import AppToolbar from "./AppToolbar";

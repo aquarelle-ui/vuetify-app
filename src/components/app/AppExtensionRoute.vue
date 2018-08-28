@@ -11,8 +11,11 @@
             <app-user :user="appInfo.user"></app-user>
             <app-extensions :user="appInfo.user" :app="appInfo.app" :current-vendor="appInfo.vendor"></app-extensions>
         </template>
-
-        <router-view></router-view>
+        <v-content>
+            <v-layout style="height: calc(100% - 64px)">
+                <router-view></router-view>
+            </v-layout>
+        </v-content>
     </app-layout>
 </template>
 <script>
