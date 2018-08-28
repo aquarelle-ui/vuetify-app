@@ -1,4 +1,4 @@
-import {setConfigUsingValidation, ControlParser} from "@aquarelle/json-form";
+import {ControlParser} from "@aquarelle/json-form";
 
 export default class extends ControlParser {
 
@@ -38,10 +38,10 @@ export default class extends ControlParser {
     parse(definition, form, validator) {
         const data = super.parse(definition, form, validator);
         if (data.config.multiple) {
-            setConfigUsingValidation(data.config, definition.validation, ['required', 'minItems', 'maxItems']);
+            ControlParser.setConfigUsingValidation(data.config, definition.validation, ['required', 'minItems', 'maxItems']);
         }
         else {
-            setConfigUsingValidation(data.config, definition.validation, ['required']);
+            ControlParser.setConfigUsingValidation(data.config, definition.validation, ['required']);
         }
         return data;
     }

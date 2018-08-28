@@ -1,5 +1,5 @@
 <template>
-    <v-content>
+    <v-content style="height: calc(100% - 64px)">
         <app-toolbar :title="title" :back="back" :show-back="showBack">
             <slot name="toolbar"></slot>
         </app-toolbar>

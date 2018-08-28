@@ -40,20 +40,23 @@ export default {
     permissions: [],
     roles: [],
     signOutKey: '',
-    loader: null,
+    loader: new Loader('/api/aquarelle/users/users'),
     setLoaderUrl(url)
     {
         this.loader = new Loader(url)
     },
-    hasPermission(permission) {
+    hasPermission(permission)
+    {
         if (this.isAdmin || !permission) {
             return true;
         }
         if (!Array.isArray(permission)) {
             permission = [permission];
         }
-        else if (permission.length === 0) {
-            return true;
+        else {
+            if (permission.length === 0) {
+                return true;
+            }
         }
         if (this.permissions.length === 0) {
             return false;

@@ -1,4 +1,4 @@
-import {onRouteLeave} from "@aquarelle/utils";
+import {onRouteLeave} from "../helpers/router";
 
 export default {
     beforeRouteLeave(to, from, next) {

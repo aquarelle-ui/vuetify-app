@@ -6,31 +6,28 @@
                 <v-spacer></v-spacer>
                 <v-menu offset-x max-width="320">
                     <v-btn icon slot="activator"><v-icon>person</v-icon></v-btn>
-                    <app-user style="width: 320px" :user="$user"></app-user>
+                    <app-user style="width: 320px" :user="app.user"></app-user>
                 </v-menu>
             </v-toolbar>
-            <app-extensions :user="$user" :app="app" always-open></app-extensions>
+            <app-extensions :app="app" always-open></app-extensions>
         </v-card>
     </v-app>
 </template>
 <script>
-    import App from "../../App";
     import AppExtensions from "./AppExtensions";
     import AppUser from "./AppUser";
-    import ImageIcon from "../misc/ImageIcon";
+    import {ImageIcon} from "../misc";
 
     export default {
         name: 'app-dashboard',
         components: {ImageIcon, AppUser, AppExtensions},
-        computed: {
-            app() {
-                return App;
-            }
+        props: {
+            app: {type: Object, required: true}
         },
         methods: {
             vendors() {
                 let vendors = [];
-                const all = App.getAllVendors();
+                const all = this.app.getAllVendors();
 
                 for (const p in all) {
                     if (!all.hasOwnProperty(p)) {
@@ -49,17 +46,17 @@
                         description: vendor.description || null,
                         icon: vendor.icon || null,
                         url: vendor.url,
-                        extensions: App.getAllVendorExtensions(vendor.name)
+                        extensions: this.app.getAllVendorExtensions(vendor.name)
                     });
                 }
                 return vendors;
             },
             hasPermissions(perm) {
-                return this.$user.hasPermission(perm);
+                return this.app.user.hasPermission(perm);
             },
             hasExtPermissions(vendor)
             {
-                return App.getAllVendorExtensions(vendor).map(ext => {
+                return this.app.getAllVendorExtensions(vendor).map(ext => {
                     // Check permissions
                     if (!this.hasPermissions(ext.permissions)) {
                         return;

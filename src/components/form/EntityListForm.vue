@@ -17,6 +17,8 @@
                             v-model="dialogModel"
                             submit-button="Filter"
                             @submit="filterItems($event)"
+                            :translate="formTranslate"
+                            :options="formOptions"
                     >
                     </block-form>
                 </v-dialog>
@@ -86,7 +88,7 @@
 </template>
 <script>
     import {AppPage} from "../app";
-    import {EntityMixin, PagerMixin, CloseDialogsBeforeLeave, LoginMixin} from "../../mixins";
+    import {EntityMixin, PagerMixin, CloseDialogsBeforeLeave, LoginMixin, FormMixin} from "../../mixins";
     import {EntityList, EntityListLoadMixin} from "../list";
 
     export default {
@@ -94,7 +96,7 @@
             EntityList,
             AppPage
         },
-        mixins: [EntityListLoadMixin, EntityMixin, PagerMixin, CloseDialogsBeforeLeave, LoginMixin],
+        mixins: [EntityListLoadMixin, EntityMixin, PagerMixin, CloseDialogsBeforeLeave, LoginMixin, FormMixin],
         props: {
             entity: {
                 type: String,

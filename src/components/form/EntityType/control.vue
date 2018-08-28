@@ -48,7 +48,6 @@
 </template>
 <script>
     import {JsonFormElementMixin} from "@aquarelle/json-form";
-    import {VSelectFixed} from "@aquarelle/vuetify-json-form";
     import {ImageIcon} from "../../misc";
     import Loaders from "../../../Loaders";
 
@@ -56,7 +55,6 @@
         name: 'entity-type-control',
         mixins: [JsonFormElementMixin],
         components: {
-            'v-select': VSelectFixed,
             ImageIcon
         },
         data() {

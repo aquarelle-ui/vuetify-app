@@ -16,10 +16,13 @@
     </app-layout>
 </template>
 <script>
-    import {AppUser, AppExtensions, AppMenu, AppLayout} from "../app";
+    import AppUser from "./AppUser";
+    import AppExtensions from "./AppExtensions";
+    import AppMenu from "./AppMenu";
+    import AppLayout from "./AppLayout";
 
     export default {
-        name: 'extension-route',
+        name: 'app-extension-route',
         components: {
             AppMenu,
             AppExtensions,

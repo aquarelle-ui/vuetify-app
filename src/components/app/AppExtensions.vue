@@ -45,10 +45,6 @@
                 type: Object,
                 required: true
             },
-            user: {
-                type: Object,
-                required: true
-            },
             alwaysOpen: {
                 type: Boolean,
                 default: false
@@ -85,7 +81,7 @@
         },
         methods: {
             hasPermissions(perm) {
-                return this.user.hasPermission(perm);
+                return this.app.user.hasPermission(perm);
             },
             getVendorExtensions(vendor) {
                 const filtered = [];

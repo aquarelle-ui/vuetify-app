@@ -13,29 +13,40 @@
     </v-app>
 </template>
 <script>
-    import User from "../../User";
     import Logo from "./logo.svg";
 
     export default {
         name: 'app-root',
-        data() {
+        props: {
+            user: {type: Object, required: true},
+            options: {
+                type: Object, default: () => ({
+                    firstDayOfWeek: 0,
+                    language: 'en'
+                })
+            },
+            logo: {type: String, default: Logo}
+        },
+        data()
+        {
             return {
-                logo: Logo,
                 status: null,
                 ready: false
             }
         },
-        created() {
+        created()
+        {
             this.status = "Initialising...";
 
-            User.refresh()
+            this.user.refresh()
                 .then(ok => {
                     this.status = "Loading locale...";
-                    const OPT = window['AQUARELLE'] || {};
-                    this.$intl.firstDayOfWeek = OPT.firstDayOfWeek || 0;
-                    return this.$intl.init({
-                        lng: OPT.language || undefined
-                    });
+                    const options = this.options;
+
+                    // TODO: check this
+                    this.$intl.firstDayOfWeek = options.firstDayOfWeek || 0;
+                    this.$intl.language = options.language || 'en';
+                    return true;
                 })
                 .then(() => {
                     this.status = 'Enjoy!';

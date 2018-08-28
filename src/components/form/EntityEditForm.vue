@@ -33,6 +33,8 @@
                     :items="parsedFields"
                     :submit-button="submitButtonText"
                     @submit="onSubmit($event)"
+                    :translate="formTranslate"
+                    :options="formOptions"
             >
             </block-form>
         </template>
@@ -40,11 +42,11 @@
 </template>
 <script>
     import {AppPage} from "../app";
-    import {EntityMixin, CloseDialogsBeforeLeave, PageNotifier, ServerErrorMixin, LoginMixin} from "../../mixins";
+    import {EntityMixin, CloseDialogsBeforeLeave, PageNotifier, ServerErrorMixin, LoginMixin, FormMixin} from "../../mixins";
 
     export default {
         components: {AppPage},
-        mixins: [EntityMixin, CloseDialogsBeforeLeave, PageNotifier, ServerErrorMixin, LoginMixin],
+        mixins: [EntityMixin, CloseDialogsBeforeLeave, PageNotifier, ServerErrorMixin, LoginMixin, FormMixin],
         props: {
             // Page title
             title: {

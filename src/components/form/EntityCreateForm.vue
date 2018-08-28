@@ -11,17 +11,19 @@
                       :next-button-text="nextButtonText"
                       :finishButtonText="finishButtonText"
                       :fill-height="fillHeight"
+                      :translate="formTranslate"
+                      :options="formOptions"
                       @input="onSubmit($event)">
         </stepper-form>
     </app-page>
 </template>
 <script>
     import {AppPage} from "../app";
-    import {EntityMixin, CloseDialogsBeforeLeave, PageNotifier, ServerErrorMixin, LoginMixin} from "../../mixins";
+    import {EntityMixin, CloseDialogsBeforeLeave, PageNotifier, ServerErrorMixin, LoginMixin, FormMixin} from "../../mixins";
 
     export default {
         components: {AppPage},
-        mixins: [EntityMixin, CloseDialogsBeforeLeave, PageNotifier, ServerErrorMixin, LoginMixin],
+        mixins: [EntityMixin, CloseDialogsBeforeLeave, PageNotifier, ServerErrorMixin, LoginMixin, FormMixin],
         props: {
             // Page title
             title: {
