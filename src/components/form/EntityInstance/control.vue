@@ -1,5 +1,5 @@
 <template>
-    <v-select
+    <v-autocomplete
             v-model="model[name]"
             :error-messages="allErrors"
 
@@ -9,8 +9,15 @@
             :prepend-icon="$controlIcon(display.prependIcon)"
             :append-icon="$controlIcon(display.appendIcon)"
 
+            :box="display.appearance === 'box'"
+            :solo="display.appearance === 'solo'"
+            :solo-inverted="display.appearance === 'solo-inverted'"
+            :outline="display.appearance === 'outline'"
+            :flat="!!display.flat"
+
             :multiple="config.multiple || false"
-            :required="config.required"
+
+            hide-selected
 
             autocomplete
             clearable
@@ -45,7 +52,7 @@
                 </v-list-tile-sub-title>
             </v-list-tile-content>
         </template>
-    </v-select>
+    </v-autocomplete>
 </template>
 <script>
     import {JsonFormElementMixin} from "@aquarelle/json-form";
