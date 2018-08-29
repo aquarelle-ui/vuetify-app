@@ -2,12 +2,12 @@
     <app-page ref="page" :title="pageTitle" :back="back">
 
         <template slot="toolbar">
-            <v-btn v-if="refreshButton" icon @click.stop="$refs.list && $refs.list.refreshList()">
+            <v-btn v-if="refreshButton" dark icon @click.stop="$refs.list && $refs.list.refreshList()">
                 <v-icon>{{$controlIcon('refresh')}}</v-icon>
             </v-btn>
             <template ref="filterDialog" v-if="filterForm && filterForm.length">
-                <v-dialog v-model="dialog" max-width="500">
-                    <v-btn @click="makeDialogModel()" icon slot="activator">
+                <v-dialog lazy v-model="dialog" max-width="500">
+                    <v-btn @click="makeDialogModel()" dark icon slot="activator">
                         <v-icon>{{$controlIcon(contextIcon)}}</v-icon>
                     </v-btn>
                     <block-form
