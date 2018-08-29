@@ -11,7 +11,6 @@ const Router = new VueRouter();
 export {Router, Loaders};
 
 const App = new Vue({
-    // todo: intl
     router: Router,
     propsData: {
         user: User,

@@ -32,6 +32,17 @@ export default {
         });
     },
     methods: {
+        setOptions(options)
+        {
+            if (!options || typeof options !== 'object') {
+                return;
+            }
+            for (const p in options) {
+                if (options.hasOwnProperty(p)) {
+                    this.setOption(p, options[p]);
+                }
+            }
+        },
         setOption(name, value)
         {
             this.$set(this.options, name, value);

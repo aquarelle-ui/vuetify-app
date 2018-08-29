@@ -89,6 +89,10 @@
 }
 .ql-color-picker .ql-picker-options .ql-picker-item:not([data-value]){background-color:#fff!important;border:red 2px dashed
 }
+.ace-editor{width:100%;min-height:1px
+}
+.ace-editor .ace_gutter,.ace-editor .ace_scrollbar{z-index:2
+}
 ol.indent-list,ul.indent-list{padding-left:0
 }
 ol.indent-list>li,ul.indent-list>li{list-style-type:none;padding-left:1.5em
@@ -165,19 +169,15 @@ ul.indent-list>li.text-indent-7:before{content:"□"
 }
 ul.indent-list>li.text-indent-8:before{content:"•"
 }
-.ace-editor{width:100%;min-height:1px
-}
-.ace-editor .ace_gutter,.ace-editor .ace_scrollbar{z-index:2
-}
 #app-actions .app-actions-wrapper,#app-actions>div{display:inline-flex
 }
 html{overflow-y:auto
 }
-.image-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center
-}
-.image-icon.squared{border-radius:5%!important
-}
 .letter-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center
 }
 .letter-avatar.squared{border-radius:5%!important
+}
+.image-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center
+}
+.image-icon.squared{border-radius:5%!important
 }

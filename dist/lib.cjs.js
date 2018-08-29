@@ -1150,7 +1150,7 @@ var script$7 = {
     computed: {
         vendors() {
             let vendors = [];
-            const all = this.app.getAllVendors();
+            const all = this.app.vendors;
 
             for (const p in all) {
                 if (!all.hasOwnProperty(p)) {
@@ -2270,6 +2270,9 @@ var User = {
     },
     hasPermission(permission)
     {
+        if (permission === false) {
+            return this.isAdmin;
+        }
         if (this.isAdmin || !permission) {
             return true;
         }
@@ -5051,6 +5054,17 @@ var AppComponent = {
         });
     },
     methods: {
+        setOptions(options)
+        {
+            if (!options || typeof options !== 'object') {
+                return;
+            }
+            for (const p in options) {
+                if (options.hasOwnProperty(p)) {
+                    this.setOption(p, options[p]);
+                }
+            }
+        },
         setOption(name, value)
         {
             this.$set(this.options, name, value);
@@ -5253,7 +5267,6 @@ var AppComponent = {
 const Router = new VueRouter();
 
 const App = new Vue({
-    // todo: intl
     router: Router,
     propsData: {
         user: User,

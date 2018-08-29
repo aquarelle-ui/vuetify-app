@@ -47,6 +47,9 @@ export default {
     },
     hasPermission(permission)
     {
+        if (permission === false) {
+            return this.isAdmin;
+        }
         if (this.isAdmin || !permission) {
             return true;
         }

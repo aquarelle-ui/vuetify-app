@@ -53,7 +53,7 @@
         computed: {
             vendors() {
                 let vendors = [];
-                const all = this.app.getAllVendors();
+                const all = this.app.vendors;
 
                 for (const p in all) {
                     if (!all.hasOwnProperty(p)) {
