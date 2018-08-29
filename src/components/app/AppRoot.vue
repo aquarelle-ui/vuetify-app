@@ -39,18 +39,17 @@
             this.status = "Initialising...";
 
             this.user.refresh()
-                .then(ok => {
+                .then(() => {
                     this.status = "Loading locale...";
                     const options = this.options;
-
-                    // TODO: check this
                     this.$intl.firstDayOfWeek = options.firstDayOfWeek || 0;
                     this.$intl.language = options.language || 'en';
-                    return true;
                 })
                 .then(() => {
                     this.status = 'Enjoy!';
-                    this.ready = true;
+                    this.$nextTick(() => {
+                        this.ready = true;
+                    });
                 });
         }
     }
