@@ -1363,12 +1363,12 @@ var script$9 = {
                 firstDayOfWeek: 0,
                 language: 'en'
             })
-        },
-        logo: {type: String, default: Logo}
+        }
     },
     data()
     {
         return {
+            logo: Logo,
             status: null,
             ready: false
         }
@@ -5026,8 +5026,7 @@ var AppComponent = {
         loaders: {type: Object, required: true},
         user: {type: Object, required: true},
         router: {type: VueRouter, required: true},
-        options: {type: Object, default: () => ({})},
-        logo: {type: String, default: null}
+        options: {type: Object, default: () => ({})}
     },
     data() {
         return {
@@ -5040,8 +5039,7 @@ var AppComponent = {
         return h(AppRoot, {
             props: {
                 user: this.user,
-                options: this.options,
-                logo: this.logo
+                options: this.options
             }
         });
     },

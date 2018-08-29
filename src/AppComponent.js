@@ -12,8 +12,7 @@ export default {
         loaders: {type: Object, required: true},
         user: {type: Object, required: true},
         router: {type: VueRouter, required: true},
-        options: {type: Object, default: () => ({})},
-        logo: {type: String, default: null}
+        options: {type: Object, default: () => ({})}
     },
     data() {
         return {
@@ -26,8 +25,7 @@ export default {
         return h(AppRoot, {
             props: {
                 user: this.user,
-                options: this.options,
-                logo: this.logo
+                options: this.options
             }
         });
     },

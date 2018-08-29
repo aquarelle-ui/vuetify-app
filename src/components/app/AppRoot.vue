@@ -24,12 +24,12 @@
                     firstDayOfWeek: 0,
                     language: 'en'
                 })
-            },
-            logo: {type: String, default: Logo}
+            }
         },
         data()
         {
             return {
+                logo: Logo,
                 status: null,
                 ready: false
             }
