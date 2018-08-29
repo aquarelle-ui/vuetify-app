@@ -1960,7 +1960,7 @@ var script$e = {
     },
     data() {
         return {
-            toolbarHeight: undefined
+            contentHeight: '100%'
         };
     },
     props: {
@@ -1982,9 +1982,9 @@ var script$e = {
         {
             const layout = this.$refs.layout;
             if (layout && layout.$refs.toolbar) {
-                this.toolbarHeight = height - layout.$refs.toolbar.computedHeight;
+                this.contentHeight = height - layout.$refs.toolbar.computedHeight;
             } else {
-                this.toolbarHeight = height;
+                this.contentHeight = height;
             }
         }
     }
@@ -1994,7 +1994,7 @@ var script$e = {
             const __vue_script__$e = script$e;
             
 /* template */
-var __vue_render__$e = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('app-layout',{ref:"layout"},[_c('app-menu',{attrs:{"slot":"app-left-drawer","user":_vm.appInfo.user,"app":_vm.appInfo.app,"vendor":_vm.appInfo.vendor,"extension":_vm.appInfo.extension},slot:"app-left-drawer"}),_vm._v(" "),_c('template',{slot:"app-right-drawer"},[_c('app-user',{attrs:{"user":_vm.appInfo.user}}),_vm._v(" "),_c('app-extensions',{attrs:{"user":_vm.appInfo.user,"app":_vm.appInfo.app,"current-vendor":_vm.appInfo.vendor}})],1),_vm._v(" "),_c('v-content',[_c('v-layout',{style:({height: _vm.toolbarHeight})},[_c('router-view')],1)],1)],2)};
+var __vue_render__$e = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('app-layout',{ref:"layout"},[_c('app-menu',{attrs:{"slot":"app-left-drawer","user":_vm.appInfo.user,"app":_vm.appInfo.app,"vendor":_vm.appInfo.vendor,"extension":_vm.appInfo.extension},slot:"app-left-drawer"}),_vm._v(" "),_c('template',{slot:"app-right-drawer"},[_c('app-user',{attrs:{"user":_vm.appInfo.user}}),_vm._v(" "),_c('app-extensions',{attrs:{"user":_vm.appInfo.user,"app":_vm.appInfo.app,"current-vendor":_vm.appInfo.vendor}})],1),_vm._v(" "),_c('v-content',[_c('v-layout',{style:({height: _vm.contentHeight})},[_c('router-view')],1)],1)],2)};
 var __vue_staticRenderFns__$e = [];
 
   /* style */

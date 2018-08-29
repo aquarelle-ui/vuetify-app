@@ -12,7 +12,7 @@
             <app-extensions :user="appInfo.user" :app="appInfo.app" :current-vendor="appInfo.vendor"></app-extensions>
         </template>
         <v-content>
-            <v-layout :style="{height: toolbarHeight}">
+            <v-layout :style="{height: contentHeight}">
                 <router-view></router-view>
             </v-layout>
         </v-content>
@@ -34,7 +34,7 @@
         },
         data() {
             return {
-                toolbarHeight: undefined
+                contentHeight: '100%'
             };
         },
         props: {
@@ -56,9 +56,9 @@
             {
                 const layout = this.$refs.layout;
                 if (layout && layout.$refs.toolbar) {
-                    this.toolbarHeight = height - layout.$refs.toolbar.computedHeight;
+                    this.contentHeight = height - layout.$refs.toolbar.computedHeight;
                 } else {
-                    this.toolbarHeight = height;
+                    this.contentHeight = height;
                 }
             }
         }
