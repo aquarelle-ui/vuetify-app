@@ -14,10 +14,14 @@ export function entityCreateRoute(name, props, permissions = [], options = {})
     }, permissions);
 }
 
-export function entityEditRoute(name, props, permissions = [], idParam = 'entityInstanceId', options = {})
+export function entityEditRoute(name, props, permissions = [], idParam = 'entityInstanceId', options = {}, regex = '[a-zA-Z0-9-:]{3,32}')
 {
+    let path = ':' + idParam + '(' + regex + ')';
+    if (name != null && name !== '') {
+        path += '/' + name;
+    }
     return permissionRoute({
-        path: ':' + idParam + '([a-zA-Z0-9-:]{3,32})' + '/' + name,
+        path: path,
         component: EntityEditForm,
         props(route)
         {

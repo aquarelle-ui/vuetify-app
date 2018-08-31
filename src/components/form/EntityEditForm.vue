@@ -181,6 +181,17 @@
 
             this.onInit();
         },
+        watch: {
+            id() {
+                this.loading = true;
+                this.instance = null;
+                this.$nextTick(() => {
+                    this.model = null;
+                    this.parsedFields = null;
+                    this.onInit();
+                });
+            }
+        },
         computed: {
             loader()
             {

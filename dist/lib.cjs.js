@@ -3084,6 +3084,17 @@ var script$g = {
 
         this.onInit();
     },
+    watch: {
+        id() {
+            this.loading = true;
+            this.instance = null;
+            this.$nextTick(() => {
+                this.model = null;
+                this.parsedFields = null;
+                this.onInit();
+            });
+        }
+    },
     computed: {
         loader()
         {
@@ -5298,10 +5309,14 @@ function entityCreateRoute(name, props, permissions = [], options = {})
     }, permissions);
 }
 
-function entityEditRoute(name, props, permissions = [], idParam = 'entityInstanceId', options = {})
+function entityEditRoute(name, props, permissions = [], idParam = 'entityInstanceId', options = {}, regex = '[a-zA-Z0-9-:]{3,32}')
 {
+    let path = ':' + idParam + '(' + regex + ')';
+    if (name != null && name !== '') {
+        path += '/' + name;
+    }
     return permissionRoute({
-        path: ':' + idParam + '([a-zA-Z0-9-:]{3,32})' + '/' + name,
+        path: path,
         component: EntityEditForm,
         props(route)
         {
