@@ -14,7 +14,7 @@
                     </v-list-tile-sub-title>
                 </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile v-for="item in vendor.extensions" :key="item.href" :to="item.extHref">
+            <v-list-tile v-for="item in vendor.extensions" :key="item.href" @click="goto(item.href)" :class="isLinkActive(item.extHref) ? ['v-list__tile--active', 'primary--text'] : undefined">
                 <v-list-tile-action>
                     <image-icon :src="item.icon || $intl.translate(item.title)"></image-icon>
                 </v-list-tile-action>
@@ -80,6 +80,13 @@
             },
         },
         methods: {
+            isLinkActive(href)
+            {
+                return this.$route.path === href || this.$route.path.startsWith(href + '/');
+            },
+            goto(href) {
+                this.$router.push(href);
+            },
             hasPermissions(perm) {
                 return this.app.user.hasPermission(perm);
             },

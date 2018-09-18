@@ -12,10 +12,10 @@
                     </v-btn>
                     <block-form
                             ref="filterForm"
-                            title="Filter items"
+                            title="Search..."
                             :items="filterForm"
                             v-model="dialogModel"
-                            submit-button="Filter"
+                            submit-button="Search"
                             @submit="filterItems($event)"
                             :translate="formTranslate"
                             :options="formOptions"
@@ -69,7 +69,7 @@
                         <v-list-tile-title v-html="actionTitle(action.title, item, type)">
                         </v-list-tile-title>
                     </v-list-tile-content>
-                    <v-list-tile-action></v-list-tile-action>
+                    <v-list-tile-action>&nbsp;</v-list-tile-action>
                 </v-list-tile>
             </template>
 
@@ -188,7 +188,7 @@
             },
             contextIcon: {
                 type: String,
-                default: 'filter_list'
+                default: 'search'
             },
             afterDelete: {
                 type: Function,

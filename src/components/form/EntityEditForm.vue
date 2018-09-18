@@ -19,7 +19,7 @@
                                     {{$intl.translate(item.title)}}
                                 </v-list-tile-title>
                             </v-list-tile-content>
-                            <v-list-tile-action></v-list-tile-action>
+                            <v-list-tile-action>&nbsp;</v-list-tile-action>
                         </v-list-tile>
                     </v-list>
                 </v-menu>
