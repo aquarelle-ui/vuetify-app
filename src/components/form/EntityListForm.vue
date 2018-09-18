@@ -21,7 +21,7 @@
                             :options="formOptions"
                     >
                         <template slot-scope="props">
-                            <v-btn @click.stop="dialogModel = {}, filterItems(dialogModel)">
+                            <v-btn flat @click.stop="dialogModel = {}, filterItems(dialogModel)">
                                 <v-icon>clear</v-icon>
                                 Reset
                             </v-btn>
