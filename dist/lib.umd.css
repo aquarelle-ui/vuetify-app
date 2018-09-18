@@ -1,6 +1,8 @@
 
 #app-actions .app-actions-wrapper,#app-actions>div{display:inline-flex
 }
+html{overflow-y:auto
+}
 .quillWrapper>.ql-container{height:inherit!important
 }
 .ql-editor{min-height:250px;max-height:350px;font-size:14px
@@ -22,8 +24,6 @@
 .quillWrapper .ql-snow .ql-active .ql-stroke{stroke-width:2.25px
 }
 .quillWrapper .ql-toolbar.ql-snow .ql-formats{vertical-align:top
-}
-html{overflow-y:auto
 }
 .text-align-left{text-align:left
 }
@@ -169,13 +169,13 @@ ul.indent-list>li.text-indent-7:before{content:"□"
 }
 ul.indent-list>li.text-indent-8:before{content:"•"
 }
-.letter-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center
-}
-.letter-avatar.squared{border-radius:5%!important
-}
 .ace-editor{width:100%;min-height:1px
 }
 .ace-editor .ace_gutter,.ace-editor .ace_scrollbar{z-index:2
+}
+.letter-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center
+}
+.letter-avatar.squared{border-radius:5%!important
 }
 .image-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center
 }

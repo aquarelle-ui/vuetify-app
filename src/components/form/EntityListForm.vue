@@ -20,6 +20,19 @@
                             :translate="formTranslate"
                             :options="formOptions"
                     >
+                        <template slot-scope="props">
+                            <v-btn @click.stop="dialogModel = {}, filterItems(dialogModel)">
+                                <v-icon>clear</v-icon>
+                                Reset
+                            </v-btn>
+                            <v-spacer></v-spacer>
+                            <v-btn color="primary"
+                                   :disabled="props.submitDisabled"
+                                   @click.stop="props.submit()">
+                                <v-icon>search</v-icon>
+                                Search
+                            </v-btn>
+                        </template>
                     </block-form>
                 </v-dialog>
             </template>
