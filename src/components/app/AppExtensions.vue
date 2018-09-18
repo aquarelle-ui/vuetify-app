@@ -14,7 +14,7 @@
                     </v-list-tile-sub-title>
                 </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile v-for="item in vendor.extensions" :key="item.href" :to="item.href">
+            <v-list-tile v-for="item in vendor.extensions" :key="item.href" :to="item.extHref">
                 <v-list-tile-action>
                     <image-icon :src="item.icon || $intl.translate(item.title)"></image-icon>
                 </v-list-tile-action>
@@ -112,18 +112,20 @@
                         return;
                     }
 
+                    let extHref = '/' + ext.vendor + '/' + ext.name;
+
                     const item = {
                         vendor: ext.vendor,
                         name: ext.name,
                         title: ext.title,
                         description: ext.description,
                         icon: ext.icon,
-                        href: '/' + ext.vendor + '/' + ext.name + '/' + href
+                        extHref: extHref,
+                        href: extHref + '/' + href,
                     };
 
                     filtered.push(item);
                 });
-
                 return filtered;
             }
         }
