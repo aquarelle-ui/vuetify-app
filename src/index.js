@@ -4,7 +4,7 @@ import VueRouter from 'vue-router';
 import {default as VuetifyJsonForm, BlockForm, StepperForm, DialogForms} from '@aquarelle/vuetify-json-form';
 import Intl from '@aquarelle/intl';
 import {DOMPortalDirective, DocumentTitleDirective} from "./directives";
-import {EntityTypeControl, EntityInstanceControl, RichtextControl, CodeControl} from "./components/form";
+import {EntityTypeControl, EntityInstanceControl, RichtextControl, CodeControl, JsonFormControlsControl} from "./components/form";
 import {ImageIcon, LetterAvatar, ContentLoader} from "./components";
 import App from "./App"
 import User from "./User";
@@ -28,6 +28,7 @@ Vue.use(EntityTypeControl);
 Vue.use(EntityInstanceControl);
 Vue.use(CodeControl);
 Vue.use(RichtextControl);
+Vue.use(JsonFormControlsControl);
 
 
 Vue.prototype.$app = App;

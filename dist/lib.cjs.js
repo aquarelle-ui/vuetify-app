@@ -5042,6 +5042,108 @@ RichtextControl.install = function () {
     jsonForm.JsonForm.addControl('richtext', new jsonForm.StringControlParser(RichtextControl));
 };
 
+//
+
+var script$r = {
+    components: {AceEditor, BlockError: VuetifyJsonForm.BlockError, ControlLabel: VuetifyJsonForm.ControlLabel},
+    mixins: [jsonForm.JsonFormElementMixin],
+    data() {
+        return {code: null, hasSyntaxError: false};
+    },
+    created() {
+        this.code = JSON.stringify(this.modelProxy);
+        this.addValidation('syntax', () => !this.hasSyntaxError, {
+            text: 'Syntax error',
+            key: 'ui:validation.code-syntax'
+        });
+    },
+    beforeDestroy()
+    {
+        this.addValidation('syntax', null);
+    },
+    methods: {
+        onCode(code)
+        {
+            let data = null;
+            try {
+                data = JSON.parse(code);
+            } catch (e) {
+                this.hasSyntaxError = true;
+                this.validate();
+                return;
+            }
+
+            if (Array.isArray(data)) {
+                this.hasSyntaxError = false;
+                this.$set(this.model, this.name, data);
+            } else {
+                this.hasSyntaxError = true;
+            }
+
+            this.validate();
+        }
+    }
+};
+
+/* script */
+            const __vue_script__$r = script$r;
+            
+/* template */
+var __vue_render__$r = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('control-label',{attrs:{"text":_vm.wrapper.translate(_vm.display.title),"has-error":_vm.allErrors.length > 0,"required":_vm.config.required}}),_vm._v(" "),_c('ace-editor',{ref:"editor",attrs:{"lang":"json"},on:{"input":function($event){_vm.onCode($event);},"syntax-error":function($event){_vm.hasSyntaxError = $event;}},model:{value:(_vm.code),callback:function ($$v) {_vm.code=$$v;},expression:"code"}}),_vm._v(" "),_c('block-error',{attrs:{"error":_vm.allErrors.length > 0 ? _vm.allErrors[0] : undefined}})],1)};
+var __vue_staticRenderFns__$r = [];
+
+  /* style */
+  const __vue_inject_styles__$r = undefined;
+  /* scoped */
+  const __vue_scope_id__$r = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$r = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$r = false;
+  /* component normalizer */
+  function __vue_normalize__$r(
+    template, style, script,
+    scope, functional, moduleIdentifier,
+    createInjector, createInjectorSSR
+  ) {
+    const component = (typeof script === 'function' ? script.options : script) || {};
+
+    // For security concerns, we use only base name in production mode.
+    component.__file = "control.vue";
+
+    if (!component.render) {
+      component.render = template.render;
+      component.staticRenderFns = template.staticRenderFns;
+      component._compiled = true;
+
+      if (functional) component.functional = true;
+    }
+
+    component._scopeId = scope;
+
+    return component
+  }
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var JsonFormControlsControl = __vue_normalize__$r(
+    { render: __vue_render__$r, staticRenderFns: __vue_staticRenderFns__$r },
+    __vue_inject_styles__$r,
+    __vue_script__$r,
+    __vue_scope_id__$r,
+    __vue_is_functional_template__$r,
+    __vue_module_identifier__$r,
+    undefined,
+    undefined
+  );
+
+JsonFormControlsControl.install = function () {
+    jsonForm.JsonForm.addControl('json-form-controls', new jsonForm.ArrayControlParser(JsonFormControlsControl));
+};
+
 const RouterRenderComponent = {
     render(h) {
         return h('router-view');
@@ -5464,6 +5566,7 @@ Vue.use(Control);
 Vue.use(Control$1);
 Vue.use(CodeControl);
 Vue.use(RichtextControl);
+Vue.use(JsonFormControlsControl);
 
 
 Vue.prototype.$app = App;
@@ -5504,6 +5607,7 @@ exports.EntityEditForm = EntityEditForm;
 exports.EntityListForm = EntityListForm;
 exports.CodeControl = CodeControl;
 exports.RichtextControl = RichtextControl;
+exports.JsonFormControlsControl = JsonFormControlsControl;
 exports.EntityTypeParser = Parser;
 exports.EntityTypeControl = Control;
 exports.EntityInstanceParser = Parser$1;
