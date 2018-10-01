@@ -5051,7 +5051,7 @@ var script$r = {
         return {code: null, hasSyntaxError: false};
     },
     created() {
-        this.code = JSON.stringify(this.modelProxy);
+        this.code = JSON.stringify(this.modelProxy, null, 2);
         this.addValidation('syntax', () => !this.hasSyntaxError, {
             text: 'Syntax error',
             key: 'ui:validation.code-syntax'
