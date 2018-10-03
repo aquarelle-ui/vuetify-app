@@ -1,7 +1,7 @@
 export default {
     props: {
         filterArgs: {
-            type: Object,
+            type: [Object, Function],
             default: null
         },
     },
@@ -65,7 +65,11 @@ export default {
                 if (qs == null) {
                     qs = {};
                 }
-                Object.assign(qs, this.filterArgs);
+                if (typeof this.filterArgs === 'function') {
+                    Object.assign(qs, this.filterArgs(this.$route));
+                } else {
+                    Object.assign(qs, this.filterArgs);
+                }
             }
             return qs;
         },

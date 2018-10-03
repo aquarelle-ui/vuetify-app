@@ -2392,7 +2392,7 @@ var CloseDialogsBeforeLeave = {
 var PagerMixin = {
     props: {
         filterArgs: {
-            type: Object,
+            type: [Object, Function],
             default: null
         },
     },
@@ -2456,7 +2456,11 @@ var PagerMixin = {
                 if (qs == null) {
                     qs = {};
                 }
-                Object.assign(qs, this.filterArgs);
+                if (typeof this.filterArgs === 'function') {
+                    Object.assign(qs, this.filterArgs(this.$route));
+                } else {
+                    Object.assign(qs, this.filterArgs);
+                }
             }
             return qs;
         },
@@ -5412,8 +5416,11 @@ function entityCreateRoute(name, props, permissions = [], options = {})
     return permissionRoute({
         path: name,
         component: EntityCreateForm,
-        props()
+        props(route)
         {
+            if (typeof props === 'function') {
+                return props(route);
+            }
             return props;
         },
         ...options
@@ -5431,6 +5438,9 @@ function entityEditRoute(name, props, permissions = [], idParam = 'entityInstanc
         component: EntityEditForm,
         props(route)
         {
+            if (typeof props === 'function') {
+                return props(route, route.params[idParam]);
+            }
             return {...props, id: route.params[idParam]};
         },
         ...options
@@ -5442,8 +5452,11 @@ function entityListRoute(name, props, permissions = [], options = {})
     return permissionRoute({
         path: name,
         component: EntityListForm,
-        props()
+        props(route)
         {
+            if (typeof props === 'function') {
+                return props(route);
+            }
             return props;
         },
         ...options

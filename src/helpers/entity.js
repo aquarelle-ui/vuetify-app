@@ -6,8 +6,11 @@ export function entityCreateRoute(name, props, permissions = [], options = {})
     return permissionRoute({
         path: name,
         component: EntityCreateForm,
-        props()
+        props(route)
         {
+            if (typeof props === 'function') {
+                return props(route);
+            }
             return props;
         },
         ...options
@@ -25,6 +28,9 @@ export function entityEditRoute(name, props, permissions = [], idParam = 'entity
         component: EntityEditForm,
         props(route)
         {
+            if (typeof props === 'function') {
+                return props(route, route.params[idParam]);
+            }
             return {...props, id: route.params[idParam]};
         },
         ...options
@@ -36,8 +42,11 @@ export function entityListRoute(name, props, permissions = [], options = {})
     return permissionRoute({
         path: name,
         component: EntityListForm,
-        props()
+        props(route)
         {
+            if (typeof props === 'function') {
+                return props(route);
+            }
             return props;
         },
         ...options
