@@ -1,5 +1,5 @@
 <template>
-    <div class="ace-editor"></div>
+    <div class="ace-editor" v-bind="$attrs"></div>
 </template>
 <style>
     .ace-editor {
@@ -20,7 +20,7 @@
             value: {type: String, default: '', required: false},
             lang: {type: String, default: 'html', required: false},
             theme: {type: String, default: 'chrome', required: false},
-            options: {type: Object, default: () => ({minLines: 5, maxLines: 20}), required: false}
+            options: {type: Object, default: () => ({minLines: 5, maxLines: 20, tabSize: 2}), required: false}
         },
         data()
         {
