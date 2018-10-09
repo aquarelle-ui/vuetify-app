@@ -38,7 +38,7 @@ export default {
                             .then(json => json.error)
                             .then(error => {
                                 return {
-                                    text: 'Internal Server Error: {{message}}',
+                                    text: 'Internal Server Error: {message}',
                                     key: null, // TODO: add a key,
                                     params: {
                                         message: error || 'Unexpected Error',

@@ -14,10 +14,10 @@
             <v-card-actions v-show="!deleteMode">
                 <v-spacer></v-spacer>
                 <v-btn color="secondary" flat :disabled="deleteMode" @click.native="cancelDialog">
-                    {{$intl.translate({text: 'Cancel', key: 'ui:common.cancel'})}}
+                    {{$intl.translate({text: 'Cancel', key: 'common.cancel'})}}
                 </v-btn>
                 <v-btn color="red" flat :disabled="deleteMode" @click.native="confirmDialog">
-                    {{$intl.translate({text: 'Delete', key: 'ui:common.delete'})}}
+                    {{$intl.translate({text: 'Delete', key: 'common.delete'})}}
                 </v-btn>
             </v-card-actions>
         </v-card>
@@ -33,13 +33,13 @@
         props: {
             title: {
                 type: [Object, String],
-                default: () => ({text: 'Delete item', key: 'ui:common.deleteItem'})
+                default: () => ({text: 'Delete item', key: 'common.deleteItem'})
             },
             message: {
                 type: [Object, String],
                 default: () => ({
                     text: 'Are you sure you want to delete this item?',
-                    key: 'ui:common.deleteItemMessage'
+                    key: 'common.deleteItemMessage'
                 })
             },
             loader: {

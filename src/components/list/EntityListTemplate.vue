@@ -32,7 +32,7 @@
         props: {
             emptyText: {
                 type: [Object, String],
-                default: () => ({text: 'No items to display', key: 'ui:common.emptyList'})
+                default: () => ({text: 'No items to display', key: 'common.emptyList'})
             },
             loader: {
                 type: [Object, String],

@@ -10,7 +10,7 @@
                     </v-list-tile-avatar>
                     <v-list-tile-content>
                         <v-list-tile-title>
-                            {{$intl.translate({text: 'Change title', key: 'ui:common.changeTitle'})}}
+                            {{$intl.translate({text: 'Change title', key: 'common.changeTitle'})}}
                         </v-list-tile-title>
                     </v-list-tile-content>
                     <v-list-tile-action>
@@ -36,7 +36,7 @@
                     </v-list-tile-avatar>
                     <v-list-tile-content>
                         <v-list-tile-title>
-                            {{$intl.translate({text: 'Delete', key: 'ui:common.delete'})}}
+                            {{$intl.translate({text: 'Delete', key: 'common.delete'})}}
                         </v-list-tile-title>
                     </v-list-tile-content>
                     <v-list-tile-action>

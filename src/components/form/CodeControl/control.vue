@@ -22,7 +22,7 @@
         {
             this.addValidation('syntax', () => !this.hasSyntaxError, {
                 text: 'Syntax error',
-                key: 'ui:validation.code-syntax'
+                key: 'validation.code-syntax'
             });
         },
         beforeDestroy()

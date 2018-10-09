@@ -13,10 +13,10 @@
             <v-card-actions v-show="!processingMode">
                 <v-spacer></v-spacer>
                 <v-btn color="secondary" flat :disabled="processingMode" @click.native="cancelDialog">
-                    {{$intl.translate({text: 'Cancel', key: 'ui:common.cancel'})}}
+                    {{$intl.translate({text: 'Cancel', key: 'common.cancel'})}}
                 </v-btn>
                 <v-btn color="primary" flat :disabled="saveDisabled" @click.native="confirmDialog">
-                    {{$intl.translate({text: 'Save', key: 'ui:common.save'})}}
+                    {{$intl.translate({text: 'Save', key: 'common.save'})}}
                 </v-btn>
             </v-card-actions>
         </v-card>
@@ -32,11 +32,11 @@
         props: {
             title: {
                 type: [Object, String],
-                default: () => ({text: 'Change title', key: 'ui:common.changeTitle'})
+                default: () => ({text: 'Change title', key: 'common.changeTitle'})
             },
             titleLabel: {
                 type: [Object, String],
-                default: () => ({text: 'Title', key: 'ui:common.titleLabel'})
+                default: () => ({text: 'Title', key: 'common.titleLabel'})
             },
             loader: {
                 type: [String, DataLoader],
