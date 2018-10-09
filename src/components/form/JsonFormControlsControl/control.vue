@@ -1,6 +1,6 @@
 <template>
     <div class="mb-2">
-        <control-label :text="wrapper.translate(display.title)" :has-error="allErrors.length > 0"
+        <control-label :text="$intl.translate(display.title)" :has-error="allErrors.length > 0"
                        :required="config.required"></control-label>
         <ace-editor ref="editor" v-model="code" lang="json"
                     @input="onCode($event)" @syntax-error="hasSyntaxError = $event"></ace-editor>

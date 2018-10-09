@@ -1,10 +1,10 @@
 <template>
     <div>
-        <control-label :text="wrapper.translate(display.title)" :has-error="allErrors.length > 0"
+        <control-label :text="$intl.translate(display.title)" :has-error="allErrors.length > 0"
                        :required="config.required"></control-label>
         <quill-editor
                 v-model="model[name]"
-                :placeholder="wrapper.translate(display.placeholder)"
+                :placeholder="$intl.translate(display.placeholder)"
                 :editor-modules="config.mode"
         >
         </quill-editor>
