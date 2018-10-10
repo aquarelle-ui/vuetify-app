@@ -4276,8 +4276,8 @@ var script$m = {
         pageTitle()
         {
             return this.$intl.translate(this.title,
-                {total: this.totalLoaded, page: this.listPage, last: this.lastPage || 1, rows: this.rows}, null,
-                this.totalLoaded);
+                {total: this.totalLoaded, page: this.listPage, last: this.lastPage || 1, rows: this.rows},
+                this.totalLoaded, null);
         },
         canAdd()
         {
@@ -4337,7 +4337,7 @@ var script$m = {
                 return text(item, type, this);
             }
 
-            return item[text] || null;
+            return item[text] || undefined;
         },
         actionHref(action, item, type)
         {
