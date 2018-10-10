@@ -17,7 +17,6 @@
                             v-model="dialogModel"
                             submit-button="Search"
                             @submit="filterItems($event)"
-                            :translate="formTranslate"
                             :options="formOptions"
                     >
                         <template slot-scope="props">

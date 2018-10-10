@@ -7,11 +7,10 @@
                       ref="form"
                       v-model="model"
                       :processing="processing"
-                      :steps="parsedSteps"
+                      :items="parsedSteps"
                       :next-button-text="nextButtonText"
-                      :finishButtonText="finishButtonText"
+                      :finish-button-text="finishButtonText"
                       :fill-height="fillHeight"
-                      :translate="formTranslate"
                       :options="formOptions"
                       @input="onSubmit($event)">
         </stepper-form>

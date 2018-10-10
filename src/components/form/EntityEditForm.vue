@@ -33,7 +33,6 @@
                     :items="parsedFields"
                     :submit-button="submitButtonText"
                     @submit="onSubmit($event)"
-                    :translate="formTranslate"
                     :options="formOptions"
             >
             </block-form>
