@@ -1,5 +1,4 @@
 import resolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
 import importResolver from "rollup-plugin-import-resolver";
 import VuePlugin from 'rollup-plugin-vue'
 import css from 'rollup-plugin-css-only'
@@ -37,7 +36,7 @@ export default [
             globals: GLOBALS
         },
         external: EXTERNAL,
-        plugins: [resolve(), commonjs(), resolver, css(), svg(), vuePlugin, terser()]
+        plugins: [resolve(), resolver, css(), svg(), vuePlugin, terser()]
     },
     {
         input: MAIN,
