@@ -1,5 +1,5 @@
 <template>
-    <div class="mb-2">
+    <div class="my-2">
         <control-label :text="$intl.translate(display.title)" :has-error="allErrors.length > 0"
                        :required="config.required"></control-label>
         <ace-editor ref="editor" v-model="code" lang="json"

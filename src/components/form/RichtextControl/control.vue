@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="my-2">
         <control-label :text="$intl.translate(display.title)" :has-error="allErrors.length > 0"
                        :required="config.required"></control-label>
         <quill-editor
