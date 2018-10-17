@@ -4698,7 +4698,7 @@ var script$n = {
 /* script */
             const __vue_script__$n = script$n;
 /* template */
-var __vue_render__$n = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"quillWrapper"},[_c('div',{ref:"quillContainer"}),_vm._v(" "),(_vm.useCustomImageHandler)?_c('input',{ref:"fileInput",staticStyle:{"display":"none"},attrs:{"type":"file"},on:{"change":function($event){_vm.emitImageInfo($event);}}}):_vm._e()])};
+var __vue_render__$n = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',_vm._b({staticClass:"quillWrapper"},'div',_vm.$attrs,false),[_c('div',{ref:"quillContainer"}),_vm._v(" "),(_vm.useCustomImageHandler)?_c('input',{ref:"fileInput",staticStyle:{"display":"none"},attrs:{"type":"file"},on:{"change":function($event){_vm.emitImageInfo($event);}}}):_vm._e()])};
 var __vue_staticRenderFns__$n = [];
 
   /* style */
@@ -4922,7 +4922,7 @@ var script$p = {
             const __vue_script__$p = script$p;
             
 /* template */
-var __vue_render__$p = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"my-2"},[_c('control-label',{attrs:{"text":_vm.$intl.translate(_vm.display.title),"has-error":_vm.allErrors.length > 0,"required":_vm.config.required}}),_vm._v(" "),_c('ace-editor',{ref:"editor",attrs:{"options":_vm.config.editor,"lang":_vm.config.lang},on:{"input":function($event){_vm.validate();},"syntax-error":function($event){_vm.hasSyntaxError = $event;}},model:{value:(_vm.model[_vm.name]),callback:function ($$v) {_vm.$set(_vm.model, _vm.name, $$v);},expression:"model[name]"}}),_vm._v(" "),_c('block-error',{attrs:{"error":_vm.allErrors.length > 0 ? _vm.allErrors[0] : undefined}})],1)};
+var __vue_render__$p = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"my-2"},[_c('control-label',{attrs:{"text":_vm.$intl.translate(_vm.display.title),"has-error":_vm.allErrors.length > 0,"required":_vm.config.required}}),_vm._v(" "),_c('ace-editor',{ref:"editor",staticClass:"mt-1",attrs:{"options":_vm.config.editor,"lang":_vm.config.lang},on:{"input":function($event){_vm.validate();},"syntax-error":function($event){_vm.hasSyntaxError = $event;}},model:{value:(_vm.model[_vm.name]),callback:function ($$v) {_vm.$set(_vm.model, _vm.name, $$v);},expression:"model[name]"}}),_vm._v(" "),_c('block-error',{attrs:{"error":_vm.allErrors.length > 0 ? _vm.allErrors[0] : undefined}})],1)};
 var __vue_staticRenderFns__$p = [];
 
   /* style */
@@ -4988,7 +4988,7 @@ var script$q = {
             const __vue_script__$q = script$q;
             
 /* template */
-var __vue_render__$q = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"my-2"},[_c('control-label',{attrs:{"text":_vm.$intl.translate(_vm.display.title),"has-error":_vm.allErrors.length > 0,"required":_vm.config.required}}),_vm._v(" "),_c('quill-editor',{attrs:{"placeholder":_vm.$intl.translate(_vm.display.placeholder),"editor-modules":_vm.config.mode},model:{value:(_vm.model[_vm.name]),callback:function ($$v) {_vm.$set(_vm.model, _vm.name, $$v);},expression:"model[name]"}}),_vm._v(" "),_c('block-error',{attrs:{"error":_vm.allErrors.length > 0 ? _vm.allErrors[0] : undefined}})],1)};
+var __vue_render__$q = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"my-2"},[_c('control-label',{attrs:{"text":_vm.$intl.translate(_vm.display.title),"has-error":_vm.allErrors.length > 0,"required":_vm.config.required}}),_vm._v(" "),_c('quill-editor',{staticClass:"mt-1",attrs:{"placeholder":_vm.$intl.translate(_vm.display.placeholder),"editor-modules":_vm.config.mode},model:{value:(_vm.model[_vm.name]),callback:function ($$v) {_vm.$set(_vm.model, _vm.name, $$v);},expression:"model[name]"}}),_vm._v(" "),_c('block-error',{attrs:{"error":_vm.allErrors.length > 0 ? _vm.allErrors[0] : undefined}})],1)};
 var __vue_staticRenderFns__$q = [];
 
   /* style */
@@ -5090,7 +5090,7 @@ var script$r = {
             const __vue_script__$r = script$r;
             
 /* template */
-var __vue_render__$r = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"my-2"},[_c('control-label',{attrs:{"text":_vm.$intl.translate(_vm.display.title),"has-error":_vm.allErrors.length > 0,"required":_vm.config.required}}),_vm._v(" "),_c('ace-editor',{ref:"editor",attrs:{"lang":"json"},on:{"input":function($event){_vm.onCode($event);},"syntax-error":function($event){_vm.hasSyntaxError = $event;}},model:{value:(_vm.code),callback:function ($$v) {_vm.code=$$v;},expression:"code"}}),_vm._v(" "),_c('block-error',{attrs:{"error":_vm.allErrors.length > 0 ? _vm.allErrors[0] : undefined}})],1)};
+var __vue_render__$r = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"my-2"},[_c('control-label',{attrs:{"text":_vm.$intl.translate(_vm.display.title),"has-error":_vm.allErrors.length > 0,"required":_vm.config.required}}),_vm._v(" "),_c('ace-editor',{ref:"editor",staticClass:"mt-1",attrs:{"lang":"json"},on:{"input":function($event){_vm.onCode($event);},"syntax-error":function($event){_vm.hasSyntaxError = $event;}},model:{value:(_vm.code),callback:function ($$v) {_vm.code=$$v;},expression:"code"}}),_vm._v(" "),_c('block-error',{attrs:{"error":_vm.allErrors.length > 0 ? _vm.allErrors[0] : undefined}})],1)};
 var __vue_staticRenderFns__$r = [];
 
   /* style */

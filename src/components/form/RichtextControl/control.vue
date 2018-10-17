@@ -3,6 +3,7 @@
         <control-label :text="$intl.translate(display.title)" :has-error="allErrors.length > 0"
                        :required="config.required"></control-label>
         <quill-editor
+                class="mt-1"
                 v-model="model[name]"
                 :placeholder="$intl.translate(display.placeholder)"
                 :editor-modules="config.mode"

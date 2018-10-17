@@ -1,5 +1,5 @@
 <template>
-    <div class="quillWrapper">
+    <div class="quillWrapper" v-bind="$attrs">
         <div ref="quillContainer"></div>
         <input type="file"
                style="display:none;"

@@ -2,7 +2,7 @@
     <div class="my-2">
         <control-label :text="$intl.translate(display.title)" :has-error="allErrors.length > 0"
                        :required="config.required"></control-label>
-        <ace-editor ref="editor" v-model="code" lang="json"
+        <ace-editor class="mt-1" ref="editor" v-model="code" lang="json"
                     @input="onCode($event)" @syntax-error="hasSyntaxError = $event"></ace-editor>
         <block-error :error="allErrors.length > 0 ? allErrors[0] : undefined"></block-error>
     </div>
