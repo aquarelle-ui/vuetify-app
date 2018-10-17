@@ -4,7 +4,7 @@
                        :required="config.required"></control-label>
         <ace-editor class="mt-1" ref="editor" v-model="code" lang="json"
                     @input="onCode($event)" @syntax-error="hasSyntaxError = $event"></ace-editor>
-        <block-error :error="allErrors.length > 0 ? allErrors[0] : undefined"></block-error>
+        <block-error class="mt-1" :error="allErrors.length > 0 ? allErrors[0] : undefined"></block-error>
     </div>
 </template>
 <script>

@@ -9,7 +9,7 @@
                 :editor-modules="config.mode"
         >
         </quill-editor>
-        <block-error :error="allErrors.length > 0 ? allErrors[0] : undefined"></block-error>
+        <block-error class="mt-1" :error="allErrors.length > 0 ? allErrors[0] : undefined"></block-error>
     </div>
 </template>
 <script>
