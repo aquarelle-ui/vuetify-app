@@ -5234,6 +5234,55 @@ var AppComponent = {
             return ext;
         },
 
+        registerMenu(vendor, extension, name, title)
+        {
+            if (!this.extensions[vendor]) {
+                return false;
+            }
+            const extItem = this.extensions[vendor].find(ext => ext.name === extension);
+            if (!extItem) {
+                return false;
+            }
+            extItem.menu.push({
+                name: name,
+                title: title,
+                items: []
+            });
+            return true;
+        },
+        registerItem(vendor, extension, menu, item, route)
+        {
+            if (!this.extensions[vendor]) {
+                return false;
+            }
+            const extItem = this.extensions[vendor].find(ext => ext.name === extension);
+            if (!extItem) {
+                return false;
+            }
+            if (!extItem.menu || extItem.menu.length === 0) {
+                return false;
+            }
+            const extMenu = extItem.menu.find(m => m.name === menu);
+            if (!extMenu) {
+                return false;
+            }
+            if (!extMenu.items) {
+                extMenu.items = [];
+            }
+            extMenu.items.push(item);
+
+            this.router.addRoutes([this._vendorRoute(vendor, null, [{
+                path: ':extension(' + extension + ')',
+                alias: extension,
+                component: AppExtensionRoute,
+                props: this._extensionProps,
+                beforeEnter: this._extensionPermissionHook,
+                children: [route]
+            }])]);
+
+            return true;
+        },
+
         getAllVendors()
         {
             return this.vendors;

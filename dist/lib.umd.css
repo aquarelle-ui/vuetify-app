@@ -1,4 +1,6 @@
 
+html{overflow-y:auto
+}
 #app-actions .app-actions-wrapper,#app-actions>div{display:inline-flex
 }
 .text-align-left{text-align:left
@@ -171,13 +173,11 @@ ul.indent-list>li.text-indent-8:before{content:"•"
 }
 .ace-editor .ace_gutter,.ace-editor .ace_scrollbar{z-index:2
 }
-.letter-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center
-}
-.letter-avatar.squared{border-radius:5%!important
-}
 .image-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center
 }
 .image-icon.squared{border-radius:5%!important
 }
-html{overflow-y:auto
+.letter-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center
+}
+.letter-avatar.squared{border-radius:5%!important
 }
