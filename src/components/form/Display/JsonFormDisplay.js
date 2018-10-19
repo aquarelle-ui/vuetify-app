@@ -1,8 +1,15 @@
+import JsonFormDisplayControl from "./JsonFormDisplayControl";
+
 class JsonFormDisplay
 {
     constructor()
     {
         this._controls = {};
+    }
+
+    addElementControl(name, element)
+    {
+        return this.addControl(name, new JsonFormDisplayControl(element));
     }
 
     addControl(name, control)
