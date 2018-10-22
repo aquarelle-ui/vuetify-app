@@ -1,7 +1,15 @@
 <template>
     <json-form-display-item-wrapper :title="display.title">
         <template v-if="value != null">
-            <div v-for="(file, index) in value" :key="index">{{file.name}} ({{file.size}} bytes) ({{file.type}})</div>
+            <div v-for="(file, index) in value" :key="index">
+                <template v-if="file.url != null">
+                    <a :href="file.url" target="_blank">{{file.name}}</a>
+                </template>
+                <template v-else>
+                    {{file.name}}
+                </template>
+                ({{file.size}} bytes) ({{file.type}})
+            </div>
         </template>
     </json-form-display-item-wrapper>
 </template>
