@@ -1801,6 +1801,15 @@ var script$f = {
             }
             return this.files.hasOwnProperty(v) ? [v] : null;
         }
+    },
+    methods: {
+        getFileUrl(url) {
+            const base = Requestor.getBaseUrl();
+            if (base != null && url.indexOf('://') === -1) {
+                return base + url;
+            }
+            return url;
+        }
     }
 };
 
@@ -1808,7 +1817,7 @@ var script$f = {
             const __vue_script__$f = script$f;
             
 /* template */
-var __vue_render__$f = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title}},[(_vm.value != null)?_vm._l((_vm.value),function(file,index){return _c('div',{key:index},[(file.url != null)?[_c('a',{attrs:{"href":file.url,"target":"_blank"}},[_vm._v(_vm._s(file.name))])]:[_vm._v("\n                "+_vm._s(file.name)+"\n            ")],_vm._v("\n            ("+_vm._s(file.size)+" bytes) ("+_vm._s(file.type)+")\n        ")],2)}):_vm._e()],2)};
+var __vue_render__$f = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title}},[(_vm.value != null)?_vm._l((_vm.value),function(file,index){return _c('div',{key:index},[(file.url != null)?[_c('a',{attrs:{"href":_vm.getFileUrl(file.url),"target":"_blank"}},[_vm._v(_vm._s(file.name))])]:[_vm._v("\n                "+_vm._s(file.name)+"\n            ")],_vm._v("\n            ("+_vm._s(file.size)+" bytes) ("+_vm._s(file.type)+")\n        ")],2)}):_vm._e()],2)};
 var __vue_staticRenderFns__$f = [];
 
   /* style */
