@@ -869,6 +869,2051 @@ Control$1.install = function (Vue$$1) {
     JsonForm.addControl('entity-instance', new Parser$1(Control$1.name, null));
 };
 
+let ID_COUNTER = 0;
+const ALLOWED_PROPERTIES = ['control', 'name', 'display', 'config', 'validation', 'items', 'default', 'nullable', 'fallback', 'filter'];
+
+class JsonFormDisplayControl
+{
+    constructor(element) {
+        this._element = element;
+    }
+
+    getElement(definition, form)
+    {
+        if (typeof this._element === 'function') {
+            return this._element(definition, form);
+        }
+        return this._element;
+    }
+
+    getName(definition, form)
+    {
+        return definition.name || null;
+    }
+
+    getItems(definition, form)
+    {
+        if (definition.items && Array.isArray(definition.items)) {
+            return definition.items;
+        }
+        return null;
+    }
+
+    getDisplay(definition, form)
+    {
+        return definition.display || {};
+    }
+
+    getConfig(definition, form)
+    {
+        return definition.config || {};
+    }
+
+    parse(definition, form)
+    {
+        definition = this.normalize(definition);
+
+        const data = {
+            id: ++ID_COUNTER,
+            name: this.getName(definition, form),
+            element: this.getElement(definition, form),
+            display: this.getDisplay(definition, form),
+            config: this.getConfig(definition, form),
+            items: this.getItems(definition, form)
+        };
+
+        return data;
+    }
+
+    normalize(definition)
+    {
+        let extra = Object.keys(definition).filter(v => ALLOWED_PROPERTIES.indexOf(v) === -1);
+
+        if (typeof definition.config !== 'object') {
+            definition.config = {};
+        }
+        if (typeof definition.display !== 'object') {
+            definition.display = {};
+        }
+
+        if (extra.length > 0) {
+            extra.map(prop => {
+                if (!definition.display.hasOwnProperty(prop)) {
+                    definition.display[prop] = definition[prop];
+                }
+            });
+        }
+
+        return definition;
+    }
+}
+
+class JsonFormDisplay
+{
+    constructor()
+    {
+        this._controls = {};
+    }
+
+    addElementControl(name, element)
+    {
+        return this.addControl(name, new JsonFormDisplayControl(element));
+    }
+
+    addControl(name, control)
+    {
+        this._controls[name] = control;
+        return this;
+    }
+
+    removeControl(name)
+    {
+        if (this.hasControl(name)) {
+            delete this._controls[name];
+        }
+        return this;
+    }
+
+    control(name)
+    {
+        if (!this.hasControl(name)) {
+            return null;
+        }
+        return this._controls[name];
+    }
+
+    hasControl(name)
+    {
+        return this._controls.hasOwnProperty(name);
+    }
+
+    controlTypes()
+    {
+        return Object.keys(this._controls);
+    }
+
+    parseControl(definition)
+    {
+        if (!definition.control) {
+            throw new Error("Control type is not specified");
+        }
+        let ctrl = definition.control;
+        if (!this.hasControl(ctrl)) {
+            if (definition.fallback && this.hasControl(definition.fallback)) {
+                ctrl = definition.fallback;
+            }
+        }
+        ctrl = this.control(ctrl);
+        if (ctrl == null) {
+            return null;
+        }
+        return ctrl.parse(definition, this);
+    }
+
+    parseControlList(definitions)
+    {
+        if (!Array.isArray(definitions)) {
+            return null;
+        }
+        return definitions.map(definition => this.parseControl(definition)).filter(item => item != null);
+    }
+}
+
+var JsonFormDisplay$1 = new JsonFormDisplay();
+
+var JsonFormDisplayElementMixin = {
+    props: {
+        model: {type: [Array, Object], required: true},
+        name: {type: [String, Number], required: false, default: null},
+        display: {type: Object, required: false, default: () => ({})},
+        config: {type: Object, required: false, default: () => ({})},
+        items: {type: Array, required: false, default: null},
+        files: {type: Object, default: null}
+    },
+    computed: {
+        hasName()
+        {
+            if (this.name === null) {
+                return false;
+            }
+            if (typeof this.name === 'number') {
+                return this.name >= 0 && isFinite(this.name);
+            }
+            return this.name !== '';
+        },
+        modelProxy()
+        {
+            return this.hasName ? this.model[this.name] : this.model;
+        }
+    }
+};
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var script$5 = {
+    props: {
+        title: {type: [String, Object], required: false},
+        value: {type: String, default: null},
+        link: {type: String, default: null}
+    }
+};
+
+/* script */
+            const __vue_script__$5 = script$5;
+            
+/* template */
+var __vue_render__$5 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[(_vm.title != null)?_c('span',{staticClass:"subheading font-weight-bold"},[_vm._v(_vm._s(_vm.$intl.translate(_vm.title))+": ")]):_vm._e(),_vm._v(" "),_vm._t("default",[(_vm.link == null)?_c('span',[_vm._v(_vm._s(_vm.value))]):_c('a',{attrs:{"href":_vm.link,"target":"_blank"}},[_vm._v(_vm._s(_vm.value))])])],2)};
+var __vue_staticRenderFns__$5 = [];
+
+  /* style */
+  const __vue_inject_styles__$5 = undefined;
+  /* scoped */
+  const __vue_scope_id__$5 = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$5 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$5 = false;
+  /* component normalizer */
+  function __vue_normalize__$5(
+    template, style, script,
+    scope, functional, moduleIdentifier,
+    createInjector, createInjectorSSR
+  ) {
+    const component = (typeof script === 'function' ? script.options : script) || {};
+
+    // For security concerns, we use only base name in production mode.
+    component.__file = "JsonFormDisplayItemWrapper.vue";
+
+    if (!component.render) {
+      component.render = template.render;
+      component.staticRenderFns = template.staticRenderFns;
+      component._compiled = true;
+
+      if (functional) component.functional = true;
+    }
+
+    component._scopeId = scope;
+
+    return component
+  }
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var JsonFormDisplayItemWrapper = __vue_normalize__$5(
+    { render: __vue_render__$5, staticRenderFns: __vue_staticRenderFns__$5 },
+    __vue_inject_styles__$5,
+    __vue_script__$5,
+    __vue_scope_id__$5,
+    __vue_is_functional_template__$5,
+    __vue_module_identifier__$5,
+    undefined,
+    undefined
+  );
+
+//
+
+var script$6 = {
+    components: {JsonFormDisplayItemWrapper},
+    mixins: [JsonFormDisplayElementMixin],
+    computed: {
+        value() {
+            const v = this.modelProxy;
+            if (v == null) {
+                return null;
+            }
+            return this.formatValue(v);
+        }
+    },
+    methods: {
+        formatValue(v) {
+            return v + '';
+        }
+    }
+};
+
+/* script */
+            const __vue_script__$6 = script$6;
+            
+/* template */
+var __vue_render__$6 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title,"value":_vm.value}})};
+var __vue_staticRenderFns__$6 = [];
+
+  /* style */
+  const __vue_inject_styles__$6 = undefined;
+  /* scoped */
+  const __vue_scope_id__$6 = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$6 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$6 = false;
+  /* component normalizer */
+  function __vue_normalize__$6(
+    template, style, script,
+    scope, functional, moduleIdentifier,
+    createInjector, createInjectorSSR
+  ) {
+    const component = (typeof script === 'function' ? script.options : script) || {};
+
+    // For security concerns, we use only base name in production mode.
+    component.__file = "text.vue";
+
+    if (!component.render) {
+      component.render = template.render;
+      component.staticRenderFns = template.staticRenderFns;
+      component._compiled = true;
+
+      if (functional) component.functional = true;
+    }
+
+    component._scopeId = scope;
+
+    return component
+  }
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var Text = __vue_normalize__$6(
+    { render: __vue_render__$6, staticRenderFns: __vue_staticRenderFns__$6 },
+    __vue_inject_styles__$6,
+    __vue_script__$6,
+    __vue_scope_id__$6,
+    __vue_is_functional_template__$6,
+    __vue_module_identifier__$6,
+    undefined,
+    undefined
+  );
+
+//
+
+var script$7 = {
+    components: {JsonFormDisplayItemWrapper},
+    mixins: [JsonFormDisplayElementMixin],
+    computed: {
+        value() {
+            const v = this.modelProxy;
+            if (v == null) {
+                return v;
+            }
+            return v + '';
+        }
+    }
+};
+
+/* script */
+            const __vue_script__$7 = script$7;
+            
+/* template */
+var __vue_render__$7 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title}},[_c('pre',[_vm._v(_vm._s(_vm.value))])])};
+var __vue_staticRenderFns__$7 = [];
+
+  /* style */
+  const __vue_inject_styles__$7 = undefined;
+  /* scoped */
+  const __vue_scope_id__$7 = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$7 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$7 = false;
+  /* component normalizer */
+  function __vue_normalize__$7(
+    template, style, script,
+    scope, functional, moduleIdentifier,
+    createInjector, createInjectorSSR
+  ) {
+    const component = (typeof script === 'function' ? script.options : script) || {};
+
+    // For security concerns, we use only base name in production mode.
+    component.__file = "textarea.vue";
+
+    if (!component.render) {
+      component.render = template.render;
+      component.staticRenderFns = template.staticRenderFns;
+      component._compiled = true;
+
+      if (functional) component.functional = true;
+    }
+
+    component._scopeId = scope;
+
+    return component
+  }
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var Textarea = __vue_normalize__$7(
+    { render: __vue_render__$7, staticRenderFns: __vue_staticRenderFns__$7 },
+    __vue_inject_styles__$7,
+    __vue_script__$7,
+    __vue_scope_id__$7,
+    __vue_is_functional_template__$7,
+    __vue_module_identifier__$7,
+    undefined,
+    undefined
+  );
+
+//
+
+var script$8 = {
+    components: {JsonFormDisplayItemWrapper},
+    mixins: [JsonFormDisplayElementMixin],
+    computed: {
+        value() {
+            const v = this.modelProxy;
+            if (v == null) {
+                return v;
+            }
+            return v + '';
+        },
+        link() {
+            const v = this.value;
+            if (v == null) {
+                return v;
+            }
+            return 'tel:'
+        }
+    }
+};
+
+/* script */
+            const __vue_script__$8 = script$8;
+            
+/* template */
+var __vue_render__$8 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title,"value":_vm.value,"link":_vm.link}})};
+var __vue_staticRenderFns__$8 = [];
+
+  /* style */
+  const __vue_inject_styles__$8 = undefined;
+  /* scoped */
+  const __vue_scope_id__$8 = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$8 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$8 = false;
+  /* component normalizer */
+  function __vue_normalize__$8(
+    template, style, script,
+    scope, functional, moduleIdentifier,
+    createInjector, createInjectorSSR
+  ) {
+    const component = (typeof script === 'function' ? script.options : script) || {};
+
+    // For security concerns, we use only base name in production mode.
+    component.__file = "tel.vue";
+
+    if (!component.render) {
+      component.render = template.render;
+      component.staticRenderFns = template.staticRenderFns;
+      component._compiled = true;
+
+      if (functional) component.functional = true;
+    }
+
+    component._scopeId = scope;
+
+    return component
+  }
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var Tel = __vue_normalize__$8(
+    { render: __vue_render__$8, staticRenderFns: __vue_staticRenderFns__$8 },
+    __vue_inject_styles__$8,
+    __vue_script__$8,
+    __vue_scope_id__$8,
+    __vue_is_functional_template__$8,
+    __vue_module_identifier__$8,
+    undefined,
+    undefined
+  );
+
+//
+
+var script$9 = {
+    components: {JsonFormDisplayItemWrapper},
+    mixins: [JsonFormDisplayElementMixin],
+    computed: {
+        value() {
+            const v = this.modelProxy;
+            if (v == null) {
+                return v;
+            }
+            return v + '';
+        },
+        link() {
+            const v = this.value;
+            if (v == null) {
+                return v;
+            }
+            return 'mailto:' + v;
+        }
+    }
+};
+
+/* script */
+            const __vue_script__$9 = script$9;
+            
+/* template */
+var __vue_render__$9 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title,"value":_vm.value,"link":_vm.link}})};
+var __vue_staticRenderFns__$9 = [];
+
+  /* style */
+  const __vue_inject_styles__$9 = undefined;
+  /* scoped */
+  const __vue_scope_id__$9 = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$9 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$9 = false;
+  /* component normalizer */
+  function __vue_normalize__$9(
+    template, style, script,
+    scope, functional, moduleIdentifier,
+    createInjector, createInjectorSSR
+  ) {
+    const component = (typeof script === 'function' ? script.options : script) || {};
+
+    // For security concerns, we use only base name in production mode.
+    component.__file = "email.vue";
+
+    if (!component.render) {
+      component.render = template.render;
+      component.staticRenderFns = template.staticRenderFns;
+      component._compiled = true;
+
+      if (functional) component.functional = true;
+    }
+
+    component._scopeId = scope;
+
+    return component
+  }
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var Email = __vue_normalize__$9(
+    { render: __vue_render__$9, staticRenderFns: __vue_staticRenderFns__$9 },
+    __vue_inject_styles__$9,
+    __vue_script__$9,
+    __vue_scope_id__$9,
+    __vue_is_functional_template__$9,
+    __vue_module_identifier__$9,
+    undefined,
+    undefined
+  );
+
+//
+
+var script$a = {
+    components: {JsonFormDisplayItemWrapper},
+    mixins: [JsonFormDisplayElementMixin],
+    computed: {
+        value() {
+            const v = this.modelProxy;
+            if (v == null) {
+                return v;
+            }
+            return v + '';
+        }
+    }
+};
+
+/* script */
+            const __vue_script__$a = script$a;
+            
+/* template */
+var __vue_render__$a = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title,"value":_vm.value,"link":_vm.value}})};
+var __vue_staticRenderFns__$a = [];
+
+  /* style */
+  const __vue_inject_styles__$a = undefined;
+  /* scoped */
+  const __vue_scope_id__$a = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$a = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$a = false;
+  /* component normalizer */
+  function __vue_normalize__$a(
+    template, style, script,
+    scope, functional, moduleIdentifier,
+    createInjector, createInjectorSSR
+  ) {
+    const component = (typeof script === 'function' ? script.options : script) || {};
+
+    // For security concerns, we use only base name in production mode.
+    component.__file = "url.vue";
+
+    if (!component.render) {
+      component.render = template.render;
+      component.staticRenderFns = template.staticRenderFns;
+      component._compiled = true;
+
+      if (functional) component.functional = true;
+    }
+
+    component._scopeId = scope;
+
+    return component
+  }
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var Url = __vue_normalize__$a(
+    { render: __vue_render__$a, staticRenderFns: __vue_staticRenderFns__$a },
+    __vue_inject_styles__$a,
+    __vue_script__$a,
+    __vue_scope_id__$a,
+    __vue_is_functional_template__$a,
+    __vue_module_identifier__$a,
+    undefined,
+    undefined
+  );
+
+//
+
+var script$b = {
+    components: {JsonFormDisplayItemWrapper},
+    mixins: [JsonFormDisplayElementMixin],
+    computed: {
+        title() {
+            if (this.display.title){
+                return this.display.title;
+            }
+            if (this.name) {
+                return '(' + this.name + ')';
+            }
+        },
+        value() {
+            const v = this.modelProxy;
+            if (v == null) {
+                return v;
+            }
+            return v + '';
+        }
+    }
+};
+
+/* script */
+            const __vue_script__$b = script$b;
+            
+/* template */
+var __vue_render__$b = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title,"value":_vm.value}})};
+var __vue_staticRenderFns__$b = [];
+
+  /* style */
+  const __vue_inject_styles__$b = undefined;
+  /* scoped */
+  const __vue_scope_id__$b = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$b = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$b = false;
+  /* component normalizer */
+  function __vue_normalize__$b(
+    template, style, script,
+    scope, functional, moduleIdentifier,
+    createInjector, createInjectorSSR
+  ) {
+    const component = (typeof script === 'function' ? script.options : script) || {};
+
+    // For security concerns, we use only base name in production mode.
+    component.__file = "hidden.vue";
+
+    if (!component.render) {
+      component.render = template.render;
+      component.staticRenderFns = template.staticRenderFns;
+      component._compiled = true;
+
+      if (functional) component.functional = true;
+    }
+
+    component._scopeId = scope;
+
+    return component
+  }
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var Hidden = __vue_normalize__$b(
+    { render: __vue_render__$b, staticRenderFns: __vue_staticRenderFns__$b },
+    __vue_inject_styles__$b,
+    __vue_script__$b,
+    __vue_scope_id__$b,
+    __vue_is_functional_template__$b,
+    __vue_module_identifier__$b,
+    undefined,
+    undefined
+  );
+
+//
+
+var script$c = {
+    components: {JsonFormDisplayItemWrapper},
+    mixins: [JsonFormDisplayElementMixin],
+    computed: {
+        value() {
+            const v = this.modelProxy;
+            if (v == null) {
+                return v;
+            }
+            return v + '';
+        }
+    }
+};
+
+/* script */
+            const __vue_script__$c = script$c;
+            
+/* template */
+var __vue_render__$c = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title}},[_c('span',[_vm._v(_vm._s(_vm.value))]),_vm._v(" "),_c('div',{style:({display: 'inline-block', width: '24px', height: '24px', backgroundColor: _vm.value})})])};
+var __vue_staticRenderFns__$c = [];
+
+  /* style */
+  const __vue_inject_styles__$c = undefined;
+  /* scoped */
+  const __vue_scope_id__$c = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$c = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$c = false;
+  /* component normalizer */
+  function __vue_normalize__$c(
+    template, style, script,
+    scope, functional, moduleIdentifier,
+    createInjector, createInjectorSSR
+  ) {
+    const component = (typeof script === 'function' ? script.options : script) || {};
+
+    // For security concerns, we use only base name in production mode.
+    component.__file = "color.vue";
+
+    if (!component.render) {
+      component.render = template.render;
+      component.staticRenderFns = template.staticRenderFns;
+      component._compiled = true;
+
+      if (functional) component.functional = true;
+    }
+
+    component._scopeId = scope;
+
+    return component
+  }
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var Color = __vue_normalize__$c(
+    { render: __vue_render__$c, staticRenderFns: __vue_staticRenderFns__$c },
+    __vue_inject_styles__$c,
+    __vue_script__$c,
+    __vue_scope_id__$c,
+    __vue_is_functional_template__$c,
+    __vue_module_identifier__$c,
+    undefined,
+    undefined
+  );
+
+//
+
+var script$d = {
+    components: {JsonFormDisplayItemWrapper},
+    mixins: [JsonFormDisplayElementMixin],
+    computed: {
+        value() {
+            const v = this.modelProxy;
+            if (v == null) {
+                return v;
+            }
+            return v + '';
+        }
+    }
+};
+
+/* script */
+            const __vue_script__$d = script$d;
+            
+/* template */
+var __vue_render__$d = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title}},[(!_vm.config.multiple)?_c('span',[_vm._v(_vm._s(_vm.value))]):(_vm.modelProxy != null)?_c('div',_vm._l((_vm.modelProxy),function(item,index){return _c('v-chip',{key:index},[_vm._v(_vm._s(item))])})):_vm._e()])};
+var __vue_staticRenderFns__$d = [];
+
+  /* style */
+  const __vue_inject_styles__$d = undefined;
+  /* scoped */
+  const __vue_scope_id__$d = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$d = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$d = false;
+  /* component normalizer */
+  function __vue_normalize__$d(
+    template, style, script,
+    scope, functional, moduleIdentifier,
+    createInjector, createInjectorSSR
+  ) {
+    const component = (typeof script === 'function' ? script.options : script) || {};
+
+    // For security concerns, we use only base name in production mode.
+    component.__file = "combobox.vue";
+
+    if (!component.render) {
+      component.render = template.render;
+      component.staticRenderFns = template.staticRenderFns;
+      component._compiled = true;
+
+      if (functional) component.functional = true;
+    }
+
+    component._scopeId = scope;
+
+    return component
+  }
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var Combobox = __vue_normalize__$d(
+    { render: __vue_render__$d, staticRenderFns: __vue_staticRenderFns__$d },
+    __vue_inject_styles__$d,
+    __vue_script__$d,
+    __vue_scope_id__$d,
+    __vue_is_functional_template__$d,
+    __vue_module_identifier__$d,
+    undefined,
+    undefined
+  );
+
+//
+
+var script$e = {
+    components: {JsonFormDisplayItemWrapper},
+    mixins: [JsonFormDisplayElementMixin]
+};
+
+/* script */
+            const __vue_script__$e = script$e;
+            
+/* template */
+var __vue_render__$e = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title}},[(_vm.modelProxy != null)?_c('div',_vm._l((_vm.modelProxy),function(item,index){return _c('v-chip',{key:index},[_vm._v(_vm._s(item))])})):_vm._e()])};
+var __vue_staticRenderFns__$e = [];
+
+  /* style */
+  const __vue_inject_styles__$e = undefined;
+  /* scoped */
+  const __vue_scope_id__$e = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$e = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$e = false;
+  /* component normalizer */
+  function __vue_normalize__$e(
+    template, style, script,
+    scope, functional, moduleIdentifier,
+    createInjector, createInjectorSSR
+  ) {
+    const component = (typeof script === 'function' ? script.options : script) || {};
+
+    // For security concerns, we use only base name in production mode.
+    component.__file = "chips.vue";
+
+    if (!component.render) {
+      component.render = template.render;
+      component.staticRenderFns = template.staticRenderFns;
+      component._compiled = true;
+
+      if (functional) component.functional = true;
+    }
+
+    component._scopeId = scope;
+
+    return component
+  }
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var Chips = __vue_normalize__$e(
+    { render: __vue_render__$e, staticRenderFns: __vue_staticRenderFns__$e },
+    __vue_inject_styles__$e,
+    __vue_script__$e,
+    __vue_scope_id__$e,
+    __vue_is_functional_template__$e,
+    __vue_module_identifier__$e,
+    undefined,
+    undefined
+  );
+
+//
+
+var script$f = {
+    components: {JsonFormDisplayItemWrapper},
+    mixins: [JsonFormDisplayElementMixin],
+    computed: {
+        value() {
+            const v = this.modelProxy;
+            if (v == null) {
+                return v;
+            }
+            if (Array.isArray(v)) {
+                return v.map(file => this.files[file] || null).filter(file => file != null);
+            }
+            return this.files.hasOwnProperty(v) ? [v] : null;
+        }
+    }
+};
+
+/* script */
+            const __vue_script__$f = script$f;
+            
+/* template */
+var __vue_render__$f = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title}},[(_vm.value != null)?_vm._l((_vm.value),function(file,index){return _c('div',{key:index},[_vm._v(_vm._s(file.name)+" ("+_vm._s(file.size)+" bytes) ("+_vm._s(file.type)+")")])}):_vm._e()],2)};
+var __vue_staticRenderFns__$f = [];
+
+  /* style */
+  const __vue_inject_styles__$f = undefined;
+  /* scoped */
+  const __vue_scope_id__$f = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$f = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$f = false;
+  /* component normalizer */
+  function __vue_normalize__$f(
+    template, style, script,
+    scope, functional, moduleIdentifier,
+    createInjector, createInjectorSSR
+  ) {
+    const component = (typeof script === 'function' ? script.options : script) || {};
+
+    // For security concerns, we use only base name in production mode.
+    component.__file = "file.vue";
+
+    if (!component.render) {
+      component.render = template.render;
+      component.staticRenderFns = template.staticRenderFns;
+      component._compiled = true;
+
+      if (functional) component.functional = true;
+    }
+
+    component._scopeId = scope;
+
+    return component
+  }
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var File = __vue_normalize__$f(
+    { render: __vue_render__$f, staticRenderFns: __vue_staticRenderFns__$f },
+    __vue_inject_styles__$f,
+    __vue_script__$f,
+    __vue_scope_id__$f,
+    __vue_is_functional_template__$f,
+    __vue_module_identifier__$f,
+    undefined,
+    undefined
+  );
+
+//
+
+var script$g = {
+    components: {JsonFormDisplayItemWrapper},
+    mixins: [JsonFormDisplayElementMixin]
+};
+
+/* script */
+            const __vue_script__$g = script$g;
+            
+/* template */
+var __vue_render__$g = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title}},[_c('v-icon',{attrs:{"small":"","color":_vm.modelProxy ? 'green' : 'red'}},[_vm._v(_vm._s(_vm.modelProxy ? 'check' : 'clear'))])],1)};
+var __vue_staticRenderFns__$g = [];
+
+  /* style */
+  const __vue_inject_styles__$g = undefined;
+  /* scoped */
+  const __vue_scope_id__$g = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$g = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$g = false;
+  /* component normalizer */
+  function __vue_normalize__$g(
+    template, style, script,
+    scope, functional, moduleIdentifier,
+    createInjector, createInjectorSSR
+  ) {
+    const component = (typeof script === 'function' ? script.options : script) || {};
+
+    // For security concerns, we use only base name in production mode.
+    component.__file = "checkbox.vue";
+
+    if (!component.render) {
+      component.render = template.render;
+      component.staticRenderFns = template.staticRenderFns;
+      component._compiled = true;
+
+      if (functional) component.functional = true;
+    }
+
+    component._scopeId = scope;
+
+    return component
+  }
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var Checkbox = __vue_normalize__$g(
+    { render: __vue_render__$g, staticRenderFns: __vue_staticRenderFns__$g },
+    __vue_inject_styles__$g,
+    __vue_script__$g,
+    __vue_scope_id__$g,
+    __vue_is_functional_template__$g,
+    __vue_module_identifier__$g,
+    undefined,
+    undefined
+  );
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var script$h = {
+    name: 'json-form-display-element',
+    props: {
+        control: {type: Object, required: true},
+        model: {type: [Object, Array], required: false},
+        files: {type: Object, default: null}
+    }
+};
+
+/* script */
+            const __vue_script__$h = script$h;
+            
+/* template */
+var __vue_render__$h = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.control.element != null)?_c(_vm.control.element,{tag:"component",attrs:{"model":_vm.model,"files":_vm.files,"name":_vm.control.name || null,"display":_vm.control.display || {},"config":_vm.control.config || {},"items":_vm.control.items || null}}):_vm._e()};
+var __vue_staticRenderFns__$h = [];
+
+  /* style */
+  const __vue_inject_styles__$h = undefined;
+  /* scoped */
+  const __vue_scope_id__$h = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$h = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$h = false;
+  /* component normalizer */
+  function __vue_normalize__$h(
+    template, style, script,
+    scope, functional, moduleIdentifier,
+    createInjector, createInjectorSSR
+  ) {
+    const component = (typeof script === 'function' ? script.options : script) || {};
+
+    // For security concerns, we use only base name in production mode.
+    component.__file = "JsonFormDisplayElement.vue";
+
+    if (!component.render) {
+      component.render = template.render;
+      component.staticRenderFns = template.staticRenderFns;
+      component._compiled = true;
+
+      if (functional) component.functional = true;
+    }
+
+    component._scopeId = scope;
+
+    return component
+  }
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var JsonFormDisplayElement = __vue_normalize__$h(
+    { render: __vue_render__$h, staticRenderFns: __vue_staticRenderFns__$h },
+    __vue_inject_styles__$h,
+    __vue_script__$h,
+    __vue_scope_id__$h,
+    __vue_is_functional_template__$h,
+    __vue_module_identifier__$h,
+    undefined,
+    undefined
+  );
+
+//
+
+var script$i = {
+    name: 'json-form-display-group',
+    components: {JsonFormDisplayElement},
+    props: {
+        items: {type: Array, required: false},
+        model: {type: [Object, Array], default: null},
+        name: {type: [String, Number], required: false, default: null},
+        files: {type: Object, default: null}
+    },
+    computed: {
+        hasName()
+        {
+            return this.name != null && this.name !== '';
+        },
+        modelProxy()
+        {
+            if (this.model == null) {
+                return null;
+            }
+            return this.hasName ? this.model[this.name] : this.model;
+        }
+    }
+};
+
+/* script */
+            const __vue_script__$i = script$i;
+            
+/* template */
+var __vue_render__$i = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.modelProxy != null && _vm.items != null && _vm.items.length> 0)?_c('div',{staticClass:"json-form-display-group"},_vm._l((_vm.items),function(control){return _c('json-form-display-element',{key:control.id || _vm.$uniqueObjectId(control),attrs:{"model":_vm.modelProxy,"files":_vm.files,"control":control}})})):_vm._e()};
+var __vue_staticRenderFns__$i = [];
+
+  /* style */
+  const __vue_inject_styles__$i = undefined;
+  /* scoped */
+  const __vue_scope_id__$i = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$i = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$i = false;
+  /* component normalizer */
+  function __vue_normalize__$i(
+    template, style, script,
+    scope, functional, moduleIdentifier,
+    createInjector, createInjectorSSR
+  ) {
+    const component = (typeof script === 'function' ? script.options : script) || {};
+
+    // For security concerns, we use only base name in production mode.
+    component.__file = "JsonFormDisplayGroup.vue";
+
+    if (!component.render) {
+      component.render = template.render;
+      component.staticRenderFns = template.staticRenderFns;
+      component._compiled = true;
+
+      if (functional) component.functional = true;
+    }
+
+    component._scopeId = scope;
+
+    return component
+  }
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var JsonFormDisplayGroup = __vue_normalize__$i(
+    { render: __vue_render__$i, staticRenderFns: __vue_staticRenderFns__$i },
+    __vue_inject_styles__$i,
+    __vue_script__$i,
+    __vue_scope_id__$i,
+    __vue_is_functional_template__$i,
+    __vue_module_identifier__$i,
+    undefined,
+    undefined
+  );
+
+//
+
+var script$j = {
+    components: {JsonFormDisplayGroup},
+    mixins: [JsonFormDisplayElementMixin],
+    computed: {
+        groupItems() {
+            if (this.items == null) {
+                return null;
+            }
+            return JsonFormDisplay$1.parseControlList(this.items);
+        }
+    }
+};
+
+/* script */
+            const __vue_script__$j = script$j;
+            
+/* template */
+var __vue_render__$j = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.modelProxy != null)?_c('div',[(_vm.display.title != null)?_c('div',{staticClass:"font-weight-bold"},[_vm._v("\n        "+_vm._s(_vm.$intl.translate(_vm.display.title))+"\n    ")]):_vm._e(),_vm._v(" "),_c('json-form-display-group',{attrs:{"files":_vm.files,"items":_vm.groupItems,"model":_vm.model,"name":_vm.name}})],1):_vm._e()};
+var __vue_staticRenderFns__$j = [];
+
+  /* style */
+  const __vue_inject_styles__$j = undefined;
+  /* scoped */
+  const __vue_scope_id__$j = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$j = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$j = false;
+  /* component normalizer */
+  function __vue_normalize__$j(
+    template, style, script,
+    scope, functional, moduleIdentifier,
+    createInjector, createInjectorSSR
+  ) {
+    const component = (typeof script === 'function' ? script.options : script) || {};
+
+    // For security concerns, we use only base name in production mode.
+    component.__file = "group.vue";
+
+    if (!component.render) {
+      component.render = template.render;
+      component.staticRenderFns = template.staticRenderFns;
+      component._compiled = true;
+
+      if (functional) component.functional = true;
+    }
+
+    component._scopeId = scope;
+
+    return component
+  }
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var Group = __vue_normalize__$j(
+    { render: __vue_render__$j, staticRenderFns: __vue_staticRenderFns__$j },
+    __vue_inject_styles__$j,
+    __vue_script__$j,
+    __vue_scope_id__$j,
+    __vue_is_functional_template__$j,
+    __vue_module_identifier__$j,
+    undefined,
+    undefined
+  );
+
+//
+
+var script$k = {
+    components: {JsonFormDisplayGroup},
+    mixins: [JsonFormDisplayElementMixin],
+    computed: {
+        tabs()
+        {
+            if (this.items == null) {
+                return null;
+            }
+            return this.items.map(item => {
+                return {
+                    title: item.title || (item.display ? item.display.title : null),
+                    name: item.name || null,
+                    items: JsonFormDisplay$1.parseControlList(item.items)
+                };
+            });
+        }
+    }
+};
+
+/* script */
+            const __vue_script__$k = script$k;
+            
+/* template */
+var __vue_render__$k = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.modelProxy != null)?_c('v-tabs',[_vm._l((_vm.tabs),function(tab){return [_c('v-tab',{key:_vm.$uniqueObjectId(tab) + 'h'},[_vm._v(_vm._s(_vm.$intl.translate(tab.title)))]),_vm._v(" "),_c('v-tab-item',{key:_vm.$uniqueObjectId(tab) + 'c'},[_c('json-form-display-group',{attrs:{"files":_vm.files,"items":tab.items,"model":_vm.name == null ? _vm.model : _vm.modelProxy,"name":tab.name}})],1)]})],2):_vm._e()};
+var __vue_staticRenderFns__$k = [];
+
+  /* style */
+  const __vue_inject_styles__$k = undefined;
+  /* scoped */
+  const __vue_scope_id__$k = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$k = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$k = false;
+  /* component normalizer */
+  function __vue_normalize__$k(
+    template, style, script,
+    scope, functional, moduleIdentifier,
+    createInjector, createInjectorSSR
+  ) {
+    const component = (typeof script === 'function' ? script.options : script) || {};
+
+    // For security concerns, we use only base name in production mode.
+    component.__file = "tabs.vue";
+
+    if (!component.render) {
+      component.render = template.render;
+      component.staticRenderFns = template.staticRenderFns;
+      component._compiled = true;
+
+      if (functional) component.functional = true;
+    }
+
+    component._scopeId = scope;
+
+    return component
+  }
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var Tabs = __vue_normalize__$k(
+    { render: __vue_render__$k, staticRenderFns: __vue_staticRenderFns__$k },
+    __vue_inject_styles__$k,
+    __vue_script__$k,
+    __vue_scope_id__$k,
+    __vue_is_functional_template__$k,
+    __vue_module_identifier__$k,
+    undefined,
+    undefined
+  );
+
+//
+
+var script$l = {
+    components: {JsonFormDisplayItemWrapper},
+    mixins: [JsonFormDisplayElementMixin],
+    computed: {
+        value()
+        {
+            let v = this.modelProxy;
+            if (v === undefined) {
+                v = null;
+            }
+            const items = this.items;
+            if (items == null) {
+                return null;
+            }
+
+            return this.findValue(v, items);
+        },
+        isMultiple()
+        {
+            return !!this.config.multiple;
+        },
+        isGrouped()
+        {
+            return false;
+        }
+    },
+    methods: {
+        findValue(v, items)
+        {
+            if (this.isMultiple) {
+                if (!Array.isArray(v)) {
+                    return null;
+                }
+                return v
+                    .map(item => this.formatItem(this.findItem(item, items)))
+                    .filter(item => item != null);
+            }
+
+            v = this.formatItem(this.findItem(v, items));
+            if (v == null) {
+                return null;
+            }
+            return [v];
+        },
+        findItem(v, items)
+        {
+            if (this.isGrouped) {
+                for (let i = 0; i < items.length; i++) {
+                    if (items[i] && Array.isArray(items[i].items)) {
+                        const f = items[i].items.find(item => this.$equals(v, item.value));
+                        if (f !== undefined) {
+                            return f;
+                        }
+                    }
+                }
+                return null;
+            }
+            return items.find(item => this.$equals(v, item.value));
+        },
+        formatItem(item)
+        {
+            if (item == null) {
+                return null;
+            }
+            return item.title || item.value || null;
+        }
+    }
+};
+
+/* script */
+            const __vue_script__$l = script$l;
+            
+/* template */
+var __vue_render__$l = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.value != null && _vm.value.length > 0)?_c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title}},_vm._l((_vm.value),function(item,index){return _c('v-chip',{key:index},[_vm._v(_vm._s(item))])})):_vm._e()};
+var __vue_staticRenderFns__$l = [];
+
+  /* style */
+  const __vue_inject_styles__$l = undefined;
+  /* scoped */
+  const __vue_scope_id__$l = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$l = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$l = false;
+  /* component normalizer */
+  function __vue_normalize__$l(
+    template, style, script,
+    scope, functional, moduleIdentifier,
+    createInjector, createInjectorSSR
+  ) {
+    const component = (typeof script === 'function' ? script.options : script) || {};
+
+    // For security concerns, we use only base name in production mode.
+    component.__file = "select.vue";
+
+    if (!component.render) {
+      component.render = template.render;
+      component.staticRenderFns = template.staticRenderFns;
+      component._compiled = true;
+
+      if (functional) component.functional = true;
+    }
+
+    component._scopeId = scope;
+
+    return component
+  }
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var Select = __vue_normalize__$l(
+    { render: __vue_render__$l, staticRenderFns: __vue_staticRenderFns__$l },
+    __vue_inject_styles__$l,
+    __vue_script__$l,
+    __vue_scope_id__$l,
+    __vue_is_functional_template__$l,
+    __vue_module_identifier__$l,
+    undefined,
+    undefined
+  );
+
+//
+
+var script$m = {
+    components: {JsonFormDisplayGroup},
+    mixins: [JsonFormDisplayElementMixin],
+    computed: {
+        variantField()
+        {
+            return this.config.variantField || 'variant_name';
+        },
+        variantName()
+        {
+            if (!this.modelProxy) {
+                return null;
+            }
+            return this.modelProxy[this.variantField] || null;
+        },
+        variant()
+        {
+            if (!this.items) {
+                return null;
+            }
+            const vName = this.variantName;
+            let variant = this.items.find(item => item.name === vName);
+            if (!variant) {
+                return null;
+            }
+
+            return {
+                title: variant.title || null,
+                name: variant.name || null,
+                items: JsonFormDisplay$1.parseControlList(variant.items)
+            };
+        }
+    }
+};
+
+/* script */
+            const __vue_script__$m = script$m;
+            
+/* template */
+var __vue_render__$m = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.variant != null)?_c('v-card',{attrs:{"flat":""}},[_c('v-card-title',[_c('div',[_c('div',{staticClass:"headline"},[_vm._v(_vm._s(_vm.$intl.translate(_vm.display.title)))]),_vm._v(" "),(_vm.variant.title != null)?_c('span',{staticClass:"grey--text"},[_vm._v(_vm._s(_vm.$intl.translate(_vm.variant.title)))]):_vm._e()])]),_vm._v(" "),_c('v-card-text',{staticClass:"pt-0"},[_c('json-form-display-group',{attrs:{"files":_vm.files,"items":_vm.variant.items,"model":_vm.modelProxy}})],1)],1):_vm._e()};
+var __vue_staticRenderFns__$m = [];
+
+  /* style */
+  const __vue_inject_styles__$m = undefined;
+  /* scoped */
+  const __vue_scope_id__$m = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$m = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$m = false;
+  /* component normalizer */
+  function __vue_normalize__$m(
+    template, style, script,
+    scope, functional, moduleIdentifier,
+    createInjector, createInjectorSSR
+  ) {
+    const component = (typeof script === 'function' ? script.options : script) || {};
+
+    // For security concerns, we use only base name in production mode.
+    component.__file = "variant.vue";
+
+    if (!component.render) {
+      component.render = template.render;
+      component.staticRenderFns = template.staticRenderFns;
+      component._compiled = true;
+
+      if (functional) component.functional = true;
+    }
+
+    component._scopeId = scope;
+
+    return component
+  }
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var Variant = __vue_normalize__$m(
+    { render: __vue_render__$m, staticRenderFns: __vue_staticRenderFns__$m },
+    __vue_inject_styles__$m,
+    __vue_script__$m,
+    __vue_scope_id__$m,
+    __vue_is_functional_template__$m,
+    __vue_module_identifier__$m,
+    undefined,
+    undefined
+  );
+
+//
+
+var script$n = {
+    components: {JsonFormDisplayGroup},
+    mixins: [JsonFormDisplayElementMixin],
+    computed: {
+        repeatItems() {
+            if (this.items == null) {
+                return null;
+            }
+            return JsonFormDisplay$1.parseControlList(this.items);
+        }
+    }
+};
+
+/* script */
+            const __vue_script__$n = script$n;
+            
+/* template */
+var __vue_render__$n = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.modelProxy != null && _vm.modelProxy.length > 0 && _vm.repeatItems != null && _vm.repeatItems.length > 0)?_c('v-card',{attrs:{"flat":""}},[_c('v-card-title',[_c('div',{staticClass:"headline"},[_vm._v(_vm._s(_vm.$intl.translate(_vm.display.title)))])]),_vm._v(" "),_c('v-card-text',{staticClass:"pt-0"},[_vm._l((_vm.modelProxy),function(model,index){return [(index !== 0)?_c('v-divider'):_vm._e(),_vm._v(" "),_c('json-form-display-group',{attrs:{"files":_vm.files,"items":_vm.repeatItems,"model":model}})]})],2)],1):_vm._e()};
+var __vue_staticRenderFns__$n = [];
+
+  /* style */
+  const __vue_inject_styles__$n = undefined;
+  /* scoped */
+  const __vue_scope_id__$n = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$n = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$n = false;
+  /* component normalizer */
+  function __vue_normalize__$n(
+    template, style, script,
+    scope, functional, moduleIdentifier,
+    createInjector, createInjectorSSR
+  ) {
+    const component = (typeof script === 'function' ? script.options : script) || {};
+
+    // For security concerns, we use only base name in production mode.
+    component.__file = "repeat.vue";
+
+    if (!component.render) {
+      component.render = template.render;
+      component.staticRenderFns = template.staticRenderFns;
+      component._compiled = true;
+
+      if (functional) component.functional = true;
+    }
+
+    component._scopeId = scope;
+
+    return component
+  }
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var Repeat = __vue_normalize__$n(
+    { render: __vue_render__$n, staticRenderFns: __vue_staticRenderFns__$n },
+    __vue_inject_styles__$n,
+    __vue_script__$n,
+    __vue_scope_id__$n,
+    __vue_is_functional_template__$n,
+    __vue_module_identifier__$n,
+    undefined,
+    undefined
+  );
+
+//
+
+var script$o = {
+    components: {JsonFormDisplayGroup},
+    mixins: [JsonFormDisplayElementMixin],
+    computed: {
+        variantField()
+        {
+            return this.config.variantField || 'variant_name';
+        },
+        variants()
+        {
+
+            if (!this.items) {
+                return null;
+            }
+
+            const variants = {};
+            this.items.map(item => {
+               variants[item.name] = {
+                   title: item.title || null,
+                   name: item.name,
+                   items: JsonFormDisplay$1.parseControlList(item.items),
+               };
+            });
+            return variants;
+        }
+    }
+};
+
+/* script */
+            const __vue_script__$o = script$o;
+            
+/* template */
+var __vue_render__$o = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.modelProxy != null)?_c('v-card',{attrs:{"flat":""}},[_c('v-card-title',[_c('div',{staticClass:"headline"},[_vm._v(_vm._s(_vm.$intl.translate(_vm.display.title)))])]),_vm._v(" "),_c('v-card-text',{staticClass:"pt-0"},[_vm._l((_vm.modelProxy),function(model,index){return [(index !== 0)?_c('v-divider'):_vm._e(),_vm._v(" "),_c('div',{staticClass:"grey--text"},[_vm._v(_vm._s(index + 1)+". "+_vm._s(_vm.$intl.translate(_vm.variants[model[_vm.variantField]].title)))]),_vm._v(" "),_c('json-form-display-group',{attrs:{"files":_vm.files,"items":_vm.variants[model[_vm.variantField]].items,"model":model}})]})],2)],1):_vm._e()};
+var __vue_staticRenderFns__$o = [];
+
+  /* style */
+  const __vue_inject_styles__$o = undefined;
+  /* scoped */
+  const __vue_scope_id__$o = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$o = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$o = false;
+  /* component normalizer */
+  function __vue_normalize__$o(
+    template, style, script,
+    scope, functional, moduleIdentifier,
+    createInjector, createInjectorSSR
+  ) {
+    const component = (typeof script === 'function' ? script.options : script) || {};
+
+    // For security concerns, we use only base name in production mode.
+    component.__file = "repeat-variants.vue";
+
+    if (!component.render) {
+      component.render = template.render;
+      component.staticRenderFns = template.staticRenderFns;
+      component._compiled = true;
+
+      if (functional) component.functional = true;
+    }
+
+    component._scopeId = scope;
+
+    return component
+  }
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var RepeatVariants = __vue_normalize__$o(
+    { render: __vue_render__$o, staticRenderFns: __vue_staticRenderFns__$o },
+    __vue_inject_styles__$o,
+    __vue_script__$o,
+    __vue_scope_id__$o,
+    __vue_is_functional_template__$o,
+    __vue_module_identifier__$o,
+    undefined,
+    undefined
+  );
+
+//
+
+var script$p = {
+    components: {JsonFormDisplayGroup},
+    mixins: [JsonFormDisplayElementMixin],
+    computed: {
+        hasItems() {
+            const regions = this.regions;
+            if (regions === null || this.modelProxy == null || this.repeatItems == null || this.repeatItems.length === 0) {
+                return false;
+            }
+            for (let i = 0; i < regions.length; i++) {
+                if (regions[i] && regions[i].name && this.modelProxy[regions[i].name] && this.modelProxy[regions[i].name].length > 0) {
+                    return true
+                }
+            }
+            return false;
+        },
+        regions() {
+            if (!this.config.regions) {
+                return null;
+            }
+            return this.config.regions;
+        },
+        repeatItems() {
+            if (this.items == null) {
+                return null;
+            }
+            return JsonFormDisplay$1.parseControlList(this.items);
+        }
+    }
+};
+
+/* script */
+            const __vue_script__$p = script$p;
+            
+/* template */
+var __vue_render__$p = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.hasItems)?_c('v-card',{attrs:{"flat":""}},[_c('v-card-title',[_c('div',{staticClass:"headline"},[_vm._v(_vm._s(_vm.$intl.translate(_vm.display.title)))])]),_vm._v(" "),_vm._l((_vm.regions),function(region){return _c('v-card-text',{key:region.name,staticClass:"pt-0"},[(_vm.modelProxy[region.name] && _vm.modelProxy[region.name].length > 0)?[_c('div',{staticClass:"subheading"},[_vm._v(_vm._s(_vm.$intl.translate(region.title)))]),_vm._v(" "),_vm._l((_vm.modelProxy[region.name]),function(model,index){return [(index !== 0)?_c('v-divider'):_vm._e(),_vm._v(" "),_c('json-form-display-group',{attrs:{"files":_vm.files,"items":_vm.repeatItems,"model":model}})]})]:_vm._e()],2)})],2):_vm._e()};
+var __vue_staticRenderFns__$p = [];
+
+  /* style */
+  const __vue_inject_styles__$p = undefined;
+  /* scoped */
+  const __vue_scope_id__$p = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$p = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$p = false;
+  /* component normalizer */
+  function __vue_normalize__$p(
+    template, style, script,
+    scope, functional, moduleIdentifier,
+    createInjector, createInjectorSSR
+  ) {
+    const component = (typeof script === 'function' ? script.options : script) || {};
+
+    // For security concerns, we use only base name in production mode.
+    component.__file = "group-repeat.vue";
+
+    if (!component.render) {
+      component.render = template.render;
+      component.staticRenderFns = template.staticRenderFns;
+      component._compiled = true;
+
+      if (functional) component.functional = true;
+    }
+
+    component._scopeId = scope;
+
+    return component
+  }
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var GroupRepeat = __vue_normalize__$p(
+    { render: __vue_render__$p, staticRenderFns: __vue_staticRenderFns__$p },
+    __vue_inject_styles__$p,
+    __vue_script__$p,
+    __vue_scope_id__$p,
+    __vue_is_functional_template__$p,
+    __vue_module_identifier__$p,
+    undefined,
+    undefined
+  );
+
+//
+
+var script$q = {
+    components: {JsonFormDisplayGroup},
+    mixins: [JsonFormDisplayElementMixin],
+    computed: {
+        hasItems() {
+            const regions = this.regions;
+            if (regions === null || this.modelProxy == null) {
+                return false;
+            }
+            for (let i = 0; i < regions.length; i++) {
+                if (regions[i] && regions[i].name && this.modelProxy[regions[i].name] && this.modelProxy[regions[i].name].length > 0) {
+                    return true
+                }
+            }
+            return false;
+        },
+        regions() {
+            if (!this.config.regions) {
+                return null;
+            }
+            return this.config.regions;
+        },
+        variantField()
+        {
+            return this.config.variantField || 'variant_name';
+        },
+        variants()
+        {
+
+            if (!this.items) {
+                return null;
+            }
+
+            const variants = {};
+            this.items.map(item => {
+               variants[item.name] = {
+                   title: item.title || null,
+                   name: item.name,
+                   items: JsonFormDisplay$1.parseControlList(item.items),
+               };
+            });
+            return variants;
+        }
+    }
+};
+
+/* script */
+            const __vue_script__$q = script$q;
+            
+/* template */
+var __vue_render__$q = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.hasItems)?_c('v-card',{attrs:{"flat":""}},[_c('v-card-title',[_c('div',{staticClass:"headline"},[_vm._v(_vm._s(_vm.$intl.translate(_vm.display.title)))])]),_vm._v(" "),_vm._l((_vm.regions),function(region){return _c('v-card-text',{key:region.name,staticClass:"pt-0"},[(_vm.modelProxy[region.name] && _vm.modelProxy[region.name].length > 0)?[_c('div',{staticClass:"subheading"},[_vm._v(_vm._s(_vm.$intl.translate(region.title)))]),_vm._v(" "),_vm._l((_vm.modelProxy[region.name]),function(model,index){return [(index !== 0)?_c('v-divider'):_vm._e(),_vm._v(" "),_c('div',{staticClass:"grey--text"},[_vm._v(_vm._s(index + 1)+". "+_vm._s(_vm.$intl.translate(_vm.variants[model[_vm.variantField]].title)))]),_vm._v(" "),_c('json-form-display-group',{attrs:{"files":_vm.files,"items":_vm.variants[model[_vm.variantField]].items,"model":model}})]})]:_vm._e()],2)})],2):_vm._e()};
+var __vue_staticRenderFns__$q = [];
+
+  /* style */
+  const __vue_inject_styles__$q = undefined;
+  /* scoped */
+  const __vue_scope_id__$q = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$q = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$q = false;
+  /* component normalizer */
+  function __vue_normalize__$q(
+    template, style, script,
+    scope, functional, moduleIdentifier,
+    createInjector, createInjectorSSR
+  ) {
+    const component = (typeof script === 'function' ? script.options : script) || {};
+
+    // For security concerns, we use only base name in production mode.
+    component.__file = "group-repeat-variants.vue";
+
+    if (!component.render) {
+      component.render = template.render;
+      component.staticRenderFns = template.staticRenderFns;
+      component._compiled = true;
+
+      if (functional) component.functional = true;
+    }
+
+    component._scopeId = scope;
+
+    return component
+  }
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var GroupRepeatVariants = __vue_normalize__$q(
+    { render: __vue_render__$q, staticRenderFns: __vue_staticRenderFns__$q },
+    __vue_inject_styles__$q,
+    __vue_script__$q,
+    __vue_scope_id__$q,
+    __vue_is_functional_template__$q,
+    __vue_module_identifier__$q,
+    undefined,
+    undefined
+  );
+
+JsonFormDisplay$1.addElementControl('text', Text);
+JsonFormDisplay$1.addElementControl('password', Text);
+JsonFormDisplay$1.addElementControl('number', Text);
+JsonFormDisplay$1.addElementControl('slider', Text);
+JsonFormDisplay$1.addElementControl('ipv4', Text);
+JsonFormDisplay$1.addElementControl('ipv6', Text);
+
+JsonFormDisplay$1.addElementControl('hidden', Hidden);
+JsonFormDisplay$1.addElementControl('uuid', Hidden);
+
+JsonFormDisplay$1.addElementControl('textarea', Textarea);
+JsonFormDisplay$1.addElementControl('tel', Tel);
+JsonFormDisplay$1.addElementControl('email', Email);
+JsonFormDisplay$1.addElementControl('url', Url);
+
+JsonFormDisplay$1.addElementControl('color', Color);
+JsonFormDisplay$1.addElementControl('combobox', Combobox);
+JsonFormDisplay$1.addElementControl('chips', Chips);
+
+JsonFormDisplay$1.addElementControl('file', File);
+
+JsonFormDisplay$1.addElementControl('checkbox', Checkbox);
+JsonFormDisplay$1.addElementControl('switch', Checkbox);
+
+JsonFormDisplay$1.addElementControl('group', Group);
+JsonFormDisplay$1.addElementControl('switch-group', Group);
+JsonFormDisplay$1.addElementControl('row', Group);
+JsonFormDisplay$1.addElementControl('col', Group);
+
+JsonFormDisplay$1.addElementControl('tabs', Tabs);
+JsonFormDisplay$1.addElementControl('select', Select);
+JsonFormDisplay$1.addElementControl('select-group', {
+    extends: Select,
+    computed: {
+        isGrouped()
+        {
+            return true;
+        }
+    }
+});
+JsonFormDisplay$1.addElementControl('radio', {
+    extends: Select,
+    computed: {
+        isMultiple()
+        {
+            return false;
+        }
+    }
+});
+JsonFormDisplay$1.addElementControl('checkbox-multi', {
+    extends: Select,
+    computed: {
+        isMultiple()
+        {
+            return true;
+        }
+    }
+});
+JsonFormDisplay$1.addElementControl('date', {
+    extends: Text,
+    methods: {
+        formatValue(value)
+        {
+            try {
+                return (new Date(value)).toLocaleDateString(this.$intl.language || 'en');
+            } catch (e) {
+                return value;
+            }
+        }
+    }
+});
+JsonFormDisplay$1.addElementControl('time', Text);
+JsonFormDisplay$1.addElementControl('date-time', {
+    extends: Text,
+    methods: {
+        formatValue(value)
+        {
+            try {
+                const v = value.split('T');
+                return (new Date(v[0])).toLocaleDateString(this.$intl.language || 'en') + ' ' + v[1];
+            } catch (e) {
+                return value;
+            }
+        }
+    }
+});
+
+JsonFormDisplay$1.addElementControl('range', {
+    extends: Text,
+    methods: {
+        formatValue(value)
+        {
+            return value.join(' - ');
+        }
+    }
+});
+
+JsonFormDisplay$1.addElementControl('variant', Variant);
+JsonFormDisplay$1.addElementControl('repeat', Repeat);
+JsonFormDisplay$1.addElementControl('repeat-variants', RepeatVariants);
+JsonFormDisplay$1.addElementControl('group-repeat', GroupRepeat);
+JsonFormDisplay$1.addElementControl('group-repeat-variants', GroupRepeatVariants);
+
+var JsonFormDisplayForm = {
+    props: {
+        items: {type: Array, required: false},
+        model: {type: [Object, Array], default: null},
+        files: {type: Object, default: null},
+        multiStep: {type: Boolean, default: false}
+    },
+    render(h)
+    {
+        if (this.items == null || this.items.length === 0) {
+            return null;
+        }
+
+        let items = this.items;
+        if (this.multiStep) {
+            items = [{control: 'tabs', items: items}];
+        }
+        items = JsonFormDisplay$1.parseControlList(items);
+
+        return h(JsonFormDisplayGroup, {
+            props: {
+                items: items,
+                files: this.files,
+                model: this.model || {},
+            }
+        });
+    }
+};
+
 //
 //
 //
@@ -900,7 +2945,7 @@ Control$1.install = function (Vue$$1) {
 //
 //
 
-var script$5 = {
+var script$r = {
     name: "app-layout",
     data() {
         return {
@@ -917,21 +2962,21 @@ var script$5 = {
 };
 
 /* script */
-            const __vue_script__$5 = script$5;
+            const __vue_script__$r = script$r;
 /* template */
-var __vue_render__$5 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-app',[_c('v-navigation-drawer',{attrs:{"app":"","fixed":"","clipped":""},model:{value:(_vm.leftDrawer),callback:function ($$v) {_vm.leftDrawer=$$v;},expression:"leftDrawer"}},[_vm._t("app-left-drawer")],2),_vm._v(" "),_c('v-navigation-drawer',{attrs:{"app":"","right":"","temporary":""},model:{value:(_vm.rightDrawer),callback:function ($$v) {_vm.rightDrawer=$$v;},expression:"rightDrawer"}},[_vm._t("app-right-drawer")],2),_vm._v(" "),_c('v-toolbar',{ref:"toolbar",attrs:{"app":"","fixed":"","clipped-left":"","clipped-right":"","color":"primary","dark":""}},[_c('v-toolbar-side-icon',{on:{"click":function($event){$event.stopPropagation();_vm.leftDrawer = !_vm.leftDrawer;}}}),_vm._v(" "),_c('v-toolbar-title',{staticClass:"ml-0",attrs:{"id":"app-title"}}),_vm._v(" "),_c('v-spacer'),_vm._v(" "),_vm._t("app-actions",[_c('div',{attrs:{"id":"app-actions"}})]),_vm._v(" "),_c('v-btn',{attrs:{"icon":"","flat":""},on:{"click":function($event){$event.stopPropagation();_vm.rightDrawer = !_vm.rightDrawer;}}},[_c('v-icon',[_vm._v(_vm._s(_vm.actionIcon))])],1)],2),_vm._v(" "),_vm._t("default")],2)};
-var __vue_staticRenderFns__$5 = [];
+var __vue_render__$r = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-app',[_c('v-navigation-drawer',{attrs:{"app":"","fixed":"","clipped":""},model:{value:(_vm.leftDrawer),callback:function ($$v) {_vm.leftDrawer=$$v;},expression:"leftDrawer"}},[_vm._t("app-left-drawer")],2),_vm._v(" "),_c('v-navigation-drawer',{attrs:{"app":"","right":"","temporary":""},model:{value:(_vm.rightDrawer),callback:function ($$v) {_vm.rightDrawer=$$v;},expression:"rightDrawer"}},[_vm._t("app-right-drawer")],2),_vm._v(" "),_c('v-toolbar',{ref:"toolbar",attrs:{"app":"","fixed":"","clipped-left":"","clipped-right":"","color":"primary","dark":""}},[_c('v-toolbar-side-icon',{on:{"click":function($event){$event.stopPropagation();_vm.leftDrawer = !_vm.leftDrawer;}}}),_vm._v(" "),_c('v-toolbar-title',{staticClass:"ml-0",attrs:{"id":"app-title"}}),_vm._v(" "),_c('v-spacer'),_vm._v(" "),_vm._t("app-actions",[_c('div',{attrs:{"id":"app-actions"}})]),_vm._v(" "),_c('v-btn',{attrs:{"icon":"","flat":""},on:{"click":function($event){$event.stopPropagation();_vm.rightDrawer = !_vm.rightDrawer;}}},[_c('v-icon',[_vm._v(_vm._s(_vm.actionIcon))])],1)],2),_vm._v(" "),_vm._t("default")],2)};
+var __vue_staticRenderFns__$r = [];
 
   /* style */
-  const __vue_inject_styles__$5 = undefined;
+  const __vue_inject_styles__$r = undefined;
   /* scoped */
-  const __vue_scope_id__$5 = undefined;
+  const __vue_scope_id__$r = undefined;
   /* module identifier */
-  const __vue_module_identifier__$5 = undefined;
+  const __vue_module_identifier__$r = undefined;
   /* functional template */
-  const __vue_is_functional_template__$5 = false;
+  const __vue_is_functional_template__$r = false;
   /* component normalizer */
-  function __vue_normalize__$5(
+  function __vue_normalize__$r(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -959,13 +3004,13 @@ var __vue_staticRenderFns__$5 = [];
   
 
   
-  var AppLayout = __vue_normalize__$5(
-    { render: __vue_render__$5, staticRenderFns: __vue_staticRenderFns__$5 },
-    __vue_inject_styles__$5,
-    __vue_script__$5,
-    __vue_scope_id__$5,
-    __vue_is_functional_template__$5,
-    __vue_module_identifier__$5,
+  var AppLayout = __vue_normalize__$r(
+    { render: __vue_render__$r, staticRenderFns: __vue_staticRenderFns__$r },
+    __vue_inject_styles__$r,
+    __vue_script__$r,
+    __vue_scope_id__$r,
+    __vue_is_functional_template__$r,
+    __vue_module_identifier__$r,
     undefined,
     undefined
   );
@@ -991,7 +3036,7 @@ var __vue_staticRenderFns__$5 = [];
 //
 //
 
-var script$6 = {
+var script$s = {
     name: 'app-menu',
     props: {
         user: {
@@ -1067,22 +3112,22 @@ var script$6 = {
 };
 
 /* script */
-            const __vue_script__$6 = script$6;
+            const __vue_script__$s = script$s;
             
 /* template */
-var __vue_render__$6 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-list',_vm._b({attrs:{"two-line":""}},'v-list',_vm.$attrs,false),[_vm._l((_vm.menus),function(region){return [_c('v-subheader',[_vm._v(_vm._s(_vm.$intl.translate(region.title)))]),_vm._v(" "),_vm._l((region.items),function(item){return _c('v-list-tile',{key:item.href,attrs:{"to":item.href}},[_c('v-list-tile-action',[_c('v-icon',[_vm._v(_vm._s(_vm.$controlIcon(item.icon)))])],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                    "+_vm._s(_vm.$intl.translate(item.title))+"\n                ")]),_vm._v(" "),(item.description !== null)?_c('v-list-tile-sub-title',[_vm._v("\n                    "+_vm._s(_vm.$intl.translate(item.description))+"\n                ")]):_vm._e()],1)],1)})]})],2)};
-var __vue_staticRenderFns__$6 = [];
+var __vue_render__$s = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-list',_vm._b({attrs:{"two-line":""}},'v-list',_vm.$attrs,false),[_vm._l((_vm.menus),function(region){return [_c('v-subheader',[_vm._v(_vm._s(_vm.$intl.translate(region.title)))]),_vm._v(" "),_vm._l((region.items),function(item){return _c('v-list-tile',{key:item.href,attrs:{"to":item.href}},[_c('v-list-tile-action',[_c('v-icon',[_vm._v(_vm._s(_vm.$controlIcon(item.icon)))])],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                    "+_vm._s(_vm.$intl.translate(item.title))+"\n                ")]),_vm._v(" "),(item.description !== null)?_c('v-list-tile-sub-title',[_vm._v("\n                    "+_vm._s(_vm.$intl.translate(item.description))+"\n                ")]):_vm._e()],1)],1)})]})],2)};
+var __vue_staticRenderFns__$s = [];
 
   /* style */
-  const __vue_inject_styles__$6 = undefined;
+  const __vue_inject_styles__$s = undefined;
   /* scoped */
-  const __vue_scope_id__$6 = undefined;
+  const __vue_scope_id__$s = undefined;
   /* module identifier */
-  const __vue_module_identifier__$6 = undefined;
+  const __vue_module_identifier__$s = undefined;
   /* functional template */
-  const __vue_is_functional_template__$6 = false;
+  const __vue_is_functional_template__$s = false;
   /* component normalizer */
-  function __vue_normalize__$6(
+  function __vue_normalize__$s(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -1110,20 +3155,20 @@ var __vue_staticRenderFns__$6 = [];
   
 
   
-  var AppMenu = __vue_normalize__$6(
-    { render: __vue_render__$6, staticRenderFns: __vue_staticRenderFns__$6 },
-    __vue_inject_styles__$6,
-    __vue_script__$6,
-    __vue_scope_id__$6,
-    __vue_is_functional_template__$6,
-    __vue_module_identifier__$6,
+  var AppMenu = __vue_normalize__$s(
+    { render: __vue_render__$s, staticRenderFns: __vue_staticRenderFns__$s },
+    __vue_inject_styles__$s,
+    __vue_script__$s,
+    __vue_scope_id__$s,
+    __vue_is_functional_template__$s,
+    __vue_module_identifier__$s,
     undefined,
     undefined
   );
 
 //
 
-var script$7 = {
+var script$t = {
     components: {ImageIcon},
     name: 'app-extensions',
     props: {
@@ -1229,22 +3274,22 @@ var script$7 = {
 };
 
 /* script */
-            const __vue_script__$7 = script$7;
+            const __vue_script__$t = script$t;
             
 /* template */
-var __vue_render__$7 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-list',_vm._b({attrs:{"two-line":""}},'v-list',_vm.$attrs,false),_vm._l((_vm.vendors),function(vendor){return _c('v-list-group',{key:vendor.name,attrs:{"value":_vm.alwaysOpen || vendor.name === _vm.currentVendor}},[_c('v-list-tile',{attrs:{"slot":"activator"},slot:"activator"},[_c('v-list-tile-action',[_c('image-icon',{attrs:{"src":vendor.icon || _vm.$intl.translate(vendor.title)}})],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                    "+_vm._s(_vm.$intl.translate(vendor.title))+"\n                ")]),_vm._v(" "),_c('v-list-tile-sub-title',[_vm._v("\n                    "+_vm._s(_vm.$intl.translate(vendor.description))+"\n                ")])],1)],1),_vm._v(" "),_vm._l((vendor.extensions),function(item){return _c('v-list-tile',{key:item.href,class:_vm.isLinkActive(item.extHref) ? ['v-list__tile--active', 'primary--text'] : undefined,on:{"click":function($event){_vm.goto(item.href);}}},[_c('v-list-tile-action',[_c('image-icon',{attrs:{"src":item.icon || _vm.$intl.translate(item.title)}})],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                    "+_vm._s(_vm.$intl.translate(item.title))+"\n                ")]),_vm._v(" "),_c('v-list-tile-sub-title',[_vm._v("\n                    "+_vm._s(_vm.$intl.translate(item.description))+"\n                ")])],1)],1)})],2)}))};
-var __vue_staticRenderFns__$7 = [];
+var __vue_render__$t = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-list',_vm._b({attrs:{"two-line":""}},'v-list',_vm.$attrs,false),_vm._l((_vm.vendors),function(vendor){return _c('v-list-group',{key:vendor.name,attrs:{"value":_vm.alwaysOpen || vendor.name === _vm.currentVendor}},[_c('v-list-tile',{attrs:{"slot":"activator"},slot:"activator"},[_c('v-list-tile-action',[_c('image-icon',{attrs:{"src":vendor.icon || _vm.$intl.translate(vendor.title)}})],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                    "+_vm._s(_vm.$intl.translate(vendor.title))+"\n                ")]),_vm._v(" "),_c('v-list-tile-sub-title',[_vm._v("\n                    "+_vm._s(_vm.$intl.translate(vendor.description))+"\n                ")])],1)],1),_vm._v(" "),_vm._l((vendor.extensions),function(item){return _c('v-list-tile',{key:item.href,class:_vm.isLinkActive(item.extHref) ? ['v-list__tile--active', 'primary--text'] : undefined,on:{"click":function($event){_vm.goto(item.href);}}},[_c('v-list-tile-action',[_c('image-icon',{attrs:{"src":item.icon || _vm.$intl.translate(item.title)}})],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                    "+_vm._s(_vm.$intl.translate(item.title))+"\n                ")]),_vm._v(" "),_c('v-list-tile-sub-title',[_vm._v("\n                    "+_vm._s(_vm.$intl.translate(item.description))+"\n                ")])],1)],1)})],2)}))};
+var __vue_staticRenderFns__$t = [];
 
   /* style */
-  const __vue_inject_styles__$7 = undefined;
+  const __vue_inject_styles__$t = undefined;
   /* scoped */
-  const __vue_scope_id__$7 = undefined;
+  const __vue_scope_id__$t = undefined;
   /* module identifier */
-  const __vue_module_identifier__$7 = undefined;
+  const __vue_module_identifier__$t = undefined;
   /* functional template */
-  const __vue_is_functional_template__$7 = false;
+  const __vue_is_functional_template__$t = false;
   /* component normalizer */
-  function __vue_normalize__$7(
+  function __vue_normalize__$t(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -1272,20 +3317,20 @@ var __vue_staticRenderFns__$7 = [];
   
 
   
-  var AppExtensions = __vue_normalize__$7(
-    { render: __vue_render__$7, staticRenderFns: __vue_staticRenderFns__$7 },
-    __vue_inject_styles__$7,
-    __vue_script__$7,
-    __vue_scope_id__$7,
-    __vue_is_functional_template__$7,
-    __vue_module_identifier__$7,
+  var AppExtensions = __vue_normalize__$t(
+    { render: __vue_render__$t, staticRenderFns: __vue_staticRenderFns__$t },
+    __vue_inject_styles__$t,
+    __vue_script__$t,
+    __vue_scope_id__$t,
+    __vue_is_functional_template__$t,
+    __vue_module_identifier__$t,
     undefined,
     undefined
   );
 
 //
 
-var script$8 = {
+var script$u = {
     name: 'app-user',
     components: {ImageIcon},
     props: {
@@ -1305,22 +3350,22 @@ var script$8 = {
 };
 
 /* script */
-            const __vue_script__$8 = script$8;
+            const __vue_script__$u = script$u;
             
 /* template */
-var __vue_render__$8 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-card',{attrs:{"flat":""}},[_c('v-container',{attrs:{"fluid":"","grid-list-sm":""}},[_c('v-layout',{attrs:{"row":""}},[_c('v-flex',[_c('image-icon',{attrs:{"squared":"","size":80,"letters-count":2,"src":_vm.user.avatar || _vm.user.name}})],1),_vm._v(" "),_c('v-flex',[_c('div',{staticClass:"headline"},[_vm._v(_vm._s(_vm.user.name))]),_vm._v(" "),_c('div',[_vm._v(_vm._s(_vm.user.email))]),_vm._v(" "),_c('div',[_c('a',{attrs:{"href":"#"},on:{"click":function($event){$event.preventDefault();$event.stopPropagation();return _vm.signOut($event)}}},[_vm._v("Sign out")])])])],1)],1)],1)};
-var __vue_staticRenderFns__$8 = [];
+var __vue_render__$u = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-card',{attrs:{"flat":""}},[_c('v-container',{attrs:{"fluid":"","grid-list-sm":""}},[_c('v-layout',{attrs:{"row":""}},[_c('v-flex',[_c('image-icon',{attrs:{"squared":"","size":80,"letters-count":2,"src":_vm.user.avatar || _vm.user.name}})],1),_vm._v(" "),_c('v-flex',[_c('div',{staticClass:"headline"},[_vm._v(_vm._s(_vm.user.name))]),_vm._v(" "),_c('div',[_vm._v(_vm._s(_vm.user.email))]),_vm._v(" "),_c('div',[_c('a',{attrs:{"href":"#"},on:{"click":function($event){$event.preventDefault();$event.stopPropagation();return _vm.signOut($event)}}},[_vm._v("Sign out")])])])],1)],1)],1)};
+var __vue_staticRenderFns__$u = [];
 
   /* style */
-  const __vue_inject_styles__$8 = undefined;
+  const __vue_inject_styles__$u = undefined;
   /* scoped */
-  const __vue_scope_id__$8 = undefined;
+  const __vue_scope_id__$u = undefined;
   /* module identifier */
-  const __vue_module_identifier__$8 = undefined;
+  const __vue_module_identifier__$u = undefined;
   /* functional template */
-  const __vue_is_functional_template__$8 = false;
+  const __vue_is_functional_template__$u = false;
   /* component normalizer */
-  function __vue_normalize__$8(
+  function __vue_normalize__$u(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -1348,13 +3393,13 @@ var __vue_staticRenderFns__$8 = [];
   
 
   
-  var AppUser = __vue_normalize__$8(
-    { render: __vue_render__$8, staticRenderFns: __vue_staticRenderFns__$8 },
-    __vue_inject_styles__$8,
-    __vue_script__$8,
-    __vue_scope_id__$8,
-    __vue_is_functional_template__$8,
-    __vue_module_identifier__$8,
+  var AppUser = __vue_normalize__$u(
+    { render: __vue_render__$u, staticRenderFns: __vue_staticRenderFns__$u },
+    __vue_inject_styles__$u,
+    __vue_script__$u,
+    __vue_scope_id__$u,
+    __vue_is_functional_template__$u,
+    __vue_module_identifier__$u,
     undefined,
     undefined
   );
@@ -1363,7 +3408,7 @@ var Logo = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMj
 
 //
 
-var script$9 = {
+var script$v = {
     name: 'app-root',
     props: {
         user: {type: Object, required: true},
@@ -1403,21 +3448,21 @@ var script$9 = {
 };
 
 /* script */
-            const __vue_script__$9 = script$9;
+            const __vue_script__$v = script$v;
 /* template */
-var __vue_render__$9 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.ready)?_c('router-view'):_c('v-app',[_c('v-container',{attrs:{"fluid":"","fill-height":""}},[_c('v-layout',{attrs:{"justify-center":"","align-center":""}},[_c('v-flex',{staticClass:"text-xs-center"},[_c('img',{staticStyle:{"max-width":"80%"},attrs:{"src":_vm.logo}}),_vm._v(" "),_c('v-progress-linear',{attrs:{"indeterminate":""}}),_vm._v(" "),_c('v-flex',[_vm._v(_vm._s(_vm.status))])],1)],1)],1)],1)};
-var __vue_staticRenderFns__$9 = [];
+var __vue_render__$v = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.ready)?_c('router-view'):_c('v-app',[_c('v-container',{attrs:{"fluid":"","fill-height":""}},[_c('v-layout',{attrs:{"justify-center":"","align-center":""}},[_c('v-flex',{staticClass:"text-xs-center"},[_c('img',{staticStyle:{"max-width":"80%"},attrs:{"src":_vm.logo}}),_vm._v(" "),_c('v-progress-linear',{attrs:{"indeterminate":""}}),_vm._v(" "),_c('v-flex',[_vm._v(_vm._s(_vm.status))])],1)],1)],1)],1)};
+var __vue_staticRenderFns__$v = [];
 
   /* style */
-  const __vue_inject_styles__$9 = undefined;
+  const __vue_inject_styles__$v = undefined;
   /* scoped */
-  const __vue_scope_id__$9 = undefined;
+  const __vue_scope_id__$v = undefined;
   /* module identifier */
-  const __vue_module_identifier__$9 = undefined;
+  const __vue_module_identifier__$v = undefined;
   /* functional template */
-  const __vue_is_functional_template__$9 = false;
+  const __vue_is_functional_template__$v = false;
   /* component normalizer */
-  function __vue_normalize__$9(
+  function __vue_normalize__$v(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -1445,13 +3490,13 @@ var __vue_staticRenderFns__$9 = [];
   
 
   
-  var AppRoot = __vue_normalize__$9(
-    { render: __vue_render__$9, staticRenderFns: __vue_staticRenderFns__$9 },
-    __vue_inject_styles__$9,
-    __vue_script__$9,
-    __vue_scope_id__$9,
-    __vue_is_functional_template__$9,
-    __vue_module_identifier__$9,
+  var AppRoot = __vue_normalize__$v(
+    { render: __vue_render__$v, staticRenderFns: __vue_staticRenderFns__$v },
+    __vue_inject_styles__$v,
+    __vue_script__$v,
+    __vue_scope_id__$v,
+    __vue_is_functional_template__$v,
+    __vue_module_identifier__$v,
     undefined,
     undefined
   );
@@ -1468,7 +3513,7 @@ var __vue_staticRenderFns__$9 = [];
 //
 //
 
-var script$a = {
+var script$w = {
     name: 'app-toolbar',
     props: {
         title: {
@@ -1515,22 +3560,22 @@ var script$a = {
 };
 
 /* script */
-            const __vue_script__$a = script$a;
+            const __vue_script__$w = script$w;
             
 /* template */
-var __vue_render__$a = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"show",rawName:"v-show",value:(false),expression:"false"}]},[_c('span',{directives:[{name:"dom-portal",rawName:"v-dom-portal",value:(_vm.titleSelector),expression:"titleSelector"}]},[(_vm.showBack)?_c('v-btn',{directives:[{name:"show",rawName:"v-show",value:(_vm.back.length > 0),expression:"back.length > 0"}],staticClass:"ml-0 mr-0",attrs:{"exact":"","small":"","icon":"","to":_vm.back}},[_c('v-icon',[_vm._v("arrow_back")])],1):_vm._e(),_vm._v("\n        "+_vm._s(_vm.title)+"\n    ")],1),_vm._v(" "),_c('div',{directives:[{name:"dom-portal",rawName:"v-dom-portal",value:(_vm.toolbarSelector),expression:"toolbarSelector"}]},[_vm._t("default")],2)])};
-var __vue_staticRenderFns__$a = [];
+var __vue_render__$w = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"show",rawName:"v-show",value:(false),expression:"false"}]},[_c('span',{directives:[{name:"dom-portal",rawName:"v-dom-portal",value:(_vm.titleSelector),expression:"titleSelector"}]},[(_vm.showBack)?_c('v-btn',{directives:[{name:"show",rawName:"v-show",value:(_vm.back.length > 0),expression:"back.length > 0"}],staticClass:"ml-0 mr-0",attrs:{"exact":"","small":"","icon":"","to":_vm.back}},[_c('v-icon',[_vm._v("arrow_back")])],1):_vm._e(),_vm._v("\n        "+_vm._s(_vm.title)+"\n    ")],1),_vm._v(" "),_c('div',{directives:[{name:"dom-portal",rawName:"v-dom-portal",value:(_vm.toolbarSelector),expression:"toolbarSelector"}]},[_vm._t("default")],2)])};
+var __vue_staticRenderFns__$w = [];
 
   /* style */
-  const __vue_inject_styles__$a = undefined;
+  const __vue_inject_styles__$w = undefined;
   /* scoped */
-  const __vue_scope_id__$a = undefined;
+  const __vue_scope_id__$w = undefined;
   /* module identifier */
-  const __vue_module_identifier__$a = undefined;
+  const __vue_module_identifier__$w = undefined;
   /* functional template */
-  const __vue_is_functional_template__$a = false;
+  const __vue_is_functional_template__$w = false;
   /* component normalizer */
-  function __vue_normalize__$a(
+  function __vue_normalize__$w(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -1558,13 +3603,13 @@ var __vue_staticRenderFns__$a = [];
   
 
   
-  var AppToolbar = __vue_normalize__$a(
-    { render: __vue_render__$a, staticRenderFns: __vue_staticRenderFns__$a },
-    __vue_inject_styles__$a,
-    __vue_script__$a,
-    __vue_scope_id__$a,
-    __vue_is_functional_template__$a,
-    __vue_module_identifier__$a,
+  var AppToolbar = __vue_normalize__$w(
+    { render: __vue_render__$w, staticRenderFns: __vue_staticRenderFns__$w },
+    __vue_inject_styles__$w,
+    __vue_script__$w,
+    __vue_scope_id__$w,
+    __vue_is_functional_template__$w,
+    __vue_module_identifier__$w,
     undefined,
     undefined
   );
@@ -1582,7 +3627,7 @@ var __vue_staticRenderFns__$a = [];
 //
 //
 
-var script$b = {
+var script$x = {
     props: {
         multiLine: {
             type: Boolean,
@@ -1638,22 +3683,22 @@ var script$b = {
 };
 
 /* script */
-            const __vue_script__$b = script$b;
+            const __vue_script__$x = script$x;
             
 /* template */
-var __vue_render__$b = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-snackbar',_vm._b({attrs:{"color":_vm.type,"timeout":_vm.timeout,"vertical":_vm.vertical,"multi-line":_vm.multiLine},model:{value:(_vm.snackbar),callback:function ($$v) {_vm.snackbar=$$v;},expression:"snackbar"}},'v-snackbar',_vm.position,false),[_vm._t("default",[_vm._v("\n        "+_vm._s(_vm.message)+"\n    ")],{message:_vm.message}),_vm._v(" "),_vm._t("actions",[_c('v-btn',{attrs:{"icon":"","flat":""},nativeOn:{"click":function($event){$event.stopPropagation();_vm.hide();}}},[_c('v-icon',[_vm._v("close")])],1)])],2)};
-var __vue_staticRenderFns__$b = [];
+var __vue_render__$x = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-snackbar',_vm._b({attrs:{"color":_vm.type,"timeout":_vm.timeout,"vertical":_vm.vertical,"multi-line":_vm.multiLine},model:{value:(_vm.snackbar),callback:function ($$v) {_vm.snackbar=$$v;},expression:"snackbar"}},'v-snackbar',_vm.position,false),[_vm._t("default",[_vm._v("\n        "+_vm._s(_vm.message)+"\n    ")],{message:_vm.message}),_vm._v(" "),_vm._t("actions",[_c('v-btn',{attrs:{"icon":"","flat":""},nativeOn:{"click":function($event){$event.stopPropagation();_vm.hide();}}},[_c('v-icon',[_vm._v("close")])],1)])],2)};
+var __vue_staticRenderFns__$x = [];
 
   /* style */
-  const __vue_inject_styles__$b = undefined;
+  const __vue_inject_styles__$x = undefined;
   /* scoped */
-  const __vue_scope_id__$b = undefined;
+  const __vue_scope_id__$x = undefined;
   /* module identifier */
-  const __vue_module_identifier__$b = undefined;
+  const __vue_module_identifier__$x = undefined;
   /* functional template */
-  const __vue_is_functional_template__$b = false;
+  const __vue_is_functional_template__$x = false;
   /* component normalizer */
-  function __vue_normalize__$b(
+  function __vue_normalize__$x(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -1681,20 +3726,20 @@ var __vue_staticRenderFns__$b = [];
   
 
   
-  var AppNotifier = __vue_normalize__$b(
-    { render: __vue_render__$b, staticRenderFns: __vue_staticRenderFns__$b },
-    __vue_inject_styles__$b,
-    __vue_script__$b,
-    __vue_scope_id__$b,
-    __vue_is_functional_template__$b,
-    __vue_module_identifier__$b,
+  var AppNotifier = __vue_normalize__$x(
+    { render: __vue_render__$x, staticRenderFns: __vue_staticRenderFns__$x },
+    __vue_inject_styles__$x,
+    __vue_script__$x,
+    __vue_scope_id__$x,
+    __vue_is_functional_template__$x,
+    __vue_module_identifier__$x,
     undefined,
     undefined
   );
 
 //
 
-var script$c = {
+var script$y = {
     name: 'app-page',
     components: {AppToolbar, AppNotifier},
     props: {
@@ -1788,22 +3833,22 @@ var script$c = {
 };
 
 /* script */
-            const __vue_script__$c = script$c;
+            const __vue_script__$y = script$y;
             
 /* template */
-var __vue_render__$c = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-flex',{attrs:{"grow":""}},[_c('app-toolbar',{attrs:{"title":_vm.title,"back":_vm.back,"show-back":_vm.showBack}},[_vm._t("toolbar")],2),_vm._v(" "),(_vm.loading)?_c('v-layout',{attrs:{"fill-height":"","justify-center":"","align-center":""}},[_c('v-progress-circular',{attrs:{"indeterminate":"","color":"secondary"}})],1):_vm._t("default"),_vm._v(" "),_c('app-notifier',{ref:"notifier"}),_vm._v(" "),_c('v-dialog',{attrs:{"lazy":"","persistent":"","max-width":"320"},model:{value:(_vm.showLogin),callback:function ($$v) {_vm.showLogin=$$v;},expression:"showLogin"}},[_c('v-card',[_c('v-card-title',{staticClass:"headline"},[_vm._v("You are not signed in")]),_vm._v(" "),_c('v-card-text',[_c('v-text-field',{attrs:{"disabled":_vm.processingLogin,"rules":_vm.emailRules,"label":"E-mail","type":"email","prepend-icon":"email"},model:{value:(_vm.email),callback:function ($$v) {_vm.email=$$v;},expression:"email"}}),_vm._v(" "),_c('v-text-field',{attrs:{"disabled":_vm.processingLogin,"rules":_vm.passRules,"label":"Password","type":"password","prepend-icon":"lock"},model:{value:(_vm.pass),callback:function ($$v) {_vm.pass=$$v;},expression:"pass"}})],1),_vm._v(" "),_c('v-card-actions',[_c('span',{directives:[{name:"show",rawName:"v-show",value:(_vm.loginError),expression:"loginError"}],staticClass:"red--text"},[_c('v-icon',{attrs:{"color":"red"}},[_vm._v("error")]),_vm._v("Sign in failed\n                ")],1),_vm._v(" "),_c('v-spacer'),_vm._v(" "),_c('v-btn',{attrs:{"flat":"","disabled":_vm.processingLogin || !_vm.canLogin,"loading":_vm.processingLogin},on:{"click":function($event){$event.stopPropagation();_vm.tryLogin(_vm.email, _vm.pass);}}},[_vm._v("\n                    Sign in "),_c('v-icon',[_vm._v("navigate_next")])],1)],1)],1)],1)],2)};
-var __vue_staticRenderFns__$c = [];
+var __vue_render__$y = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-flex',{attrs:{"grow":""}},[_c('app-toolbar',{attrs:{"title":_vm.title,"back":_vm.back,"show-back":_vm.showBack}},[_vm._t("toolbar")],2),_vm._v(" "),(_vm.loading)?_c('v-layout',{attrs:{"fill-height":"","justify-center":"","align-center":""}},[_c('v-progress-circular',{attrs:{"indeterminate":"","color":"secondary"}})],1):_vm._t("default"),_vm._v(" "),_c('app-notifier',{ref:"notifier"}),_vm._v(" "),_c('v-dialog',{attrs:{"lazy":"","persistent":"","max-width":"320"},model:{value:(_vm.showLogin),callback:function ($$v) {_vm.showLogin=$$v;},expression:"showLogin"}},[_c('v-card',[_c('v-card-title',{staticClass:"headline"},[_vm._v("You are not signed in")]),_vm._v(" "),_c('v-card-text',[_c('v-text-field',{attrs:{"disabled":_vm.processingLogin,"rules":_vm.emailRules,"label":"E-mail","type":"email","prepend-icon":"email"},model:{value:(_vm.email),callback:function ($$v) {_vm.email=$$v;},expression:"email"}}),_vm._v(" "),_c('v-text-field',{attrs:{"disabled":_vm.processingLogin,"rules":_vm.passRules,"label":"Password","type":"password","prepend-icon":"lock"},model:{value:(_vm.pass),callback:function ($$v) {_vm.pass=$$v;},expression:"pass"}})],1),_vm._v(" "),_c('v-card-actions',[_c('span',{directives:[{name:"show",rawName:"v-show",value:(_vm.loginError),expression:"loginError"}],staticClass:"red--text"},[_c('v-icon',{attrs:{"color":"red"}},[_vm._v("error")]),_vm._v("Sign in failed\n                ")],1),_vm._v(" "),_c('v-spacer'),_vm._v(" "),_c('v-btn',{attrs:{"flat":"","disabled":_vm.processingLogin || !_vm.canLogin,"loading":_vm.processingLogin},on:{"click":function($event){$event.stopPropagation();_vm.tryLogin(_vm.email, _vm.pass);}}},[_vm._v("\n                    Sign in "),_c('v-icon',[_vm._v("navigate_next")])],1)],1)],1)],1)],2)};
+var __vue_staticRenderFns__$y = [];
 
   /* style */
-  const __vue_inject_styles__$c = undefined;
+  const __vue_inject_styles__$y = undefined;
   /* scoped */
-  const __vue_scope_id__$c = undefined;
+  const __vue_scope_id__$y = undefined;
   /* module identifier */
-  const __vue_module_identifier__$c = undefined;
+  const __vue_module_identifier__$y = undefined;
   /* functional template */
-  const __vue_is_functional_template__$c = false;
+  const __vue_is_functional_template__$y = false;
   /* component normalizer */
-  function __vue_normalize__$c(
+  function __vue_normalize__$y(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -1831,20 +3876,20 @@ var __vue_staticRenderFns__$c = [];
   
 
   
-  var AppPage = __vue_normalize__$c(
-    { render: __vue_render__$c, staticRenderFns: __vue_staticRenderFns__$c },
-    __vue_inject_styles__$c,
-    __vue_script__$c,
-    __vue_scope_id__$c,
-    __vue_is_functional_template__$c,
-    __vue_module_identifier__$c,
+  var AppPage = __vue_normalize__$y(
+    { render: __vue_render__$y, staticRenderFns: __vue_staticRenderFns__$y },
+    __vue_inject_styles__$y,
+    __vue_script__$y,
+    __vue_scope_id__$y,
+    __vue_is_functional_template__$y,
+    __vue_module_identifier__$y,
     undefined,
     undefined
   );
 
 //
 
-var script$d = {
+var script$z = {
     name: 'app-dashboard',
     components: {ImageIcon, AppUser, AppExtensions},
     props: {
@@ -1902,22 +3947,22 @@ var script$d = {
 };
 
 /* script */
-            const __vue_script__$d = script$d;
+            const __vue_script__$z = script$z;
             
 /* template */
-var __vue_render__$d = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-app',[_c('v-card',{attrs:{"flat":""}},[_c('v-toolbar',{attrs:{"color":"primary","dark":""}},[_c('v-toolbar-title',[_vm._v("Welcome to Aquarelle")]),_vm._v(" "),_c('v-spacer'),_vm._v(" "),_c('v-menu',{attrs:{"offset-x":"","max-width":"320"}},[_c('v-btn',{attrs:{"slot":"activator","icon":""},slot:"activator"},[_c('v-icon',[_vm._v("person")])],1),_vm._v(" "),_c('app-user',{staticStyle:{"width":"320px"},attrs:{"user":_vm.app.user}})],1)],1),_vm._v(" "),_c('app-extensions',{attrs:{"app":_vm.app,"always-open":""}})],1)],1)};
-var __vue_staticRenderFns__$d = [];
+var __vue_render__$z = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-app',[_c('v-card',{attrs:{"flat":""}},[_c('v-toolbar',{attrs:{"color":"primary","dark":""}},[_c('v-toolbar-title',[_vm._v("Welcome to Aquarelle")]),_vm._v(" "),_c('v-spacer'),_vm._v(" "),_c('v-menu',{attrs:{"offset-x":"","max-width":"320"}},[_c('v-btn',{attrs:{"slot":"activator","icon":""},slot:"activator"},[_c('v-icon',[_vm._v("person")])],1),_vm._v(" "),_c('app-user',{staticStyle:{"width":"320px"},attrs:{"user":_vm.app.user}})],1)],1),_vm._v(" "),_c('app-extensions',{attrs:{"app":_vm.app,"always-open":""}})],1)],1)};
+var __vue_staticRenderFns__$z = [];
 
   /* style */
-  const __vue_inject_styles__$d = undefined;
+  const __vue_inject_styles__$z = undefined;
   /* scoped */
-  const __vue_scope_id__$d = undefined;
+  const __vue_scope_id__$z = undefined;
   /* module identifier */
-  const __vue_module_identifier__$d = undefined;
+  const __vue_module_identifier__$z = undefined;
   /* functional template */
-  const __vue_is_functional_template__$d = false;
+  const __vue_is_functional_template__$z = false;
   /* component normalizer */
-  function __vue_normalize__$d(
+  function __vue_normalize__$z(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -1945,20 +3990,20 @@ var __vue_staticRenderFns__$d = [];
   
 
   
-  var AppDashboard = __vue_normalize__$d(
-    { render: __vue_render__$d, staticRenderFns: __vue_staticRenderFns__$d },
-    __vue_inject_styles__$d,
-    __vue_script__$d,
-    __vue_scope_id__$d,
-    __vue_is_functional_template__$d,
-    __vue_module_identifier__$d,
+  var AppDashboard = __vue_normalize__$z(
+    { render: __vue_render__$z, staticRenderFns: __vue_staticRenderFns__$z },
+    __vue_inject_styles__$z,
+    __vue_script__$z,
+    __vue_scope_id__$z,
+    __vue_is_functional_template__$z,
+    __vue_module_identifier__$z,
     undefined,
     undefined
   );
 
 //
 
-var script$e = {
+var script$A = {
     name: 'app-extension-route',
     components: {
         AppMenu,
@@ -1999,22 +4044,22 @@ var script$e = {
 };
 
 /* script */
-            const __vue_script__$e = script$e;
+            const __vue_script__$A = script$A;
             
 /* template */
-var __vue_render__$e = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('app-layout',{ref:"layout"},[_c('app-menu',{attrs:{"slot":"app-left-drawer","user":_vm.appInfo.user,"app":_vm.appInfo.app,"vendor":_vm.appInfo.vendor,"extension":_vm.appInfo.extension},slot:"app-left-drawer"}),_vm._v(" "),_c('template',{slot:"app-right-drawer"},[_c('app-user',{attrs:{"user":_vm.appInfo.user}}),_vm._v(" "),_c('app-extensions',{attrs:{"user":_vm.appInfo.user,"app":_vm.appInfo.app,"current-vendor":_vm.appInfo.vendor}})],1),_vm._v(" "),_c('v-content',[_c('v-layout',{style:({height: _vm.contentHeight})},[_c('router-view')],1)],1)],2)};
-var __vue_staticRenderFns__$e = [];
+var __vue_render__$A = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('app-layout',{ref:"layout"},[_c('app-menu',{attrs:{"slot":"app-left-drawer","user":_vm.appInfo.user,"app":_vm.appInfo.app,"vendor":_vm.appInfo.vendor,"extension":_vm.appInfo.extension},slot:"app-left-drawer"}),_vm._v(" "),_c('template',{slot:"app-right-drawer"},[_c('app-user',{attrs:{"user":_vm.appInfo.user}}),_vm._v(" "),_c('app-extensions',{attrs:{"user":_vm.appInfo.user,"app":_vm.appInfo.app,"current-vendor":_vm.appInfo.vendor}})],1),_vm._v(" "),_c('v-content',[_c('v-layout',{style:({height: _vm.contentHeight})},[_c('router-view')],1)],1)],2)};
+var __vue_staticRenderFns__$A = [];
 
   /* style */
-  const __vue_inject_styles__$e = undefined;
+  const __vue_inject_styles__$A = undefined;
   /* scoped */
-  const __vue_scope_id__$e = undefined;
+  const __vue_scope_id__$A = undefined;
   /* module identifier */
-  const __vue_module_identifier__$e = undefined;
+  const __vue_module_identifier__$A = undefined;
   /* functional template */
-  const __vue_is_functional_template__$e = false;
+  const __vue_is_functional_template__$A = false;
   /* component normalizer */
-  function __vue_normalize__$e(
+  function __vue_normalize__$A(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -2042,13 +4087,13 @@ var __vue_staticRenderFns__$e = [];
   
 
   
-  var AppExtensionRoute = __vue_normalize__$e(
-    { render: __vue_render__$e, staticRenderFns: __vue_staticRenderFns__$e },
-    __vue_inject_styles__$e,
-    __vue_script__$e,
-    __vue_scope_id__$e,
-    __vue_is_functional_template__$e,
-    __vue_module_identifier__$e,
+  var AppExtensionRoute = __vue_normalize__$A(
+    { render: __vue_render__$A, staticRenderFns: __vue_staticRenderFns__$A },
+    __vue_inject_styles__$A,
+    __vue_script__$A,
+    __vue_scope_id__$A,
+    __vue_is_functional_template__$A,
+    __vue_module_identifier__$A,
     undefined,
     undefined
   );
@@ -2624,7 +4669,7 @@ var FormMixin = {
 
 //
 
-var script$f = {
+var script$B = {
     components: {AppPage},
     mixins: [EntityMixin, CloseDialogsBeforeLeave, PageNotifier, ServerErrorMixin, LoginMixin, FormMixin],
     props: {
@@ -2894,22 +4939,22 @@ var script$f = {
 };
 
 /* script */
-            const __vue_script__$f = script$f;
+            const __vue_script__$B = script$B;
             
 /* template */
-var __vue_render__$f = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('app-page',{ref:"page",attrs:{"title":_vm.$intl.translate(_vm.title),"back":_vm.back,"loading":_vm.loading}},[(_vm.loaderError)?_c('div',[_vm._v("\n        Error! There is no such entity "+_vm._s(_vm.entity)+"\n    ")]):_c('stepper-form',{ref:"form",attrs:{"processing":_vm.processing,"items":_vm.parsedSteps,"next-button-text":_vm.nextButtonText,"finish-button-text":_vm.finishButtonText,"fill-height":_vm.fillHeight,"options":_vm.formOptions},on:{"input":function($event){_vm.onSubmit($event);}},model:{value:(_vm.model),callback:function ($$v) {_vm.model=$$v;},expression:"model"}})],1)};
-var __vue_staticRenderFns__$f = [];
+var __vue_render__$B = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('app-page',{ref:"page",attrs:{"title":_vm.$intl.translate(_vm.title),"back":_vm.back,"loading":_vm.loading}},[(_vm.loaderError)?_c('div',[_vm._v("\n        Error! There is no such entity "+_vm._s(_vm.entity)+"\n    ")]):_c('stepper-form',{ref:"form",attrs:{"processing":_vm.processing,"items":_vm.parsedSteps,"next-button-text":_vm.nextButtonText,"finish-button-text":_vm.finishButtonText,"fill-height":_vm.fillHeight,"options":_vm.formOptions},on:{"input":function($event){_vm.onSubmit($event);}},model:{value:(_vm.model),callback:function ($$v) {_vm.model=$$v;},expression:"model"}})],1)};
+var __vue_staticRenderFns__$B = [];
 
   /* style */
-  const __vue_inject_styles__$f = undefined;
+  const __vue_inject_styles__$B = undefined;
   /* scoped */
-  const __vue_scope_id__$f = undefined;
+  const __vue_scope_id__$B = undefined;
   /* module identifier */
-  const __vue_module_identifier__$f = undefined;
+  const __vue_module_identifier__$B = undefined;
   /* functional template */
-  const __vue_is_functional_template__$f = false;
+  const __vue_is_functional_template__$B = false;
   /* component normalizer */
-  function __vue_normalize__$f(
+  function __vue_normalize__$B(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -2937,20 +4982,20 @@ var __vue_staticRenderFns__$f = [];
   
 
   
-  var EntityCreateForm = __vue_normalize__$f(
-    { render: __vue_render__$f, staticRenderFns: __vue_staticRenderFns__$f },
-    __vue_inject_styles__$f,
-    __vue_script__$f,
-    __vue_scope_id__$f,
-    __vue_is_functional_template__$f,
-    __vue_module_identifier__$f,
+  var EntityCreateForm = __vue_normalize__$B(
+    { render: __vue_render__$B, staticRenderFns: __vue_staticRenderFns__$B },
+    __vue_inject_styles__$B,
+    __vue_script__$B,
+    __vue_scope_id__$B,
+    __vue_is_functional_template__$B,
+    __vue_module_identifier__$B,
     undefined,
     undefined
   );
 
 //
 
-var script$g = {
+var script$C = {
     components: {AppPage},
     mixins: [EntityMixin, CloseDialogsBeforeLeave, PageNotifier, ServerErrorMixin, LoginMixin, FormMixin],
     props: {
@@ -3303,22 +5348,22 @@ var script$g = {
 };
 
 /* script */
-            const __vue_script__$g = script$g;
+            const __vue_script__$C = script$C;
             
 /* template */
-var __vue_render__$g = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('app-page',{ref:"page",attrs:{"title":_vm.$intl.translate(_vm.title),"back":_vm.back,"loading":_vm.loading}},[(_vm.loaderError)?_c('div',[_vm._v("\n        Error! Cannot load "+_vm._s(_vm.entity)+":"+_vm._s(_vm.id)+"\n    ")]):[(_vm.contextActions && _vm.contextActions.length)?_c('template',{slot:"toolbar"},[_c('v-menu',{attrs:{"offset-y":""}},[_c('v-btn',{attrs:{"slot":"activator","icon":""},slot:"activator"},[_c('v-icon',[_vm._v(_vm._s(_vm.$controlIcon(_vm.contextIcon)))])],1),_vm._v(" "),_c('v-list',_vm._l((_vm.contextActions),function(item){return _c('v-list-tile',{key:_vm.$uniqueObjectId(item),attrs:{"disabled":_vm.isContextItemDisabled(item)},on:{"click":function($event){_vm.contextItemAction(item);}}},[_c('v-list-tile-avatar',[_c('v-icon',[_vm._v(_vm._s(_vm.$controlIcon(item.icon || '')))])],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                                "+_vm._s(_vm.$intl.translate(item.title))+"\n                            ")])],1),_vm._v(" "),_c('v-list-tile-action',[_vm._v(" ")])],1)}))],1)],1):_vm._e(),_vm._v(" "),_c('block-form',{ref:"form",attrs:{"fill-height":_vm.fillHeight,"processing":_vm.processing,"title":_vm.instanceTitle,"items":_vm.parsedFields,"submit-button":_vm.submitButtonText,"options":_vm.formOptions},on:{"submit":function($event){_vm.onSubmit($event);}},model:{value:(_vm.model),callback:function ($$v) {_vm.model=$$v;},expression:"model"}})]],2)};
-var __vue_staticRenderFns__$g = [];
+var __vue_render__$C = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('app-page',{ref:"page",attrs:{"title":_vm.$intl.translate(_vm.title),"back":_vm.back,"loading":_vm.loading}},[(_vm.loaderError)?_c('div',[_vm._v("\n        Error! Cannot load "+_vm._s(_vm.entity)+":"+_vm._s(_vm.id)+"\n    ")]):[(_vm.contextActions && _vm.contextActions.length)?_c('template',{slot:"toolbar"},[_c('v-menu',{attrs:{"offset-y":""}},[_c('v-btn',{attrs:{"slot":"activator","icon":""},slot:"activator"},[_c('v-icon',[_vm._v(_vm._s(_vm.$controlIcon(_vm.contextIcon)))])],1),_vm._v(" "),_c('v-list',_vm._l((_vm.contextActions),function(item){return _c('v-list-tile',{key:_vm.$uniqueObjectId(item),attrs:{"disabled":_vm.isContextItemDisabled(item)},on:{"click":function($event){_vm.contextItemAction(item);}}},[_c('v-list-tile-avatar',[_c('v-icon',[_vm._v(_vm._s(_vm.$controlIcon(item.icon || '')))])],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                                "+_vm._s(_vm.$intl.translate(item.title))+"\n                            ")])],1),_vm._v(" "),_c('v-list-tile-action',[_vm._v(" ")])],1)}))],1)],1):_vm._e(),_vm._v(" "),_c('block-form',{ref:"form",attrs:{"fill-height":_vm.fillHeight,"processing":_vm.processing,"title":_vm.instanceTitle,"items":_vm.parsedFields,"submit-button":_vm.submitButtonText,"options":_vm.formOptions},on:{"submit":function($event){_vm.onSubmit($event);}},model:{value:(_vm.model),callback:function ($$v) {_vm.model=$$v;},expression:"model"}})]],2)};
+var __vue_staticRenderFns__$C = [];
 
   /* style */
-  const __vue_inject_styles__$g = undefined;
+  const __vue_inject_styles__$C = undefined;
   /* scoped */
-  const __vue_scope_id__$g = undefined;
+  const __vue_scope_id__$C = undefined;
   /* module identifier */
-  const __vue_module_identifier__$g = undefined;
+  const __vue_module_identifier__$C = undefined;
   /* functional template */
-  const __vue_is_functional_template__$g = false;
+  const __vue_is_functional_template__$C = false;
   /* component normalizer */
-  function __vue_normalize__$g(
+  function __vue_normalize__$C(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -3346,20 +5391,20 @@ var __vue_staticRenderFns__$g = [];
   
 
   
-  var EntityEditForm = __vue_normalize__$g(
-    { render: __vue_render__$g, staticRenderFns: __vue_staticRenderFns__$g },
-    __vue_inject_styles__$g,
-    __vue_script__$g,
-    __vue_scope_id__$g,
-    __vue_is_functional_template__$g,
-    __vue_module_identifier__$g,
+  var EntityEditForm = __vue_normalize__$C(
+    { render: __vue_render__$C, staticRenderFns: __vue_staticRenderFns__$C },
+    __vue_inject_styles__$C,
+    __vue_script__$C,
+    __vue_scope_id__$C,
+    __vue_is_functional_template__$C,
+    __vue_module_identifier__$C,
     undefined,
     undefined
   );
 
 //
 
-var script$h = {
+var script$D = {
     name: 'entity-list-template',
     mixins: [EntityMixin],
     props: {
@@ -3489,22 +5534,22 @@ var script$h = {
 };
 
 /* script */
-            const __vue_script__$h = script$h;
+            const __vue_script__$D = script$D;
             
 /* template */
-var __vue_render__$h = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.ready && _vm.items.length > 0)?_c('v-flex',{attrs:{"align-center":""}},[_c('v-list',_vm._b({},'v-list',_vm.$attrs,false),[_vm._l((_vm.items),function(item,index){return _vm._t("item",null,{item:item,type:_vm.getItemType(item),index:index,itemList:_vm.items})})],2),_vm._v(" "),_vm._t("default")],2):_c('v-container',{attrs:{"fluid":"","fill-height":""}},[_c('v-layout',{attrs:{"column":"","justify-center":"","align-center":""}},[(!_vm.ready)?_c('v-progress-circular',{attrs:{"indeterminate":"","color":"secondary"}}):[_vm._t("empty",[_vm._v("\n                "+_vm._s(_vm.$intl.translate(this.emptyText))+"\n            ")]),_vm._v(" "),_vm._t("default")]],2)],1)};
-var __vue_staticRenderFns__$h = [];
+var __vue_render__$D = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.ready && _vm.items.length > 0)?_c('v-flex',{attrs:{"align-center":""}},[_c('v-list',_vm._b({},'v-list',_vm.$attrs,false),[_vm._l((_vm.items),function(item,index){return _vm._t("item",null,{item:item,type:_vm.getItemType(item),index:index,itemList:_vm.items})})],2),_vm._v(" "),_vm._t("default")],2):_c('v-container',{attrs:{"fluid":"","fill-height":""}},[_c('v-layout',{attrs:{"column":"","justify-center":"","align-center":""}},[(!_vm.ready)?_c('v-progress-circular',{attrs:{"indeterminate":"","color":"secondary"}}):[_vm._t("empty",[_vm._v("\n                "+_vm._s(_vm.$intl.translate(this.emptyText))+"\n            ")]),_vm._v(" "),_vm._t("default")]],2)],1)};
+var __vue_staticRenderFns__$D = [];
 
   /* style */
-  const __vue_inject_styles__$h = undefined;
+  const __vue_inject_styles__$D = undefined;
   /* scoped */
-  const __vue_scope_id__$h = undefined;
+  const __vue_scope_id__$D = undefined;
   /* module identifier */
-  const __vue_module_identifier__$h = undefined;
+  const __vue_module_identifier__$D = undefined;
   /* functional template */
-  const __vue_is_functional_template__$h = false;
+  const __vue_is_functional_template__$D = false;
   /* component normalizer */
-  function __vue_normalize__$h(
+  function __vue_normalize__$D(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -3532,20 +5577,20 @@ var __vue_staticRenderFns__$h = [];
   
 
   
-  var EntityListTemplate = __vue_normalize__$h(
-    { render: __vue_render__$h, staticRenderFns: __vue_staticRenderFns__$h },
-    __vue_inject_styles__$h,
-    __vue_script__$h,
-    __vue_scope_id__$h,
-    __vue_is_functional_template__$h,
-    __vue_module_identifier__$h,
+  var EntityListTemplate = __vue_normalize__$D(
+    { render: __vue_render__$D, staticRenderFns: __vue_staticRenderFns__$D },
+    __vue_inject_styles__$D,
+    __vue_script__$D,
+    __vue_scope_id__$D,
+    __vue_is_functional_template__$D,
+    __vue_module_identifier__$D,
     undefined,
     undefined
   );
 
 //
 
-var script$i = {
+var script$E = {
     name: "entity-change-title-dialog",
     props: {
         title: {
@@ -3629,22 +5674,22 @@ var script$i = {
 };
 
 /* script */
-            const __vue_script__$i = script$i;
+            const __vue_script__$E = script$E;
             
 /* template */
-var __vue_render__$i = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-dialog',_vm._b({attrs:{"persistent":""},model:{value:(_vm.showDialog),callback:function ($$v) {_vm.showDialog=$$v;},expression:"showDialog"}},'v-dialog',_vm.$attrs,false),[_c('v-card',[_c('v-card-title',{staticClass:"headline"},[_vm._v("\n            "+_vm._s(_vm.$intl.translate(_vm.title))+"\n        ")]),_vm._v(" "),(!_vm.processingMode)?_c('v-card-text',[_c('v-text-field',{attrs:{"label":_vm.$intl.translate(_vm.titleLabel),"error-messages":_vm.error === null ? undefined : [_vm.error],"required":""},model:{value:(_vm.itemTitle),callback:function ($$v) {_vm.itemTitle=$$v;},expression:"itemTitle"}})],1):_c('v-card-text',[_c('v-progress-linear',{attrs:{"indeterminate":""}})],1),_vm._v(" "),_c('v-card-actions',{directives:[{name:"show",rawName:"v-show",value:(!_vm.processingMode),expression:"!processingMode"}]},[_c('v-spacer'),_vm._v(" "),_c('v-btn',{attrs:{"color":"secondary","flat":"","disabled":_vm.processingMode},nativeOn:{"click":function($event){return _vm.cancelDialog($event)}}},[_vm._v("\n                "+_vm._s(_vm.$intl.translate({text: 'Cancel', key: 'common.cancel'}))+"\n            ")]),_vm._v(" "),_c('v-btn',{attrs:{"color":"primary","flat":"","disabled":_vm.saveDisabled},nativeOn:{"click":function($event){return _vm.confirmDialog($event)}}},[_vm._v("\n                "+_vm._s(_vm.$intl.translate({text: 'Save', key: 'common.save'}))+"\n            ")])],1)],1)],1)};
-var __vue_staticRenderFns__$i = [];
+var __vue_render__$E = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-dialog',_vm._b({attrs:{"persistent":""},model:{value:(_vm.showDialog),callback:function ($$v) {_vm.showDialog=$$v;},expression:"showDialog"}},'v-dialog',_vm.$attrs,false),[_c('v-card',[_c('v-card-title',{staticClass:"headline"},[_vm._v("\n            "+_vm._s(_vm.$intl.translate(_vm.title))+"\n        ")]),_vm._v(" "),(!_vm.processingMode)?_c('v-card-text',[_c('v-text-field',{attrs:{"label":_vm.$intl.translate(_vm.titleLabel),"error-messages":_vm.error === null ? undefined : [_vm.error],"required":""},model:{value:(_vm.itemTitle),callback:function ($$v) {_vm.itemTitle=$$v;},expression:"itemTitle"}})],1):_c('v-card-text',[_c('v-progress-linear',{attrs:{"indeterminate":""}})],1),_vm._v(" "),_c('v-card-actions',{directives:[{name:"show",rawName:"v-show",value:(!_vm.processingMode),expression:"!processingMode"}]},[_c('v-spacer'),_vm._v(" "),_c('v-btn',{attrs:{"color":"secondary","flat":"","disabled":_vm.processingMode},nativeOn:{"click":function($event){return _vm.cancelDialog($event)}}},[_vm._v("\n                "+_vm._s(_vm.$intl.translate({text: 'Cancel', key: 'common.cancel'}))+"\n            ")]),_vm._v(" "),_c('v-btn',{attrs:{"color":"primary","flat":"","disabled":_vm.saveDisabled},nativeOn:{"click":function($event){return _vm.confirmDialog($event)}}},[_vm._v("\n                "+_vm._s(_vm.$intl.translate({text: 'Save', key: 'common.save'}))+"\n            ")])],1)],1)],1)};
+var __vue_staticRenderFns__$E = [];
 
   /* style */
-  const __vue_inject_styles__$i = undefined;
+  const __vue_inject_styles__$E = undefined;
   /* scoped */
-  const __vue_scope_id__$i = undefined;
+  const __vue_scope_id__$E = undefined;
   /* module identifier */
-  const __vue_module_identifier__$i = undefined;
+  const __vue_module_identifier__$E = undefined;
   /* functional template */
-  const __vue_is_functional_template__$i = false;
+  const __vue_is_functional_template__$E = false;
   /* component normalizer */
-  function __vue_normalize__$i(
+  function __vue_normalize__$E(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -3672,20 +5717,20 @@ var __vue_staticRenderFns__$i = [];
   
 
   
-  var EntityChangeTitleDialog = __vue_normalize__$i(
-    { render: __vue_render__$i, staticRenderFns: __vue_staticRenderFns__$i },
-    __vue_inject_styles__$i,
-    __vue_script__$i,
-    __vue_scope_id__$i,
-    __vue_is_functional_template__$i,
-    __vue_module_identifier__$i,
+  var EntityChangeTitleDialog = __vue_normalize__$E(
+    { render: __vue_render__$E, staticRenderFns: __vue_staticRenderFns__$E },
+    __vue_inject_styles__$E,
+    __vue_script__$E,
+    __vue_scope_id__$E,
+    __vue_is_functional_template__$E,
+    __vue_module_identifier__$E,
     undefined,
     undefined
   );
 
 //
 
-var script$j = {
+var script$F = {
     name: "entity-delete-dialog",
     props: {
         title: {
@@ -3768,22 +5813,22 @@ var script$j = {
 };
 
 /* script */
-            const __vue_script__$j = script$j;
+            const __vue_script__$F = script$F;
             
 /* template */
-var __vue_render__$j = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-dialog',_vm._b({attrs:{"persistent":""},model:{value:(_vm.showDialog),callback:function ($$v) {_vm.showDialog=$$v;},expression:"showDialog"}},'v-dialog',_vm.$attrs,false),[_c('v-card',[_c('v-card-title',{staticClass:"headline"},[_vm._v(_vm._s(_vm.$intl.translate(_vm.title)))]),_vm._v(" "),(!_vm.deleteMode)?_c('v-card-text',[(_vm.error !== null)?_c('div',{staticClass:"red--text"},[_c('v-icon',{attrs:{"color":"red"}},[_vm._v("warning")]),_vm._v(" "+_vm._s(_vm.error))],1):[_vm._v("\n                "+_vm._s(_vm.$intl.translate(_vm.message))+"\n            ")]],2):_c('v-card-text',[_c('v-progress-linear',{attrs:{"indeterminate":""}})],1),_vm._v(" "),_c('v-card-actions',{directives:[{name:"show",rawName:"v-show",value:(!_vm.deleteMode),expression:"!deleteMode"}]},[_c('v-spacer'),_vm._v(" "),_c('v-btn',{attrs:{"color":"secondary","flat":"","disabled":_vm.deleteMode},nativeOn:{"click":function($event){return _vm.cancelDialog($event)}}},[_vm._v("\n                "+_vm._s(_vm.$intl.translate({text: 'Cancel', key: 'common.cancel'}))+"\n            ")]),_vm._v(" "),_c('v-btn',{attrs:{"color":"red","flat":"","disabled":_vm.deleteMode},nativeOn:{"click":function($event){return _vm.confirmDialog($event)}}},[_vm._v("\n                "+_vm._s(_vm.$intl.translate({text: 'Delete', key: 'common.delete'}))+"\n            ")])],1)],1)],1)};
-var __vue_staticRenderFns__$j = [];
+var __vue_render__$F = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-dialog',_vm._b({attrs:{"persistent":""},model:{value:(_vm.showDialog),callback:function ($$v) {_vm.showDialog=$$v;},expression:"showDialog"}},'v-dialog',_vm.$attrs,false),[_c('v-card',[_c('v-card-title',{staticClass:"headline"},[_vm._v(_vm._s(_vm.$intl.translate(_vm.title)))]),_vm._v(" "),(!_vm.deleteMode)?_c('v-card-text',[(_vm.error !== null)?_c('div',{staticClass:"red--text"},[_c('v-icon',{attrs:{"color":"red"}},[_vm._v("warning")]),_vm._v(" "+_vm._s(_vm.error))],1):[_vm._v("\n                "+_vm._s(_vm.$intl.translate(_vm.message))+"\n            ")]],2):_c('v-card-text',[_c('v-progress-linear',{attrs:{"indeterminate":""}})],1),_vm._v(" "),_c('v-card-actions',{directives:[{name:"show",rawName:"v-show",value:(!_vm.deleteMode),expression:"!deleteMode"}]},[_c('v-spacer'),_vm._v(" "),_c('v-btn',{attrs:{"color":"secondary","flat":"","disabled":_vm.deleteMode},nativeOn:{"click":function($event){return _vm.cancelDialog($event)}}},[_vm._v("\n                "+_vm._s(_vm.$intl.translate({text: 'Cancel', key: 'common.cancel'}))+"\n            ")]),_vm._v(" "),_c('v-btn',{attrs:{"color":"red","flat":"","disabled":_vm.deleteMode},nativeOn:{"click":function($event){return _vm.confirmDialog($event)}}},[_vm._v("\n                "+_vm._s(_vm.$intl.translate({text: 'Delete', key: 'common.delete'}))+"\n            ")])],1)],1)],1)};
+var __vue_staticRenderFns__$F = [];
 
   /* style */
-  const __vue_inject_styles__$j = undefined;
+  const __vue_inject_styles__$F = undefined;
   /* scoped */
-  const __vue_scope_id__$j = undefined;
+  const __vue_scope_id__$F = undefined;
   /* module identifier */
-  const __vue_module_identifier__$j = undefined;
+  const __vue_module_identifier__$F = undefined;
   /* functional template */
-  const __vue_is_functional_template__$j = false;
+  const __vue_is_functional_template__$F = false;
   /* component normalizer */
-  function __vue_normalize__$j(
+  function __vue_normalize__$F(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -3811,20 +5856,20 @@ var __vue_staticRenderFns__$j = [];
   
 
   
-  var EntityDeleteDialog = __vue_normalize__$j(
-    { render: __vue_render__$j, staticRenderFns: __vue_staticRenderFns__$j },
-    __vue_inject_styles__$j,
-    __vue_script__$j,
-    __vue_scope_id__$j,
-    __vue_is_functional_template__$j,
-    __vue_module_identifier__$j,
+  var EntityDeleteDialog = __vue_normalize__$F(
+    { render: __vue_render__$F, staticRenderFns: __vue_staticRenderFns__$F },
+    __vue_inject_styles__$F,
+    __vue_script__$F,
+    __vue_scope_id__$F,
+    __vue_is_functional_template__$F,
+    __vue_module_identifier__$F,
     undefined,
     undefined
   );
 
 //
 
-var script$k = {
+var script$G = {
     components: {
         EntityChangeTitleDialog,
         EntityDeleteDialog
@@ -3897,22 +5942,22 @@ var script$k = {
 };
 
 /* script */
-            const __vue_script__$k = script$k;
+            const __vue_script__$G = script$G;
             
 /* template */
-var __vue_render__$k = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-menu',{directives:[{name:"show",rawName:"v-show",value:(false),expression:"false"}],attrs:{"position-x":_vm.x,"position-y":_vm.y},model:{value:(_vm.contextMenu),callback:function ($$v) {_vm.contextMenu=$$v;},expression:"contextMenu"}},[(_vm.item !== null)?_c('v-list',[_vm._t("default"),_vm._v(" "),(_vm.showTitle)?[_c('v-list-tile',{attrs:{"disabled":_vm.isTitleDisabled},on:{"click":function($event){$event.stopPropagation();_vm.contextMenu = false; _vm.showTitleDialog = true;}}},[_c('v-list-tile-avatar',[_c('v-icon',[_vm._v("title")])],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                        "+_vm._s(_vm.$intl.translate({text: 'Change title', key: 'common.changeTitle'}))+"\n                    ")])],1),_vm._v(" "),_c('v-list-tile-action',[_c('entity-change-title-dialog',{ref:"titleDialog",attrs:{"show-dialog":_vm.showTitleDialog,"item":_vm.item,"loader":_vm.loader,"max-width":"300"},on:{"update:showDialog":function($event){_vm.showTitleDialog=$event;},"changed":_vm.onTitleChanged,"mustlogin":function($event){_vm.$emit('mustlogin', $event);}}})],1)],1)]:_vm._e(),_vm._v(" "),(_vm.showDelete)?[_c('v-divider'),_vm._v(" "),_c('v-list-tile',{attrs:{"disabled":_vm.isDeleteDisabled},on:{"click":function($event){$event.stopPropagation();_vm.contextMenu = false; _vm.showDeleteDialog = true;}}},[_c('v-list-tile-avatar',[_c('v-icon',[_vm._v("delete")])],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                        "+_vm._s(_vm.$intl.translate({text: 'Delete', key: 'common.delete'}))+"\n                    ")])],1),_vm._v(" "),_c('v-list-tile-action',[_c('entity-delete-dialog',{ref:"deleteDialog",attrs:{"show-dialog":_vm.showDeleteDialog,"item":_vm.item,"loader":_vm.loader,"max-width":"300"},on:{"update:showDialog":function($event){_vm.showDeleteDialog=$event;},"delete":_vm.onDelete,"mustlogin":function($event){_vm.$emit('mustlogin', $event);}}})],1)],1)]:_vm._e()],2):_vm._e()],1)};
-var __vue_staticRenderFns__$k = [];
+var __vue_render__$G = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-menu',{directives:[{name:"show",rawName:"v-show",value:(false),expression:"false"}],attrs:{"position-x":_vm.x,"position-y":_vm.y},model:{value:(_vm.contextMenu),callback:function ($$v) {_vm.contextMenu=$$v;},expression:"contextMenu"}},[(_vm.item !== null)?_c('v-list',[_vm._t("default"),_vm._v(" "),(_vm.showTitle)?[_c('v-list-tile',{attrs:{"disabled":_vm.isTitleDisabled},on:{"click":function($event){$event.stopPropagation();_vm.contextMenu = false; _vm.showTitleDialog = true;}}},[_c('v-list-tile-avatar',[_c('v-icon',[_vm._v("title")])],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                        "+_vm._s(_vm.$intl.translate({text: 'Change title', key: 'common.changeTitle'}))+"\n                    ")])],1),_vm._v(" "),_c('v-list-tile-action',[_c('entity-change-title-dialog',{ref:"titleDialog",attrs:{"show-dialog":_vm.showTitleDialog,"item":_vm.item,"loader":_vm.loader,"max-width":"300"},on:{"update:showDialog":function($event){_vm.showTitleDialog=$event;},"changed":_vm.onTitleChanged,"mustlogin":function($event){_vm.$emit('mustlogin', $event);}}})],1)],1)]:_vm._e(),_vm._v(" "),(_vm.showDelete)?[_c('v-divider'),_vm._v(" "),_c('v-list-tile',{attrs:{"disabled":_vm.isDeleteDisabled},on:{"click":function($event){$event.stopPropagation();_vm.contextMenu = false; _vm.showDeleteDialog = true;}}},[_c('v-list-tile-avatar',[_c('v-icon',[_vm._v("delete")])],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                        "+_vm._s(_vm.$intl.translate({text: 'Delete', key: 'common.delete'}))+"\n                    ")])],1),_vm._v(" "),_c('v-list-tile-action',[_c('entity-delete-dialog',{ref:"deleteDialog",attrs:{"show-dialog":_vm.showDeleteDialog,"item":_vm.item,"loader":_vm.loader,"max-width":"300"},on:{"update:showDialog":function($event){_vm.showDeleteDialog=$event;},"delete":_vm.onDelete,"mustlogin":function($event){_vm.$emit('mustlogin', $event);}}})],1)],1)]:_vm._e()],2):_vm._e()],1)};
+var __vue_staticRenderFns__$G = [];
 
   /* style */
-  const __vue_inject_styles__$k = undefined;
+  const __vue_inject_styles__$G = undefined;
   /* scoped */
-  const __vue_scope_id__$k = undefined;
+  const __vue_scope_id__$G = undefined;
   /* module identifier */
-  const __vue_module_identifier__$k = undefined;
+  const __vue_module_identifier__$G = undefined;
   /* functional template */
-  const __vue_is_functional_template__$k = false;
+  const __vue_is_functional_template__$G = false;
   /* component normalizer */
-  function __vue_normalize__$k(
+  function __vue_normalize__$G(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -3940,20 +5985,20 @@ var __vue_staticRenderFns__$k = [];
   
 
   
-  var ContextMenu = __vue_normalize__$k(
-    { render: __vue_render__$k, staticRenderFns: __vue_staticRenderFns__$k },
-    __vue_inject_styles__$k,
-    __vue_script__$k,
-    __vue_scope_id__$k,
-    __vue_is_functional_template__$k,
-    __vue_module_identifier__$k,
+  var ContextMenu = __vue_normalize__$G(
+    { render: __vue_render__$G, staticRenderFns: __vue_staticRenderFns__$G },
+    __vue_inject_styles__$G,
+    __vue_script__$G,
+    __vue_scope_id__$G,
+    __vue_is_functional_template__$G,
+    __vue_module_identifier__$G,
     undefined,
     undefined
   );
 
 //
 
-var script$l = {
+var script$H = {
     name: 'entity-list',
     components: {
         ContextMenu,
@@ -4060,26 +6105,26 @@ var script$l = {
 };
 
 /* script */
-            const __vue_script__$l = script$l;
+            const __vue_script__$H = script$H;
             
 /* template */
-var __vue_render__$l = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('entity-list-template',_vm._b({ref:"list",attrs:{"two-line":"","loader":_vm.loader,"handler":_vm.handler,"filterArgs":_vm.searchData},on:{"refresh":function($event){_vm.$emit('refresh', $event);},"load":function($event){_vm.$emit('load', $event);},"dataloaded":function($event){_vm.$emit('dataloaded', $event);},"mustlogin":function($event){_vm.$emit('mustlogin', $event);}},scopedSlots:_vm._u([{key:"item",fn:function(ref){
+var __vue_render__$H = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('entity-list-template',_vm._b({ref:"list",attrs:{"two-line":"","loader":_vm.loader,"handler":_vm.handler,"filterArgs":_vm.searchData},on:{"refresh":function($event){_vm.$emit('refresh', $event);},"load":function($event){_vm.$emit('load', $event);},"dataloaded":function($event){_vm.$emit('dataloaded', $event);},"mustlogin":function($event){_vm.$emit('mustlogin', $event);}},scopedSlots:_vm._u([{key:"item",fn:function(ref){
 var item = ref.item;
 var type = ref.type;
 var index = ref.index;
 return [(index > 0)?_c('v-divider'):_vm._e(),_vm._v(" "),_c('v-list-tile',{key:item.id,on:{"click":function($event){_vm.showContextMenu(item, type, $event);}}},[(_vm.hasIcon)?_c('v-list-tile-avatar',{staticClass:"avatar--tile"},[_vm._t("item-avatar",[(!!item.icon)?_c('image-icon',{attrs:{"squared":_vm.squaredIcon,"src":item.icon}}):_vm._e()],{item:item,type:type,loader:_vm.loaderObject})],2):_vm._e(),_vm._v(" "),_c('v-list-tile-content',[_vm._t("item-text",[_c('v-list-tile-title',[_vm._v(_vm._s(item.title))]),_vm._v(" "),(type !== null)?_c('v-list-tile-sub-title',[_vm._v("\n                        "+_vm._s(type.title)+"\n                        "),_c('small',[_vm._v("("+_vm._s(item.behavior ? item.type + ':' + item.behavior : item.type)+")")])]):_vm._e()],{item:item,type:type,loader:_vm.loaderObject})],2),_vm._v(" "),_c('v-list-tile-action',[_c('v-btn',{attrs:{"icon":"","ripple":""},on:{"click":function($event){_vm.showContextMenu(item, type, $event);}}},[_c('v-icon',[_vm._v("more_vert")])],1)],1)],1)]}}])},'entity-list-template',_vm.$attrs,false),[_c('context-menu',{ref:"contextMenu",attrs:{"loader":_vm.loaderObject,"show-title":_vm.editableTitle !== false,"show-delete":_vm.deletable !== false,"is-title-disabled":!_vm.isTitleEditable,"is-delete-disabled":!_vm.isDeletable},on:{"titlechanged":_vm.onTitleChanged,"delete":_vm.onDelete,"mustlogin":function($event){_vm.$emit('mustlogin', $event);}}},[(_vm.currentItem !== null)?_vm._t("item-actions",null,{item:_vm.currentItem,type:_vm.currentItemType,loader:_vm.loaderObject}):_vm._e()],2),_vm._v(" "),_vm._t("default")],2)};
-var __vue_staticRenderFns__$l = [];
+var __vue_staticRenderFns__$H = [];
 
   /* style */
-  const __vue_inject_styles__$l = undefined;
+  const __vue_inject_styles__$H = undefined;
   /* scoped */
-  const __vue_scope_id__$l = undefined;
+  const __vue_scope_id__$H = undefined;
   /* module identifier */
-  const __vue_module_identifier__$l = undefined;
+  const __vue_module_identifier__$H = undefined;
   /* functional template */
-  const __vue_is_functional_template__$l = false;
+  const __vue_is_functional_template__$H = false;
   /* component normalizer */
-  function __vue_normalize__$l(
+  function __vue_normalize__$H(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -4107,13 +6152,13 @@ var __vue_staticRenderFns__$l = [];
   
 
   
-  var EntityList = __vue_normalize__$l(
-    { render: __vue_render__$l, staticRenderFns: __vue_staticRenderFns__$l },
-    __vue_inject_styles__$l,
-    __vue_script__$l,
-    __vue_scope_id__$l,
-    __vue_is_functional_template__$l,
-    __vue_module_identifier__$l,
+  var EntityList = __vue_normalize__$H(
+    { render: __vue_render__$H, staticRenderFns: __vue_staticRenderFns__$H },
+    __vue_inject_styles__$H,
+    __vue_script__$H,
+    __vue_scope_id__$H,
+    __vue_is_functional_template__$H,
+    __vue_module_identifier__$H,
     undefined,
     undefined
   );
@@ -4142,7 +6187,7 @@ var EntityListLoadMixin = {
 
 //
 
-var script$m = {
+var script$I = {
     components: {
         EntityList,
         AppPage
@@ -4411,28 +6456,28 @@ var script$m = {
 };
 
 /* script */
-            const __vue_script__$m = script$m;
+            const __vue_script__$I = script$I;
             
 /* template */
-var __vue_render__$m = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('app-page',{ref:"page",attrs:{"title":_vm.pageTitle,"back":_vm.back}},[_c('template',{slot:"toolbar"},[(_vm.refreshButton)?_c('v-btn',{attrs:{"dark":"","icon":""},on:{"click":function($event){$event.stopPropagation();_vm.$refs.list && _vm.$refs.list.refreshList();}}},[_c('v-icon',[_vm._v(_vm._s(_vm.$controlIcon('refresh')))])],1):_vm._e(),_vm._v(" "),(_vm.filterForm && _vm.filterForm.length)?[_c('v-dialog',{attrs:{"lazy":"","max-width":"500"},model:{value:(_vm.dialog),callback:function ($$v) {_vm.dialog=$$v;},expression:"dialog"}},[_c('v-btn',{attrs:{"slot":"activator","dark":"","icon":""},on:{"click":function($event){_vm.makeDialogModel();}},slot:"activator"},[_c('v-icon',[_vm._v(_vm._s(_vm.$controlIcon(_vm.contextIcon)))])],1),_vm._v(" "),_c('block-form',{ref:"filterForm",attrs:{"title":"Search...","items":_vm.filterForm,"submit-button":"Search","options":_vm.formOptions},on:{"submit":function($event){_vm.filterItems($event);}},scopedSlots:_vm._u([{key:"default",fn:function(props){return [_c('v-btn',{attrs:{"flat":""},on:{"click":function($event){$event.stopPropagation();_vm.dialogModel = {}, _vm.filterItems(_vm.dialogModel);}}},[_c('v-icon',[_vm._v("clear")]),_vm._v("\n                            Reset\n                        ")],1),_vm._v(" "),_c('v-spacer'),_vm._v(" "),_c('v-btn',{attrs:{"color":"primary","disabled":props.submitDisabled},on:{"click":function($event){$event.stopPropagation();props.submit();}}},[_c('v-icon',[_vm._v("search")]),_vm._v("\n                            Search\n                        ")],1)]}}]),model:{value:(_vm.dialogModel),callback:function ($$v) {_vm.dialogModel=$$v;},expression:"dialogModel"}})],1)]:_vm._e()],2),_vm._v(" "),_c('entity-list',{ref:"list",attrs:{"page":_vm.listPage,"loader":_vm.entity,"deletable":_vm.hasDelete && _vm.canDelete,"editable-title":_vm.hasTitle && _vm.canEdit,"has-icon":_vm.hasIcon,"handler":_vm.loadHandler,"filter-args":_vm.filters,"collection-key":_vm.collectionKey,"type-key":_vm.typeKey,"behavior-key":_vm.behaviorKey,"type-cache-key":_vm.typeCacheKey,"rows":_vm.rows,"squared-icon":_vm.squaredIcon},on:{"load":function($event){_vm.onListLoaded();},"refresh":function($event){_vm.onListRefresh();},"dataloaded":function($event){_vm.onListDataLoadedCheck($event);},"itemdeleted":function($event){_vm.onItemDeletedCheck($event);},"mustlogin":function($event){_vm.doLogin($event);}},scopedSlots:_vm._u([{key:"item-text",fn:function(ref){
+var __vue_render__$I = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('app-page',{ref:"page",attrs:{"title":_vm.pageTitle,"back":_vm.back}},[_c('template',{slot:"toolbar"},[(_vm.refreshButton)?_c('v-btn',{attrs:{"dark":"","icon":""},on:{"click":function($event){$event.stopPropagation();_vm.$refs.list && _vm.$refs.list.refreshList();}}},[_c('v-icon',[_vm._v(_vm._s(_vm.$controlIcon('refresh')))])],1):_vm._e(),_vm._v(" "),(_vm.filterForm && _vm.filterForm.length)?[_c('v-dialog',{attrs:{"lazy":"","max-width":"500"},model:{value:(_vm.dialog),callback:function ($$v) {_vm.dialog=$$v;},expression:"dialog"}},[_c('v-btn',{attrs:{"slot":"activator","dark":"","icon":""},on:{"click":function($event){_vm.makeDialogModel();}},slot:"activator"},[_c('v-icon',[_vm._v(_vm._s(_vm.$controlIcon(_vm.contextIcon)))])],1),_vm._v(" "),_c('block-form',{ref:"filterForm",attrs:{"title":"Search...","items":_vm.filterForm,"submit-button":"Search","options":_vm.formOptions},on:{"submit":function($event){_vm.filterItems($event);}},scopedSlots:_vm._u([{key:"default",fn:function(props){return [_c('v-btn',{attrs:{"flat":""},on:{"click":function($event){$event.stopPropagation();_vm.dialogModel = {}, _vm.filterItems(_vm.dialogModel);}}},[_c('v-icon',[_vm._v("clear")]),_vm._v("\n                            Reset\n                        ")],1),_vm._v(" "),_c('v-spacer'),_vm._v(" "),_c('v-btn',{attrs:{"color":"primary","disabled":props.submitDisabled},on:{"click":function($event){$event.stopPropagation();props.submit();}}},[_c('v-icon',[_vm._v("search")]),_vm._v("\n                            Search\n                        ")],1)]}}]),model:{value:(_vm.dialogModel),callback:function ($$v) {_vm.dialogModel=$$v;},expression:"dialogModel"}})],1)]:_vm._e()],2),_vm._v(" "),_c('entity-list',{ref:"list",attrs:{"page":_vm.listPage,"loader":_vm.entity,"deletable":_vm.hasDelete && _vm.canDelete,"editable-title":_vm.hasTitle && _vm.canEdit,"has-icon":_vm.hasIcon,"handler":_vm.loadHandler,"filter-args":_vm.filters,"collection-key":_vm.collectionKey,"type-key":_vm.typeKey,"behavior-key":_vm.behaviorKey,"type-cache-key":_vm.typeCacheKey,"rows":_vm.rows,"squared-icon":_vm.squaredIcon},on:{"load":function($event){_vm.onListLoaded();},"refresh":function($event){_vm.onListRefresh();},"dataloaded":function($event){_vm.onListDataLoadedCheck($event);},"itemdeleted":function($event){_vm.onItemDeletedCheck($event);},"mustlogin":function($event){_vm.doLogin($event);}},scopedSlots:_vm._u([{key:"item-text",fn:function(ref){
 var item = ref.item;
 var type = ref.type;
 return _vm.customText != null?[_c('v-list-tile-title',{domProps:{"innerHTML":_vm._s(_vm.getCustomTitle(item, type) || '')}}),_vm._v(" "),_c('v-list-tile-sub-title',{domProps:{"innerHTML":_vm._s(_vm.getCustomDescription(item, type) || '')}})]:undefined}},{key:"item-actions",fn:function(ref){
 var item = ref.item;
 var type = ref.type;
 return _vm.actions.length > 0?_vm._l((_vm.actions),function(action){return _c('v-list-tile',{key:_vm.$uniqueObjectId(action),attrs:{"to":action.callback ? undefined : _vm.actionHref(action.href, item, type),"disabled":!_vm.canEdit || (action.disabled && action.disabled(item, type))},on:{"click":function($event){action.callback && _vm.canEdit && !(action.disabled && action.disabled(item, type)) && action.callback(item, type);}}},[_c('v-list-tile-avatar',[(action.icon)?_c('v-icon',[_vm._v(_vm._s(action.icon))]):_vm._e()],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',{domProps:{"innerHTML":_vm._s(_vm.actionTitle(action.title, item, type))}})],1),_vm._v(" "),_c('v-list-tile-action',[_vm._v(" ")])],1)}):undefined}}])}),_vm._v(" "),(_vm.lastPage > 1)?_c('v-layout',{directives:[{name:"show",rawName:"v-show",value:(_vm.listLoaded),expression:"listLoaded"}],staticClass:"white",attrs:{"align-center":"","justify-center":""}},[_c('v-pagination',{attrs:{"circle":"","length":_vm.lastPage,"total-visible":_vm.visiblePages},model:{value:(_vm.page),callback:function ($$v) {_vm.page=$$v;},expression:"page"}})],1):_vm._e(),_vm._v(" "),_c('v-fab-transition',[(_vm.canAdd && _vm.listLoaded)?_c('v-btn',{attrs:{"fixed":"","fab":"","bottom":"","right":"","color":"accent","to":_vm.addHref}},[_c('v-icon',[_vm._v("add")])],1):_vm._e()],1)],2)};
-var __vue_staticRenderFns__$m = [];
+var __vue_staticRenderFns__$I = [];
 
   /* style */
-  const __vue_inject_styles__$m = undefined;
+  const __vue_inject_styles__$I = undefined;
   /* scoped */
-  const __vue_scope_id__$m = undefined;
+  const __vue_scope_id__$I = undefined;
   /* module identifier */
-  const __vue_module_identifier__$m = undefined;
+  const __vue_module_identifier__$I = undefined;
   /* functional template */
-  const __vue_is_functional_template__$m = false;
+  const __vue_is_functional_template__$I = false;
   /* component normalizer */
-  function __vue_normalize__$m(
+  function __vue_normalize__$I(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -4460,13 +6505,13 @@ var __vue_staticRenderFns__$m = [];
   
 
   
-  var EntityListForm = __vue_normalize__$m(
-    { render: __vue_render__$m, staticRenderFns: __vue_staticRenderFns__$m },
-    __vue_inject_styles__$m,
-    __vue_script__$m,
-    __vue_scope_id__$m,
-    __vue_is_functional_template__$m,
-    __vue_module_identifier__$m,
+  var EntityListForm = __vue_normalize__$I(
+    { render: __vue_render__$I, staticRenderFns: __vue_staticRenderFns__$I },
+    __vue_inject_styles__$I,
+    __vue_script__$I,
+    __vue_scope_id__$I,
+    __vue_is_functional_template__$I,
+    __vue_module_identifier__$I,
     undefined,
     undefined
   );
@@ -4599,7 +6644,7 @@ const MODES = {
 })(Quill);
 
 
-var script$n = {
+var script$J = {
     name: 'quill-editor',
 
     props: {
@@ -4689,21 +6734,21 @@ var script$n = {
 };
 
 /* script */
-            const __vue_script__$n = script$n;
+            const __vue_script__$J = script$J;
 /* template */
-var __vue_render__$n = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',_vm._b({staticClass:"quillWrapper"},'div',_vm.$attrs,false),[_c('div',{ref:"quillContainer"}),_vm._v(" "),(_vm.useCustomImageHandler)?_c('input',{ref:"fileInput",staticStyle:{"display":"none"},attrs:{"type":"file"},on:{"change":function($event){_vm.emitImageInfo($event);}}}):_vm._e()])};
-var __vue_staticRenderFns__$n = [];
+var __vue_render__$J = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',_vm._b({staticClass:"quillWrapper"},'div',_vm.$attrs,false),[_c('div',{ref:"quillContainer"}),_vm._v(" "),(_vm.useCustomImageHandler)?_c('input',{ref:"fileInput",staticStyle:{"display":"none"},attrs:{"type":"file"},on:{"change":function($event){_vm.emitImageInfo($event);}}}):_vm._e()])};
+var __vue_staticRenderFns__$J = [];
 
   /* style */
-  const __vue_inject_styles__$n = undefined;
+  const __vue_inject_styles__$J = undefined;
   /* scoped */
-  const __vue_scope_id__$n = undefined;
+  const __vue_scope_id__$J = undefined;
   /* module identifier */
-  const __vue_module_identifier__$n = undefined;
+  const __vue_module_identifier__$J = undefined;
   /* functional template */
-  const __vue_is_functional_template__$n = false;
+  const __vue_is_functional_template__$J = false;
   /* component normalizer */
-  function __vue_normalize__$n(
+  function __vue_normalize__$J(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -4731,20 +6776,20 @@ var __vue_staticRenderFns__$n = [];
   
 
   
-  var QuillEditor = __vue_normalize__$n(
-    { render: __vue_render__$n, staticRenderFns: __vue_staticRenderFns__$n },
-    __vue_inject_styles__$n,
-    __vue_script__$n,
-    __vue_scope_id__$n,
-    __vue_is_functional_template__$n,
-    __vue_module_identifier__$n,
+  var QuillEditor = __vue_normalize__$J(
+    { render: __vue_render__$J, staticRenderFns: __vue_staticRenderFns__$J },
+    __vue_inject_styles__$J,
+    __vue_script__$J,
+    __vue_scope_id__$J,
+    __vue_is_functional_template__$J,
+    __vue_module_identifier__$J,
     undefined,
     undefined
   );
 
 //
 
-var script$o = {
+var script$K = {
     name: 'ace-editor',
     props: {
         value: {type: String, default: '', required: false},
@@ -4837,21 +6882,21 @@ var script$o = {
 };
 
 /* script */
-            const __vue_script__$o = script$o;
+            const __vue_script__$K = script$K;
 /* template */
-var __vue_render__$o = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',_vm._b({staticClass:"ace-editor"},'div',_vm.$attrs,false))};
-var __vue_staticRenderFns__$o = [];
+var __vue_render__$K = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',_vm._b({staticClass:"ace-editor"},'div',_vm.$attrs,false))};
+var __vue_staticRenderFns__$K = [];
 
   /* style */
-  const __vue_inject_styles__$o = undefined;
+  const __vue_inject_styles__$K = undefined;
   /* scoped */
-  const __vue_scope_id__$o = undefined;
+  const __vue_scope_id__$K = undefined;
   /* module identifier */
-  const __vue_module_identifier__$o = undefined;
+  const __vue_module_identifier__$K = undefined;
   /* functional template */
-  const __vue_is_functional_template__$o = false;
+  const __vue_is_functional_template__$K = false;
   /* component normalizer */
-  function __vue_normalize__$o(
+  function __vue_normalize__$K(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -4879,20 +6924,20 @@ var __vue_staticRenderFns__$o = [];
   
 
   
-  var AceEditor = __vue_normalize__$o(
-    { render: __vue_render__$o, staticRenderFns: __vue_staticRenderFns__$o },
-    __vue_inject_styles__$o,
-    __vue_script__$o,
-    __vue_scope_id__$o,
-    __vue_is_functional_template__$o,
-    __vue_module_identifier__$o,
+  var AceEditor = __vue_normalize__$K(
+    { render: __vue_render__$K, staticRenderFns: __vue_staticRenderFns__$K },
+    __vue_inject_styles__$K,
+    __vue_script__$K,
+    __vue_scope_id__$K,
+    __vue_is_functional_template__$K,
+    __vue_module_identifier__$K,
     undefined,
     undefined
   );
 
 //
 
-var script$p = {
+var script$L = {
     components: {AceEditor, BlockError, ControlLabel},
     mixins: [JsonFormElementMixin],
     data() {
@@ -4912,22 +6957,22 @@ var script$p = {
 };
 
 /* script */
-            const __vue_script__$p = script$p;
+            const __vue_script__$L = script$L;
             
 /* template */
-var __vue_render__$p = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"my-2"},[_c('control-label',{attrs:{"text":_vm.$intl.translate(_vm.display.title),"has-error":_vm.allErrors.length > 0,"required":_vm.config.required}}),_vm._v(" "),_c('ace-editor',{ref:"editor",staticClass:"mt-1",attrs:{"options":_vm.config.editor,"lang":_vm.config.lang},on:{"input":function($event){_vm.validate();},"syntax-error":function($event){_vm.hasSyntaxError = $event;}},model:{value:(_vm.model[_vm.name]),callback:function ($$v) {_vm.$set(_vm.model, _vm.name, $$v);},expression:"model[name]"}}),_vm._v(" "),_c('block-error',{staticClass:"mt-1",attrs:{"error":_vm.allErrors.length > 0 ? _vm.allErrors[0] : undefined}})],1)};
-var __vue_staticRenderFns__$p = [];
+var __vue_render__$L = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"my-2"},[_c('control-label',{attrs:{"text":_vm.$intl.translate(_vm.display.title),"has-error":_vm.allErrors.length > 0,"required":_vm.config.required}}),_vm._v(" "),_c('ace-editor',{ref:"editor",staticClass:"mt-1",attrs:{"options":_vm.config.editor,"lang":_vm.config.lang},on:{"input":function($event){_vm.validate();},"syntax-error":function($event){_vm.hasSyntaxError = $event;}},model:{value:(_vm.model[_vm.name]),callback:function ($$v) {_vm.$set(_vm.model, _vm.name, $$v);},expression:"model[name]"}}),_vm._v(" "),_c('block-error',{staticClass:"mt-1",attrs:{"error":_vm.allErrors.length > 0 ? _vm.allErrors[0] : undefined}})],1)};
+var __vue_staticRenderFns__$L = [];
 
   /* style */
-  const __vue_inject_styles__$p = undefined;
+  const __vue_inject_styles__$L = undefined;
   /* scoped */
-  const __vue_scope_id__$p = undefined;
+  const __vue_scope_id__$L = undefined;
   /* module identifier */
-  const __vue_module_identifier__$p = undefined;
+  const __vue_module_identifier__$L = undefined;
   /* functional template */
-  const __vue_is_functional_template__$p = false;
+  const __vue_is_functional_template__$L = false;
   /* component normalizer */
-  function __vue_normalize__$p(
+  function __vue_normalize__$L(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -4955,13 +7000,13 @@ var __vue_staticRenderFns__$p = [];
   
 
   
-  var CodeControl = __vue_normalize__$p(
-    { render: __vue_render__$p, staticRenderFns: __vue_staticRenderFns__$p },
-    __vue_inject_styles__$p,
-    __vue_script__$p,
-    __vue_scope_id__$p,
-    __vue_is_functional_template__$p,
-    __vue_module_identifier__$p,
+  var CodeControl = __vue_normalize__$L(
+    { render: __vue_render__$L, staticRenderFns: __vue_staticRenderFns__$L },
+    __vue_inject_styles__$L,
+    __vue_script__$L,
+    __vue_scope_id__$L,
+    __vue_is_functional_template__$L,
+    __vue_module_identifier__$L,
     undefined,
     undefined
   );
@@ -4972,28 +7017,28 @@ CodeControl.install = function () {
 
 //
 
-var script$q = {
+var script$M = {
     mixins: [JsonFormElementMixin],
     components: {ControlLabel, QuillEditor, BlockError}
 };
 
 /* script */
-            const __vue_script__$q = script$q;
+            const __vue_script__$M = script$M;
             
 /* template */
-var __vue_render__$q = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"my-2"},[_c('control-label',{attrs:{"text":_vm.$intl.translate(_vm.display.title),"has-error":_vm.allErrors.length > 0,"required":_vm.config.required}}),_vm._v(" "),_c('quill-editor',{staticClass:"mt-1",attrs:{"placeholder":_vm.$intl.translate(_vm.display.placeholder),"editor-modules":_vm.config.mode},model:{value:(_vm.model[_vm.name]),callback:function ($$v) {_vm.$set(_vm.model, _vm.name, $$v);},expression:"model[name]"}}),_vm._v(" "),_c('block-error',{staticClass:"mt-1",attrs:{"error":_vm.allErrors.length > 0 ? _vm.allErrors[0] : undefined}})],1)};
-var __vue_staticRenderFns__$q = [];
+var __vue_render__$M = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"my-2"},[_c('control-label',{attrs:{"text":_vm.$intl.translate(_vm.display.title),"has-error":_vm.allErrors.length > 0,"required":_vm.config.required}}),_vm._v(" "),_c('quill-editor',{staticClass:"mt-1",attrs:{"placeholder":_vm.$intl.translate(_vm.display.placeholder),"editor-modules":_vm.config.mode},model:{value:(_vm.model[_vm.name]),callback:function ($$v) {_vm.$set(_vm.model, _vm.name, $$v);},expression:"model[name]"}}),_vm._v(" "),_c('block-error',{staticClass:"mt-1",attrs:{"error":_vm.allErrors.length > 0 ? _vm.allErrors[0] : undefined}})],1)};
+var __vue_staticRenderFns__$M = [];
 
   /* style */
-  const __vue_inject_styles__$q = undefined;
+  const __vue_inject_styles__$M = undefined;
   /* scoped */
-  const __vue_scope_id__$q = undefined;
+  const __vue_scope_id__$M = undefined;
   /* module identifier */
-  const __vue_module_identifier__$q = undefined;
+  const __vue_module_identifier__$M = undefined;
   /* functional template */
-  const __vue_is_functional_template__$q = false;
+  const __vue_is_functional_template__$M = false;
   /* component normalizer */
-  function __vue_normalize__$q(
+  function __vue_normalize__$M(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -5021,13 +7066,13 @@ var __vue_staticRenderFns__$q = [];
   
 
   
-  var RichtextControl = __vue_normalize__$q(
-    { render: __vue_render__$q, staticRenderFns: __vue_staticRenderFns__$q },
-    __vue_inject_styles__$q,
-    __vue_script__$q,
-    __vue_scope_id__$q,
-    __vue_is_functional_template__$q,
-    __vue_module_identifier__$q,
+  var RichtextControl = __vue_normalize__$M(
+    { render: __vue_render__$M, staticRenderFns: __vue_staticRenderFns__$M },
+    __vue_inject_styles__$M,
+    __vue_script__$M,
+    __vue_scope_id__$M,
+    __vue_is_functional_template__$M,
+    __vue_module_identifier__$M,
     undefined,
     undefined
   );
@@ -5038,7 +7083,7 @@ RichtextControl.install = function () {
 
 //
 
-var script$r = {
+var script$N = {
     components: {AceEditor, BlockError, ControlLabel},
     mixins: [JsonFormElementMixin],
     data() {
@@ -5080,22 +7125,22 @@ var script$r = {
 };
 
 /* script */
-            const __vue_script__$r = script$r;
+            const __vue_script__$N = script$N;
             
 /* template */
-var __vue_render__$r = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"my-2"},[_c('control-label',{attrs:{"text":_vm.$intl.translate(_vm.display.title),"has-error":_vm.allErrors.length > 0,"required":_vm.config.required}}),_vm._v(" "),_c('ace-editor',{ref:"editor",staticClass:"mt-1",attrs:{"lang":"json"},on:{"input":function($event){_vm.onCode($event);},"syntax-error":function($event){_vm.hasSyntaxError = $event;}},model:{value:(_vm.code),callback:function ($$v) {_vm.code=$$v;},expression:"code"}}),_vm._v(" "),_c('block-error',{staticClass:"mt-1",attrs:{"error":_vm.allErrors.length > 0 ? _vm.allErrors[0] : undefined}})],1)};
-var __vue_staticRenderFns__$r = [];
+var __vue_render__$N = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"my-2"},[_c('control-label',{attrs:{"text":_vm.$intl.translate(_vm.display.title),"has-error":_vm.allErrors.length > 0,"required":_vm.config.required}}),_vm._v(" "),_c('ace-editor',{ref:"editor",staticClass:"mt-1",attrs:{"lang":"json"},on:{"input":function($event){_vm.onCode($event);},"syntax-error":function($event){_vm.hasSyntaxError = $event;}},model:{value:(_vm.code),callback:function ($$v) {_vm.code=$$v;},expression:"code"}}),_vm._v(" "),_c('block-error',{staticClass:"mt-1",attrs:{"error":_vm.allErrors.length > 0 ? _vm.allErrors[0] : undefined}})],1)};
+var __vue_staticRenderFns__$N = [];
 
   /* style */
-  const __vue_inject_styles__$r = undefined;
+  const __vue_inject_styles__$N = undefined;
   /* scoped */
-  const __vue_scope_id__$r = undefined;
+  const __vue_scope_id__$N = undefined;
   /* module identifier */
-  const __vue_module_identifier__$r = undefined;
+  const __vue_module_identifier__$N = undefined;
   /* functional template */
-  const __vue_is_functional_template__$r = false;
+  const __vue_is_functional_template__$N = false;
   /* component normalizer */
-  function __vue_normalize__$r(
+  function __vue_normalize__$N(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -5123,13 +7168,13 @@ var __vue_staticRenderFns__$r = [];
   
 
   
-  var JsonFormControlsControl = __vue_normalize__$r(
-    { render: __vue_render__$r, staticRenderFns: __vue_staticRenderFns__$r },
-    __vue_inject_styles__$r,
-    __vue_script__$r,
-    __vue_scope_id__$r,
-    __vue_is_functional_template__$r,
-    __vue_module_identifier__$r,
+  var JsonFormControlsControl = __vue_normalize__$N(
+    { render: __vue_render__$N, staticRenderFns: __vue_staticRenderFns__$N },
+    __vue_inject_styles__$N,
+    __vue_script__$N,
+    __vue_scope_id__$N,
+    __vue_is_functional_template__$N,
+    __vue_module_identifier__$N,
     undefined,
     undefined
   );
@@ -5624,4 +7669,4 @@ Vue.use(JsonFormControlsControl);
 Vue.prototype.$app = App;
 Vue.prototype.$user = User;
 
-export { App, Router, Loaders, permissionHook, permissionRoute, onRouteLeave, entityCreateRoute, entityEditRoute, entityListRoute, AppLayout, AppMenu, AppExtensions, AppUser, AppRoot, AppToolbar, AppPage, AppDashboard, AppNotifier, AppExtensionRoute, EntityChangeTitleDialog, EntityDeleteDialog, QuillEditor, AceEditor, EntityList, EntityListTemplate, EntityListLoadMixin, ContextMenu as EntityListContextMenu, LetterAvatar, ImageIcon, ContentLoader, EntityCreateForm, EntityEditForm, EntityListForm, CodeControl, RichtextControl, JsonFormControlsControl, Parser as EntityTypeParser, Control as EntityTypeControl, Parser$1 as EntityInstanceParser, Control$1 as EntityInstanceControl, ExtendableError, ServerError, BaseLoader, DataLoader, CacheLoader, CachedDataLoader, Requestor, EntityMixin, CloseDialogsBeforeLeave, PagerMixin, PageNotifier, ServerErrorMixin, LoginMixin, FormMixin, install as DOMPortalDirective, install$1 as DocumentTitleDirective };
+export { App, Router, Loaders, permissionHook, permissionRoute, onRouteLeave, entityCreateRoute, entityEditRoute, entityListRoute, AppLayout, AppMenu, AppExtensions, AppUser, AppRoot, AppToolbar, AppPage, AppDashboard, AppNotifier, AppExtensionRoute, EntityChangeTitleDialog, EntityDeleteDialog, QuillEditor, AceEditor, EntityList, EntityListTemplate, EntityListLoadMixin, ContextMenu as EntityListContextMenu, LetterAvatar, ImageIcon, ContentLoader, EntityCreateForm, EntityEditForm, EntityListForm, CodeControl, RichtextControl, JsonFormControlsControl, Parser as EntityTypeParser, Control as EntityTypeControl, Parser$1 as EntityInstanceParser, Control$1 as EntityInstanceControl, JsonFormDisplay$1 as JsonFormDisplay, JsonFormDisplayForm, JsonFormDisplayControl, JsonFormDisplayElement, JsonFormDisplayElementMixin, JsonFormDisplayGroup, JsonFormDisplayItemWrapper, ExtendableError, ServerError, BaseLoader, DataLoader, CacheLoader, CachedDataLoader, Requestor, EntityMixin, CloseDialogsBeforeLeave, PagerMixin, PageNotifier, ServerErrorMixin, LoginMixin, FormMixin, install as DOMPortalDirective, install$1 as DocumentTitleDirective };

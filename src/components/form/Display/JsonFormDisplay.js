@@ -29,7 +29,7 @@ class JsonFormDisplay
     control(name)
     {
         if (!this.hasControl(name)) {
-            throw new Error(`Control ${name} was not registered`);
+            return null;
         }
         return this._controls[name];
     }
@@ -55,12 +55,19 @@ class JsonFormDisplay
                 ctrl = definition.fallback;
             }
         }
-        return this.control(ctrl).parse(definition, this);
+        ctrl = this.control(ctrl);
+        if (ctrl == null) {
+            return null;
+        }
+        return ctrl.parse(definition, this);
     }
 
     parseControlList(definitions)
     {
-        return definitions.map(definition => this.parseControl(definition));
+        if (!Array.isArray(definitions)) {
+            return null;
+        }
+        return definitions.map(definition => this.parseControl(definition)).filter(item => item != null);
     }
 }
 

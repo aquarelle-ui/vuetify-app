@@ -1,11 +1,12 @@
 <template>
-    <component :is="control.element"
-               :model="model"
-               :files="files"
-               :name="control.name || null"
-               :display="control.display || {}"
-               :config="control.config || {}"
-               :items="control.items || null"
+    <component v-if="control.element != null"
+            :is="control.element"
+            :model="model"
+            :files="files"
+            :name="control.name || null"
+            :display="control.display || {}"
+            :config="control.config || {}"
+            :items="control.items || null"
     ></component>
 </template>
 <script>
