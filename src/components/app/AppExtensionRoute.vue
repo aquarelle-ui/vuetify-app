@@ -9,7 +9,9 @@
 
         <template slot="app-right-drawer">
             <app-user :user="appInfo.user"></app-user>
-            <app-extensions :user="appInfo.user" :app="appInfo.app" :current-vendor="appInfo.vendor"></app-extensions>
+            <v-text-field v-model.trim="search" label="Search..." append-icon="search" clearable solo hide-details flat></v-text-field>
+            <app-search-results v-show="search != null && search !== ''" :app="appInfo.app" :search="search"></app-search-results>
+            <app-extensions v-show="search == null || search === ''" :user="appInfo.user" :app="appInfo.app" :current-vendor="appInfo.vendor"></app-extensions>
         </template>
         <v-content>
             <v-layout :style="{height: contentHeight}">
@@ -23,6 +25,7 @@
     import AppExtensions from "./AppExtensions";
     import AppMenu from "./AppMenu";
     import AppLayout from "./AppLayout";
+    import AppSearchResults from "./AppSearchResults";
 
     export default {
         name: 'app-extension-route',
@@ -30,18 +33,23 @@
             AppMenu,
             AppExtensions,
             AppUser,
-            AppLayout
-        },
-        data() {
-            return {
-                contentHeight: '100%'
-            };
+            AppLayout,
+            AppSearchResults
         },
         props: {
             appInfo: {
                 type: Object,
                 required: true
             }
+        },
+        data() {
+            return {
+                search: null,
+                contentHeight: '100%'
+            };
+        },
+        computed: {
+
         },
         watch: {
             '$vuetify.breakpoint.height'(value) {
