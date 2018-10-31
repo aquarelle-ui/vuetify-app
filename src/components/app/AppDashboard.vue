@@ -9,20 +9,26 @@
                     <app-user style="width: 320px" :user="app.user"></app-user>
                 </v-menu>
             </v-toolbar>
-            <app-extensions :app="app" always-open></app-extensions>
+            <v-text-field v-model.trim="search" label="Search..." append-icon="search" clearable solo hide-details flat></v-text-field>
+            <app-search-results v-show="search != null && search !== ''" :app="app" :search="search"></app-search-results>
+            <app-extensions v-show="search == null || search === ''" :app="app" always-open></app-extensions>
         </v-card>
     </v-app>
 </template>
 <script>
     import AppExtensions from "./AppExtensions";
     import AppUser from "./AppUser";
+    import AppSearchResults from "./AppSearchResults";
     import {ImageIcon} from "../misc";
 
     export default {
         name: 'app-dashboard',
-        components: {ImageIcon, AppUser, AppExtensions},
+        components: {ImageIcon, AppUser, AppExtensions, AppSearchResults},
         props: {
             app: {type: Object, required: true}
+        },
+        data() {
+            return {search: null};
         },
         methods: {
             vendors() {

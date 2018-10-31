@@ -3906,120 +3906,6 @@ var __vue_staticRenderFns__$y = [];
 //
 
 var script$z = {
-    name: 'app-dashboard',
-    components: {ImageIcon, AppUser, AppExtensions},
-    props: {
-        app: {type: Object, required: true}
-    },
-    methods: {
-        vendors() {
-            let vendors = [];
-            const all = this.app.getAllVendors();
-
-            for (const p in all) {
-                if (!all.hasOwnProperty(p)) {
-                    continue;
-                }
-                const vendor = all[p];
-                if (!this.hasPermissions(vendor.permissions || [])) {
-                    continue;
-                }
-                if (!this.hasExtPermissions(vendor.name)) {
-                    continue;
-                }
-                vendors.push({
-                    name: vendor.name,
-                    title: vendor.title || vendor.name,
-                    description: vendor.description || null,
-                    icon: vendor.icon || null,
-                    url: vendor.url,
-                    extensions: this.app.getAllVendorExtensions(vendor.name)
-                });
-            }
-            return vendors;
-        },
-        hasPermissions(perm) {
-            return this.app.user.hasPermission(perm);
-        },
-        hasExtPermissions(vendor)
-        {
-            return this.app.getAllVendorExtensions(vendor).map(ext => {
-                // Check permissions
-                if (!this.hasPermissions(ext.permissions)) {
-                    return;
-                }
-                if (ext.menu.length === 0) {
-                    return true;
-                }
-                return ext.menu.some(region => {
-                    if (!this.hasPermissions(region.permissions)) {
-                        return false;
-                    }
-                    return region.items.some(item => this.hasPermissions(item.permissions));
-                });
-            });
-        }
-    }
-};
-
-/* script */
-            const __vue_script__$z = script$z;
-            
-/* template */
-var __vue_render__$z = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-app',[_c('v-card',{attrs:{"flat":""}},[_c('v-toolbar',{attrs:{"color":"primary","dark":""}},[_c('v-toolbar-title',[_vm._v("Welcome to Aquarelle")]),_vm._v(" "),_c('v-spacer'),_vm._v(" "),_c('v-menu',{attrs:{"offset-x":"","max-width":"320"}},[_c('v-btn',{attrs:{"slot":"activator","icon":""},slot:"activator"},[_c('v-icon',[_vm._v("person")])],1),_vm._v(" "),_c('app-user',{staticStyle:{"width":"320px"},attrs:{"user":_vm.app.user}})],1)],1),_vm._v(" "),_c('app-extensions',{attrs:{"app":_vm.app,"always-open":""}})],1)],1)};
-var __vue_staticRenderFns__$z = [];
-
-  /* style */
-  const __vue_inject_styles__$z = undefined;
-  /* scoped */
-  const __vue_scope_id__$z = undefined;
-  /* module identifier */
-  const __vue_module_identifier__$z = undefined;
-  /* functional template */
-  const __vue_is_functional_template__$z = false;
-  /* component normalizer */
-  function __vue_normalize__$z(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "AppDashboard.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
-  /* style inject */
-  
-  /* style inject SSR */
-  
-
-  
-  var AppDashboard = __vue_normalize__$z(
-    { render: __vue_render__$z, staticRenderFns: __vue_staticRenderFns__$z },
-    __vue_inject_styles__$z,
-    __vue_script__$z,
-    __vue_scope_id__$z,
-    __vue_is_functional_template__$z,
-    __vue_module_identifier__$z,
-    undefined,
-    undefined
-  );
-
-//
-
-var script$A = {
     components: {ImageIcon},
     name: 'app-search-results',
     props: {
@@ -4134,22 +4020,22 @@ var script$A = {
 };
 
 /* script */
-            const __vue_script__$A = script$A;
+            const __vue_script__$z = script$z;
             
 /* template */
-var __vue_render__$A = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.filtered.length === 0)?_c('div',{staticClass:"text-xs-center caption"},[_vm._v("\n    "+_vm._s(_vm.empty)+"\n")]):_c('v-list',_vm._b({attrs:{"two-line":""}},'v-list',_vm.$attrs,false),_vm._l((_vm.filtered),function(item){return _c('v-list-tile',{key:item.href,on:{"click":function($event){_vm.goto(item.href);}}},[_c('v-list-tile-action',[(item.icon != null)?_c('v-icon',[_vm._v(_vm._s(_vm.$controlIcon(item.icon)))]):_c('image-icon',{attrs:{"src":_vm.$intl.translate(item.title)}})],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                "+_vm._s(_vm.$intl.translate(item.title))+"\n            ")]),_vm._v(" "),_c('v-list-tile-sub-title',[_vm._v("\n                "+_vm._s(_vm.$intl.translate(item.description))+"\n            ")])],1)],1)}))};
-var __vue_staticRenderFns__$A = [];
+var __vue_render__$z = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.filtered.length === 0)?_c('div',{staticClass:"text-xs-center caption"},[_vm._v("\n    "+_vm._s(_vm.empty)+"\n")]):_c('v-list',_vm._b({attrs:{"two-line":""}},'v-list',_vm.$attrs,false),_vm._l((_vm.filtered),function(item){return _c('v-list-tile',{key:item.href,on:{"click":function($event){_vm.goto(item.href);}}},[_c('v-list-tile-action',[(item.icon != null)?_c('v-icon',[_vm._v(_vm._s(_vm.$controlIcon(item.icon)))]):_c('image-icon',{attrs:{"src":_vm.$intl.translate(item.title)}})],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                "+_vm._s(_vm.$intl.translate(item.title))+"\n            ")]),_vm._v(" "),_c('v-list-tile-sub-title',[_vm._v("\n                "+_vm._s(_vm.$intl.translate(item.category))+" » "+_vm._s(_vm.$intl.translate(item.description))+"\n            ")])],1)],1)}))};
+var __vue_staticRenderFns__$z = [];
 
   /* style */
-  const __vue_inject_styles__$A = undefined;
+  const __vue_inject_styles__$z = undefined;
   /* scoped */
-  const __vue_scope_id__$A = undefined;
+  const __vue_scope_id__$z = undefined;
   /* module identifier */
-  const __vue_module_identifier__$A = undefined;
+  const __vue_module_identifier__$z = undefined;
   /* functional template */
-  const __vue_is_functional_template__$A = false;
+  const __vue_is_functional_template__$z = false;
   /* component normalizer */
-  function __vue_normalize__$A(
+  function __vue_normalize__$z(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -4177,7 +4063,124 @@ var __vue_staticRenderFns__$A = [];
   
 
   
-  var AppSearchResults = __vue_normalize__$A(
+  var AppSearchResults = __vue_normalize__$z(
+    { render: __vue_render__$z, staticRenderFns: __vue_staticRenderFns__$z },
+    __vue_inject_styles__$z,
+    __vue_script__$z,
+    __vue_scope_id__$z,
+    __vue_is_functional_template__$z,
+    __vue_module_identifier__$z,
+    undefined,
+    undefined
+  );
+
+//
+
+var script$A = {
+    name: 'app-dashboard',
+    components: {ImageIcon, AppUser, AppExtensions, AppSearchResults},
+    props: {
+        app: {type: Object, required: true}
+    },
+    data() {
+        return {search: null};
+    },
+    methods: {
+        vendors() {
+            let vendors = [];
+            const all = this.app.getAllVendors();
+
+            for (const p in all) {
+                if (!all.hasOwnProperty(p)) {
+                    continue;
+                }
+                const vendor = all[p];
+                if (!this.hasPermissions(vendor.permissions || [])) {
+                    continue;
+                }
+                if (!this.hasExtPermissions(vendor.name)) {
+                    continue;
+                }
+                vendors.push({
+                    name: vendor.name,
+                    title: vendor.title || vendor.name,
+                    description: vendor.description || null,
+                    icon: vendor.icon || null,
+                    url: vendor.url,
+                    extensions: this.app.getAllVendorExtensions(vendor.name)
+                });
+            }
+            return vendors;
+        },
+        hasPermissions(perm) {
+            return this.app.user.hasPermission(perm);
+        },
+        hasExtPermissions(vendor)
+        {
+            return this.app.getAllVendorExtensions(vendor).map(ext => {
+                // Check permissions
+                if (!this.hasPermissions(ext.permissions)) {
+                    return;
+                }
+                if (ext.menu.length === 0) {
+                    return true;
+                }
+                return ext.menu.some(region => {
+                    if (!this.hasPermissions(region.permissions)) {
+                        return false;
+                    }
+                    return region.items.some(item => this.hasPermissions(item.permissions));
+                });
+            });
+        }
+    }
+};
+
+/* script */
+            const __vue_script__$A = script$A;
+            
+/* template */
+var __vue_render__$A = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-app',[_c('v-card',{attrs:{"flat":""}},[_c('v-toolbar',{attrs:{"color":"primary","dark":""}},[_c('v-toolbar-title',[_vm._v("Welcome to Aquarelle")]),_vm._v(" "),_c('v-spacer'),_vm._v(" "),_c('v-menu',{attrs:{"offset-x":"","max-width":"320"}},[_c('v-btn',{attrs:{"slot":"activator","icon":""},slot:"activator"},[_c('v-icon',[_vm._v("person")])],1),_vm._v(" "),_c('app-user',{staticStyle:{"width":"320px"},attrs:{"user":_vm.app.user}})],1)],1),_vm._v(" "),_c('v-text-field',{attrs:{"label":"Search...","append-icon":"search","clearable":"","solo":"","hide-details":"","flat":""},model:{value:(_vm.search),callback:function ($$v) {_vm.search=(typeof $$v === 'string'? $$v.trim(): $$v);},expression:"search"}}),_vm._v(" "),_c('app-search-results',{directives:[{name:"show",rawName:"v-show",value:(_vm.search != null && _vm.search !== ''),expression:"search != null && search !== ''"}],attrs:{"app":_vm.app,"search":_vm.search}}),_vm._v(" "),_c('app-extensions',{directives:[{name:"show",rawName:"v-show",value:(_vm.search == null || _vm.search === ''),expression:"search == null || search === ''"}],attrs:{"app":_vm.app,"always-open":""}})],1)],1)};
+var __vue_staticRenderFns__$A = [];
+
+  /* style */
+  const __vue_inject_styles__$A = undefined;
+  /* scoped */
+  const __vue_scope_id__$A = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$A = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$A = false;
+  /* component normalizer */
+  function __vue_normalize__$A(
+    template, style, script,
+    scope, functional, moduleIdentifier,
+    createInjector, createInjectorSSR
+  ) {
+    const component = (typeof script === 'function' ? script.options : script) || {};
+
+    // For security concerns, we use only base name in production mode.
+    component.__file = "AppDashboard.vue";
+
+    if (!component.render) {
+      component.render = template.render;
+      component.staticRenderFns = template.staticRenderFns;
+      component._compiled = true;
+
+      if (functional) component.functional = true;
+    }
+
+    component._scopeId = scope;
+
+    return component
+  }
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var AppDashboard = __vue_normalize__$A(
     { render: __vue_render__$A, staticRenderFns: __vue_staticRenderFns__$A },
     __vue_inject_styles__$A,
     __vue_script__$A,
