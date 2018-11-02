@@ -3,7 +3,7 @@
         {{empty}}
     </div>
     <v-list v-else v-bind="$attrs" two-line>
-        <v-list-tile v-for="item in filtered" :key="item.href" @click="goto(item.href)">
+        <v-list-tile v-for="item in filtered" :key="item.href" :to="item.href">
             <v-list-tile-action>
                 <v-icon v-if="item.icon != null">{{$controlIcon(item.icon)}}</v-icon>
                 <image-icon v-else :src="$intl.translate(item.title)"></image-icon>
@@ -128,10 +128,6 @@
                     return true;
                 }
                 return this.app.user.hasPermission(perm);
-            },
-            goto(href)
-            {
-                this.$router.push(href);
             }
         }
     }

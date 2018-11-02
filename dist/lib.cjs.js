@@ -4011,10 +4011,6 @@ var script$z = {
                 return true;
             }
             return this.app.user.hasPermission(perm);
-        },
-        goto(href)
-        {
-            this.$router.push(href);
         }
     }
 };
@@ -4023,7 +4019,7 @@ var script$z = {
             const __vue_script__$z = script$z;
             
 /* template */
-var __vue_render__$z = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.filtered.length === 0)?_c('div',{staticClass:"text-xs-center caption"},[_vm._v("\n    "+_vm._s(_vm.empty)+"\n")]):_c('v-list',_vm._b({attrs:{"two-line":""}},'v-list',_vm.$attrs,false),_vm._l((_vm.filtered),function(item){return _c('v-list-tile',{key:item.href,on:{"click":function($event){_vm.goto(item.href);}}},[_c('v-list-tile-action',[(item.icon != null)?_c('v-icon',[_vm._v(_vm._s(_vm.$controlIcon(item.icon)))]):_c('image-icon',{attrs:{"src":_vm.$intl.translate(item.title)}})],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                "+_vm._s(_vm.$intl.translate(item.title))+"\n            ")]),_vm._v(" "),_c('v-list-tile-sub-title',[_vm._v("\n                "+_vm._s(_vm.$intl.translate(item.category))+" » "+_vm._s(_vm.$intl.translate(item.description))+"\n            ")])],1)],1)}))};
+var __vue_render__$z = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.filtered.length === 0)?_c('div',{staticClass:"text-xs-center caption"},[_vm._v("\n    "+_vm._s(_vm.empty)+"\n")]):_c('v-list',_vm._b({attrs:{"two-line":""}},'v-list',_vm.$attrs,false),_vm._l((_vm.filtered),function(item){return _c('v-list-tile',{key:item.href,attrs:{"to":item.href}},[_c('v-list-tile-action',[(item.icon != null)?_c('v-icon',[_vm._v(_vm._s(_vm.$controlIcon(item.icon)))]):_c('image-icon',{attrs:{"src":_vm.$intl.translate(item.title)}})],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                "+_vm._s(_vm.$intl.translate(item.title))+"\n            ")]),_vm._v(" "),_c('v-list-tile-sub-title',[_vm._v("\n                "+_vm._s(_vm.$intl.translate(item.category))+" » "+_vm._s(_vm.$intl.translate(item.description))+"\n            ")])],1)],1)}))};
 var __vue_staticRenderFns__$z = [];
 
   /* style */
