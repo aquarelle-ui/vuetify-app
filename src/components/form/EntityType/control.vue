@@ -30,7 +30,6 @@
     >
         <template slot="selection" slot-scope="data">
             <template>
-                <image-icon :src="data.item[iconProp] || data.item[titleProp]" :squared="display.squared"></image-icon>
                 <span class="ml-1 mr-1">{{data.item[titleProp]}}</span>
             </template>
         </template>

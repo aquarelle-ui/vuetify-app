@@ -32,7 +32,6 @@
     >
         <template slot="selection" slot-scope="data">
             <template>
-                <letter-avatar :text="data.item[titleProp] || ''"></letter-avatar>
                 <span class="ml-1 mr-1">{{data.item[titleProp]}}</span>
             </template>
         </template>
