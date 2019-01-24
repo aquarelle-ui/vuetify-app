@@ -31,9 +31,15 @@
             :disabled="loading"
     >
         <template slot="selection" slot-scope="data">
-            <template>
-                <span class="ml-1 mr-1">{{data.item[titleProp]}}</span>
-            </template>
+            <v-chip v-if="config.multiple && display.chips"
+                    close
+                    @input="data.parent.selectItem(data.item)"
+                    :selected="data.selected"
+                    :disabled="data.disabled"
+            >
+                {{data.item[titleProp]}}
+            </v-chip>
+            <span v-else class="ml-1 mr-1">{{data.item[titleProp]}}</span>
         </template>
         <template slot="item" slot-scope="data">
             <v-list-tile-avatar>
