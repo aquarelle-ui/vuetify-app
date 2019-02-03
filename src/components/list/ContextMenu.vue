@@ -1,5 +1,5 @@
 <template>
-    <v-menu v-show="false" v-model="contextMenu" :position-x="x" :position-y="y">
+    <v-menu v-show="false" v-model="contextMenu" :left="openLeft" :position-x="x" :position-y="y">
         <v-list v-if="item !== null">
             <slot></slot>
             <template v-if="showTitle">
@@ -70,7 +70,8 @@
                 showDeleteDialog: false,
                 item: null,
                 x: 0,
-                y: 0
+                y: 0,
+                openLeft: false,
             }
         },
         props: {
@@ -98,8 +99,12 @@
         },
         methods: {
             show(event, item) {
+                if (this.contextMenu) {
+                    return;
+                }
                 this.x = event.x;
                 this.y = event.y;
+                this.openLeft = event.x > window.innerWidth / 2;
                 this.item = item || null;
                 this.contextMenu = true;
             },

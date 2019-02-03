@@ -5,7 +5,7 @@
         </div>
         <template v-else>
             <template v-if="contextActions && contextActions.length" slot="toolbar">
-                <v-menu offset-y>
+                <v-menu offset-y offset-x>
                     <v-btn dark icon slot="activator">
                         <v-icon>{{$controlIcon(contextIcon)}}</v-icon>
                     </v-btn>
