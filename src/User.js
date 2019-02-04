@@ -25,7 +25,7 @@ class Loader extends DataLoader
 
 function mapUser(user, data)
 {
-    ['id', 'name', 'email', 'avatar', 'roles', 'permissions', 'isAdmin', 'signOutKey'].map(p => {
+    ['id', 'name', 'email', 'avatar', 'roles', 'permissions', 'isOwner', 'signOutKey'].map(p => {
         user[p] = data[p];
     });
     return user;
@@ -36,7 +36,7 @@ export default {
     name: "Admin",
     email: "admin@example.com",
     avatar: null,
-    isAdmin: true,
+    isOwner: true,
     permissions: [],
     roles: [],
     signOutKey: '',
@@ -48,9 +48,9 @@ export default {
     hasPermission(permission)
     {
         if (permission === false) {
-            return this.isAdmin;
+            return this.isOwner;
         }
-        if (this.isAdmin || !permission) {
+        if (this.isOwner || !permission) {
             return true;
         }
         if (!Array.isArray(permission)) {
@@ -77,7 +77,7 @@ export default {
             this.name = null;
             this.email = null;
             this.avatar = null;
-            this.isAdmin = false;
+            this.isOwner = false;
             this.permissions = [];
             this.roles = [];
             this.signOutKey = '';
