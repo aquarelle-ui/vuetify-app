@@ -92,7 +92,7 @@
         </v-layout>
 
         <v-fab-transition>
-            <v-btn v-if="canAdd && listLoaded" absolute fab bottom right color="accent" :to="addHref">
+            <v-btn v-if="canAdd && listLoaded" fixed fab bottom right color="accent" :to="addHref">
                 <v-icon>add</v-icon>
             </v-btn>
         </v-fab-transition>
