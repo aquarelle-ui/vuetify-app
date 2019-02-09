@@ -3,7 +3,7 @@
         <v-navigation-drawer app fixed clipped v-model="leftDrawer">
             <slot name="app-left-drawer"></slot>
         </v-navigation-drawer>
-        <v-navigation-drawer app right fixed v-model="rightDrawer">
+        <v-navigation-drawer app right fixed clipped v-model="rightDrawer">
             <slot name="app-right-drawer"></slot>
         </v-navigation-drawer>
 
