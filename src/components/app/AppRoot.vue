@@ -68,4 +68,7 @@
     .fab-wrapper > .v-speed-dial {
         margin-left: -72px;
     }
+    .fab-wrapper > .v-btn.v-btn--floating {
+        margin: 0;
+    }
 </style>
