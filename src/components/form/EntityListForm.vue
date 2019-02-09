@@ -91,11 +91,13 @@
             <v-pagination circle v-model="page" :length="lastPage" :total-visible="visiblePages"></v-pagination>
         </v-layout>
 
-        <v-fab-transition>
-            <v-btn v-if="canAdd && listLoaded" fixed fab bottom right color="accent" :to="addHref">
-                <v-icon>add</v-icon>
-            </v-btn>
-        </v-fab-transition>
+        <div class="fab-wrapper">
+            <v-fab-transition>
+                <v-btn v-if="canAdd && listLoaded" fixed fab bottom right color="accent" :to="addHref">
+                    <v-icon>add</v-icon>
+                </v-btn>
+            </v-fab-transition>
+        </div>
     </app-page>
 </template>
 <script>
