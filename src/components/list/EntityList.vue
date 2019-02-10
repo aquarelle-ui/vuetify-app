@@ -43,12 +43,13 @@
                       :show-delete="deletable !== false"
                       :is-title-disabled="!isTitleEditable"
                       :is-delete-disabled="!isDeletable">
-            <slot v-if="currentItem !== null"
-                  name="item-actions"
-                  :item="currentItem"
-                  :type="currentItemType"
-                  :loader="loaderObject">
-            </slot>
+            <template #default>
+                <slot v-if="currentItem !== null" name="item-actions"
+                      :item="currentItem"
+                      :type="currentItemType"
+                      :loader="loaderObject">
+                </slot>
+            </template>
         </context-menu>
 
         <slot></slot>
@@ -109,22 +110,26 @@
                 default: false
             }
         },
-        data() {
+        data()
+        {
             return {
                 currentItem: null,
                 currentItemType: null
             }
         },
         methods: {
-            showContextMenu(item, type, event) {
+            showContextMenu(item, type, event)
+            {
                 this.currentItem = item;
                 this.currentItemType = type;
                 this.$refs.contextMenu.show(event, item);
             },
-            onTitleChanged(item, title) {
+            onTitleChanged(item, title)
+            {
                 this.$set(item, 'title', title);
             },
-            onDelete(item) {
+            onDelete(item)
+            {
                 const list = this.$refs.list.items;
                 const index = list.indexOf(item);
                 if (index > -1) {
@@ -132,7 +137,8 @@
                     this.$emit('itemdeleted', {item, list});
                 }
             },
-            refreshList(args) {
+            refreshList(args)
+            {
                 const list = this.$refs.list;
                 list.refreshList(args === undefined ? list.filterArgs : args);
             },
@@ -146,19 +152,23 @@
             }
         },
         computed: {
-            searchData() {
+            searchData()
+            {
                 return {...this.filterArgs, page: this.page, rows: this.rows};
             },
-            loaderObject() {
+            loaderObject()
+            {
                 return typeof this.loader === 'string' ? this.entityLoader(this.loader) : this.loader;
             },
-            isDeletable() {
+            isDeletable()
+            {
                 if (typeof this.deletable === 'boolean') {
                     return this.deletable;
                 }
                 return this.$user.hasPermission(this.deletable);
             },
-            isTitleEditable() {
+            isTitleEditable()
+            {
                 if (typeof this.editableTitle === 'boolean') {
                     return this.editableTitle;
                 }

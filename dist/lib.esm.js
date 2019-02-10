@@ -3139,7 +3139,7 @@ var script$y = {
 const __vue_script__$y = script$y;
 
 /* template */
-var __vue_render__$y = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-flex',{attrs:{"grow":""}},[_c('app-toolbar',{attrs:{"title":_vm.title,"back":_vm.back,"show-back":_vm.showBack}},[_vm._t("toolbar")],2),_vm._v(" "),(_vm.loading)?_c('v-layout',{attrs:{"fill-height":"","justify-center":"","align-center":""}},[_c('v-progress-circular',{attrs:{"indeterminate":"","color":"secondary"}})],1):_vm._t("default"),_vm._v(" "),_c('app-notifier',{ref:"notifier"}),_vm._v(" "),_c('v-dialog',{attrs:{"lazy":"","persistent":"","max-width":"320"},model:{value:(_vm.showLogin),callback:function ($$v) {_vm.showLogin=$$v;},expression:"showLogin"}},[_c('v-card',[_c('v-card-title',{staticClass:"headline"},[_vm._v("You are not signed in")]),_vm._v(" "),_c('v-card-text',[_c('v-text-field',{attrs:{"disabled":_vm.processingLogin,"rules":_vm.emailRules,"label":"E-mail","type":"email","prepend-icon":"email"},model:{value:(_vm.email),callback:function ($$v) {_vm.email=$$v;},expression:"email"}}),_vm._v(" "),_c('v-text-field',{attrs:{"disabled":_vm.processingLogin,"rules":_vm.passRules,"label":"Password","type":"password","prepend-icon":"lock"},model:{value:(_vm.pass),callback:function ($$v) {_vm.pass=$$v;},expression:"pass"}})],1),_vm._v(" "),_c('v-card-actions',[_c('span',{directives:[{name:"show",rawName:"v-show",value:(_vm.loginError),expression:"loginError"}],staticClass:"red--text"},[_c('v-icon',{attrs:{"color":"red"}},[_vm._v("error")]),_vm._v("Sign in failed\n                ")],1),_vm._v(" "),_c('v-spacer'),_vm._v(" "),_c('v-btn',{attrs:{"flat":"","disabled":_vm.processingLogin || !_vm.canLogin,"loading":_vm.processingLogin},on:{"click":function($event){$event.stopPropagation();return _vm.tryLogin(_vm.email, _vm.pass)}}},[_vm._v("\n                    Sign in "),_c('v-icon',[_vm._v("navigate_next")])],1)],1)],1)],1)],2)};
+var __vue_render__$y = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-flex',{attrs:{"grow":""}},[_c('app-toolbar',{attrs:{"title":_vm.title,"back":_vm.back,"show-back":_vm.showBack}},[_vm._t("toolbar")],2),_vm._v(" "),(_vm.loading)?_c('v-layout',{attrs:{"fill-height":"","justify-center":"","align-center":""}},[_c('v-progress-circular',{attrs:{"indeterminate":"","color":"secondary"}})],1):_vm._t("default"),_vm._v(" "),_c('app-notifier',{ref:"notifier"}),_vm._v(" "),_c('v-dialog',{attrs:{"lazy":"","persistent":"","max-width":"320"},model:{value:(_vm.showLogin),callback:function ($$v) {_vm.showLogin=$$v;},expression:"showLogin"}},[_c('v-form',{on:{"submit":function($event){!_vm.processingLogin && _vm.canLogin && _vm.tryLogin(_vm.email, _vm.pass);}}},[_c('v-card',[_c('v-card-title',{staticClass:"headline"},[_vm._v("You are not signed in")]),_vm._v(" "),_c('v-card-text',[_c('v-text-field',{attrs:{"disabled":_vm.processingLogin,"rules":_vm.emailRules,"label":"E-mail","type":"email","prepend-icon":"email"},model:{value:(_vm.email),callback:function ($$v) {_vm.email=$$v;},expression:"email"}}),_vm._v(" "),_c('v-text-field',{attrs:{"disabled":_vm.processingLogin,"rules":_vm.passRules,"label":"Password","type":"password","prepend-icon":"lock"},model:{value:(_vm.pass),callback:function ($$v) {_vm.pass=$$v;},expression:"pass"}})],1),_vm._v(" "),_c('v-card-actions',[_c('span',{directives:[{name:"show",rawName:"v-show",value:(_vm.loginError),expression:"loginError"}],staticClass:"red--text"},[_c('v-icon',{attrs:{"color":"red"}},[_vm._v("error")]),_vm._v("Sign in failed\n                ")],1),_vm._v(" "),_c('v-spacer'),_vm._v(" "),_c('v-btn',{attrs:{"flat":"","type":"submit","disabled":_vm.processingLogin || !_vm.canLogin,"loading":_vm.processingLogin},on:{"click":function($event){$event.stopPropagation();return _vm.tryLogin(_vm.email, _vm.pass)}}},[_vm._v("\n                        Sign in\n                        "),_c('v-icon',[_vm._v("navigate_next")])],1)],1)],1)],1)],1)],2)};
 var __vue_staticRenderFns__$y = [];
 
   /* style */
@@ -5221,7 +5221,7 @@ var script$H = {
 const __vue_script__$H = script$H;
 
 /* template */
-var __vue_render__$H = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-menu',{directives:[{name:"show",rawName:"v-show",value:(false),expression:"false"}],attrs:{"left":_vm.openLeft,"position-x":_vm.x,"position-y":_vm.y},model:{value:(_vm.contextMenu),callback:function ($$v) {_vm.contextMenu=$$v;},expression:"contextMenu"}},[(_vm.item !== null)?_c('v-list',[_vm._t("default"),_vm._v(" "),(_vm.showTitle)?[_c('v-list-tile',{attrs:{"disabled":_vm.isTitleDisabled},on:{"click":function($event){$event.stopPropagation();_vm.contextMenu = false; _vm.showTitleDialog = true;}}},[_c('v-list-tile-avatar',[_c('v-icon',[_vm._v("title")])],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                        "+_vm._s(_vm.$intl.translate({text: 'Change title', key: 'common.changeTitle'}))+"\n                    ")])],1),_vm._v(" "),_c('v-list-tile-action',[_c('entity-change-title-dialog',{ref:"titleDialog",attrs:{"show-dialog":_vm.showTitleDialog,"item":_vm.item,"loader":_vm.loader,"max-width":"300"},on:{"update:showDialog":function($event){_vm.showTitleDialog=$event;},"update:show-dialog":function($event){_vm.showTitleDialog=$event;},"changed":_vm.onTitleChanged,"mustlogin":function($event){return _vm.$emit('mustlogin', $event)}}})],1)],1)]:_vm._e(),_vm._v(" "),(_vm.showDelete)?[_c('v-divider'),_vm._v(" "),_c('v-list-tile',{attrs:{"disabled":_vm.isDeleteDisabled},on:{"click":function($event){$event.stopPropagation();_vm.contextMenu = false; _vm.showDeleteDialog = true;}}},[_c('v-list-tile-avatar',[_c('v-icon',[_vm._v("delete")])],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                        "+_vm._s(_vm.$intl.translate({text: 'Delete', key: 'common.delete'}))+"\n                    ")])],1),_vm._v(" "),_c('v-list-tile-action',[_c('entity-delete-dialog',{ref:"deleteDialog",attrs:{"show-dialog":_vm.showDeleteDialog,"item":_vm.item,"loader":_vm.loader,"max-width":"300"},on:{"update:showDialog":function($event){_vm.showDeleteDialog=$event;},"update:show-dialog":function($event){_vm.showDeleteDialog=$event;},"delete":_vm.onDelete,"mustlogin":function($event){return _vm.$emit('mustlogin', $event)}}})],1)],1)]:_vm._e()],2):_vm._e()],1)};
+var __vue_render__$H = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-menu',{directives:[{name:"show",rawName:"v-show",value:(false),expression:"false"}],attrs:{"left":_vm.openLeft,"position-x":_vm.x,"position-y":_vm.y},model:{value:(_vm.contextMenu),callback:function ($$v) {_vm.contextMenu=$$v;},expression:"contextMenu"}},[_c('v-list',[_vm._t("default"),_vm._v(" "),(_vm.item && _vm.showTitle)?[_c('v-list-tile',{attrs:{"disabled":_vm.isTitleDisabled},on:{"click":function($event){$event.stopPropagation();_vm.contextMenu = false; _vm.showTitleDialog = true;}}},[_c('v-list-tile-avatar',[_c('v-icon',[_vm._v("title")])],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                        "+_vm._s(_vm.$intl.translate({text: 'Change title', key: 'common.changeTitle'}))+"\n                    ")])],1),_vm._v(" "),_c('v-list-tile-action',[_c('entity-change-title-dialog',{ref:"titleDialog",attrs:{"show-dialog":_vm.showTitleDialog,"item":_vm.item,"loader":_vm.loader,"max-width":"300"},on:{"update:showDialog":function($event){_vm.showTitleDialog=$event;},"update:show-dialog":function($event){_vm.showTitleDialog=$event;},"changed":_vm.onTitleChanged,"mustlogin":function($event){return _vm.$emit('mustlogin', $event)}}})],1)],1)]:_vm._e(),_vm._v(" "),(_vm.item && _vm.showDelete)?[_c('v-divider'),_vm._v(" "),_c('v-list-tile',{attrs:{"disabled":_vm.isDeleteDisabled},on:{"click":function($event){$event.stopPropagation();_vm.contextMenu = false; _vm.showDeleteDialog = true;}}},[_c('v-list-tile-avatar',[_c('v-icon',[_vm._v("delete")])],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                        "+_vm._s(_vm.$intl.translate({text: 'Delete', key: 'common.delete'}))+"\n                    ")])],1),_vm._v(" "),_c('v-list-tile-action',[_c('entity-delete-dialog',{ref:"deleteDialog",attrs:{"show-dialog":_vm.showDeleteDialog,"item":_vm.item,"loader":_vm.loader,"max-width":"300"},on:{"update:showDialog":function($event){_vm.showDeleteDialog=$event;},"update:show-dialog":function($event){_vm.showDeleteDialog=$event;},"delete":_vm.onDelete,"mustlogin":function($event){return _vm.$emit('mustlogin', $event)}}})],1)],1)]:_vm._e()],2)],1)};
 var __vue_staticRenderFns__$H = [];
 
   /* style */
@@ -5299,22 +5299,26 @@ var script$I = {
             default: false
         }
     },
-    data() {
+    data()
+    {
         return {
             currentItem: null,
             currentItemType: null
         }
     },
     methods: {
-        showContextMenu(item, type, event) {
+        showContextMenu(item, type, event)
+        {
             this.currentItem = item;
             this.currentItemType = type;
             this.$refs.contextMenu.show(event, item);
         },
-        onTitleChanged(item, title) {
+        onTitleChanged(item, title)
+        {
             this.$set(item, 'title', title);
         },
-        onDelete(item) {
+        onDelete(item)
+        {
             const list = this.$refs.list.items;
             const index = list.indexOf(item);
             if (index > -1) {
@@ -5322,7 +5326,8 @@ var script$I = {
                 this.$emit('itemdeleted', {item, list});
             }
         },
-        refreshList(args) {
+        refreshList(args)
+        {
             const list = this.$refs.list;
             list.refreshList(args === undefined ? list.filterArgs : args);
         },
@@ -5336,19 +5341,23 @@ var script$I = {
         }
     },
     computed: {
-        searchData() {
+        searchData()
+        {
             return {...this.filterArgs, page: this.page, rows: this.rows};
         },
-        loaderObject() {
+        loaderObject()
+        {
             return typeof this.loader === 'string' ? this.entityLoader(this.loader) : this.loader;
         },
-        isDeletable() {
+        isDeletable()
+        {
             if (typeof this.deletable === 'boolean') {
                 return this.deletable;
             }
             return this.$user.hasPermission(this.deletable);
         },
-        isTitleEditable() {
+        isTitleEditable()
+        {
             if (typeof this.editableTitle === 'boolean') {
                 return this.editableTitle;
             }
@@ -5365,7 +5374,7 @@ var __vue_render__$I = function () {var _vm=this;var _h=_vm.$createElement;var _
 var item = ref.item;
 var type = ref.type;
 var index = ref.index;
-return [(index > 0)?_c('v-divider'):_vm._e(),_vm._v(" "),_c('v-list-tile',{key:item.id,on:{"click":function($event){return _vm.showContextMenu(item, type, $event)}}},[(_vm.hasIcon)?_c('v-list-tile-avatar',{staticClass:"avatar--tile"},[_vm._t("item-avatar",[(!!item.icon)?_c('image-icon',{attrs:{"squared":_vm.squaredIcon,"src":item.icon}}):_vm._e()],{"item":item,"type":type,"loader":_vm.loaderObject})],2):_vm._e(),_vm._v(" "),_c('v-list-tile-content',[_vm._t("item-text",[_c('v-list-tile-title',[_vm._v(_vm._s(item.title))]),_vm._v(" "),(type !== null)?_c('v-list-tile-sub-title',[_vm._v("\n                        "+_vm._s(type.title)+"\n                        "),_c('small',[_vm._v("("+_vm._s(item.behavior ? item.type + ':' + item.behavior : item.type)+")")])]):_vm._e()],{"item":item,"type":type,"loader":_vm.loaderObject})],2),_vm._v(" "),_c('v-list-tile-action',[_c('v-btn',{attrs:{"icon":"","ripple":""},on:{"click":function($event){$event.stopPropagation();return _vm.showContextMenu(item, type, $event)}}},[_c('v-icon',[_vm._v("more_vert")])],1)],1)],1)]}}])},'entity-list-template',_vm.$attrs,false),[_vm._v(" "),_c('context-menu',{ref:"contextMenu",attrs:{"loader":_vm.loaderObject,"show-title":_vm.editableTitle !== false,"show-delete":_vm.deletable !== false,"is-title-disabled":!_vm.isTitleEditable,"is-delete-disabled":!_vm.isDeletable},on:{"titlechanged":_vm.onTitleChanged,"delete":_vm.onDelete,"mustlogin":function($event){return _vm.$emit('mustlogin', $event)}}},[(_vm.currentItem !== null)?_vm._t("item-actions",null,{"item":_vm.currentItem,"type":_vm.currentItemType,"loader":_vm.loaderObject}):_vm._e()],2),_vm._v(" "),_vm._t("default")],2)};
+return [(index > 0)?_c('v-divider'):_vm._e(),_vm._v(" "),_c('v-list-tile',{key:item.id,on:{"click":function($event){return _vm.showContextMenu(item, type, $event)}}},[(_vm.hasIcon)?_c('v-list-tile-avatar',{staticClass:"avatar--tile"},[_vm._t("item-avatar",[(!!item.icon)?_c('image-icon',{attrs:{"squared":_vm.squaredIcon,"src":item.icon}}):_vm._e()],{"item":item,"type":type,"loader":_vm.loaderObject})],2):_vm._e(),_vm._v(" "),_c('v-list-tile-content',[_vm._t("item-text",[_c('v-list-tile-title',[_vm._v(_vm._s(item.title))]),_vm._v(" "),(type !== null)?_c('v-list-tile-sub-title',[_vm._v("\n                        "+_vm._s(type.title)+"\n                        "),_c('small',[_vm._v("("+_vm._s(item.behavior ? item.type + ':' + item.behavior : item.type)+")")])]):_vm._e()],{"item":item,"type":type,"loader":_vm.loaderObject})],2),_vm._v(" "),_c('v-list-tile-action',[_c('v-btn',{attrs:{"icon":"","ripple":""},on:{"click":function($event){$event.stopPropagation();return _vm.showContextMenu(item, type, $event)}}},[_c('v-icon',[_vm._v("more_vert")])],1)],1)],1)]}}])},'entity-list-template',_vm.$attrs,false),[_vm._v(" "),_c('context-menu',{ref:"contextMenu",attrs:{"loader":_vm.loaderObject,"show-title":_vm.editableTitle !== false,"show-delete":_vm.deletable !== false,"is-title-disabled":!_vm.isTitleEditable,"is-delete-disabled":!_vm.isDeletable},on:{"titlechanged":_vm.onTitleChanged,"delete":_vm.onDelete,"mustlogin":function($event){return _vm.$emit('mustlogin', $event)}},scopedSlots:_vm._u([{key:"default",fn:function(){return [(_vm.currentItem !== null)?_vm._t("item-actions",null,{"item":_vm.currentItem,"type":_vm.currentItemType,"loader":_vm.loaderObject}):_vm._e()]},proxy:true}])}),_vm._v(" "),_vm._t("default")],2)};
 var __vue_staticRenderFns__$I = [];
 
   /* style */

@@ -1,8 +1,8 @@
 <template>
     <v-menu v-show="false" v-model="contextMenu" :left="openLeft" :position-x="x" :position-y="y">
-        <v-list v-if="item !== null">
+        <v-list>
             <slot></slot>
-            <template v-if="showTitle">
+            <template v-if="item && showTitle">
                 <v-list-tile :disabled="isTitleDisabled"
                              @click.stop="contextMenu = false; showTitleDialog = true">
                     <v-list-tile-avatar>
@@ -27,7 +27,7 @@
                 </v-list-tile>
             </template>
 
-            <template v-if="showDelete">
+            <template v-if="item && showDelete">
                 <v-divider></v-divider>
                 <v-list-tile :disabled="isDeleteDisabled"
                              @click.stop="contextMenu = false; showDeleteDialog = true">
