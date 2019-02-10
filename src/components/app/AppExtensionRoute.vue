@@ -1,13 +1,13 @@
 <template>
     <app-layout ref="layout">
-        <app-menu slot="app-left-drawer"
+        <app-menu slot="app-right-drawer"
                   :user="appInfo.user"
                   :app="appInfo.app"
                   :vendor="appInfo.vendor"
                   :extension="appInfo.extension">
         </app-menu>
 
-        <template slot="app-right-drawer">
+        <template slot="app-left-drawer">
             <app-user :user="appInfo.user"></app-user>
             <v-text-field v-model.trim="search" label="Search..." append-icon="search" clearable solo hide-details flat></v-text-field>
             <app-search-results v-show="search != null && search !== ''" :app="appInfo.app" :search="search"></app-search-results>
