@@ -9,6 +9,10 @@
     </div>
 </template>
 <style>
+    .theme--dark .quillWrapper .ql-toolbar {
+        background-color: whitesmoke;
+    }
+
     .quillWrapper  > .ql-container {
         height: inherit !important;
     }

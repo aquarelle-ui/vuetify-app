@@ -23,6 +23,7 @@
             user: {type: Object, required: true},
             options: {
                 type: Object, default: () => ({
+                    dark: false,
                     firstDayOfWeek: 0,
                     language: 'en'
                 })

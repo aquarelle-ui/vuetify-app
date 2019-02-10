@@ -12,7 +12,7 @@ export default {
         loaders: {type: Object, required: true},
         user: {type: Object, required: true},
         router: {type: VueRouter, required: true},
-        options: {type: Object, default: () => ({})}
+        options: {type: Object, default: () => ({dark: false})}
     },
     data() {
         return {

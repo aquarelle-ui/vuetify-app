@@ -2438,14 +2438,24 @@ var JsonFormDisplayForm = {
 //
 
 var script$r = {
+    watch: {
+        dark() {
+            this.$nextTick(() => this.changeTheme(this.theme));
+        }
+    },
     created() {
-        Object.keys(this.theme).forEach(k => {
-            this.$vuetify.theme[k] = this.theme[k];
-        });
+        this.changeTheme(this.theme);
+    },
+    methods: {
+        changeTheme(theme) {
+            Object.keys(theme).forEach(k => {
+                this.$vuetify.theme[k] = theme[k];
+            });
+        }
     },
     computed: {
         dark() {
-            return true;
+            return this.$app.options.dark || false;
         },
         theme() {
             return this.dark
@@ -2848,6 +2858,9 @@ var script$v = {
             this.user.signOut().then(() => {
                window.location.replace(window.location.toString().split('#')[0]);
             });
+        },
+        changeTheme() {
+            this.$app.setOption('dark', !this.$app.options.dark);
         }
     }
 };
@@ -2858,7 +2871,7 @@ const __vue_script__$v = script$v;
 script$v.__file = "AppUser.vue";
 
 /* template */
-var __vue_render__$v = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-list',[_c('v-list-tile',{attrs:{"avatar":""}},[_c('v-list-tile-avatar',[_c('image-icon',{attrs:{"letters-count":1,"src":_vm.user.avatar || _vm.user.name}})],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',{staticClass:"text--primary"},[_vm._v(_vm._s(_vm.user.name))]),_vm._v(" "),_c('v-list-tile-sub-title',[_vm._v(_vm._s(_vm.user.email))])],1),_vm._v(" "),_c('v-list-tile-action',[_c('v-btn',{attrs:{"icon":""},on:{"click":function($event){$event.preventDefault();$event.stopPropagation();return _vm.signOut($event)}}},[_c('v-icon',[_vm._v("exit_to_app")])],1)],1)],1),_vm._v(" "),_c('v-divider')],1)};
+var __vue_render__$v = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-list',[_c('v-list-tile',{attrs:{"avatar":""}},[_c('v-list-tile-avatar',[_c('image-icon',{attrs:{"letters-count":1,"src":_vm.user.avatar || _vm.user.name}})],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',{staticClass:"text--primary"},[_vm._v(_vm._s(_vm.user.name))]),_vm._v(" "),_c('v-list-tile-sub-title',[_vm._v(_vm._s(_vm.user.email))])],1),_vm._v(" "),_c('v-list-tile-action',[_c('v-menu',[_c('v-btn',{attrs:{"slot":"activator","icon":""},slot:"activator"},[_c('v-icon',[_vm._v("arrow_drop_down")])],1),_vm._v(" "),_c('v-list',[_c('v-list-tile',{attrs:{"to":'/aquarelle/users/users/' + _vm.user.id + '/edit.html'}},[_c('v-list-tile-avatar',[_c('v-icon',[_vm._v("person")])],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("My account")])],1),_vm._v(" "),_c('v-list-tile-action')],1),_vm._v(" "),_c('v-list-tile',{on:{"click":_vm.changeTheme}},[_c('v-list-tile-avatar',[_c('v-icon',[_vm._v("invert_colors")])],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("Change theme")])],1),_vm._v(" "),_c('v-list-tile-action')],1),_vm._v(" "),_c('v-divider'),_vm._v(" "),_c('v-list-tile',{on:{"click":function($event){$event.preventDefault();$event.stopPropagation();return _vm.signOut($event)}}},[_c('v-list-tile-avatar',[_c('v-icon',[_vm._v("exit_to_app")])],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("Sign out")])],1),_vm._v(" "),_c('v-list-tile-action')],1)],1)],1)],1)],1),_vm._v(" "),_c('v-divider')],1)};
 var __vue_staticRenderFns__$v = [];
 
   /* style */
@@ -2897,6 +2910,7 @@ var script$w = {
         user: {type: Object, required: true},
         options: {
             type: Object, default: () => ({
+                dark: false,
                 firstDayOfWeek: 0,
                 language: 'en'
             })
@@ -3550,9 +3564,6 @@ var script$C = {
             search: null,
             contentHeight: '100%'
         };
-    },
-    computed: {
-
     },
     watch: {
         '$vuetify.breakpoint.height'(value) {
@@ -6450,7 +6461,7 @@ var AppComponent = {
         loaders: {type: Object, required: true},
         user: {type: Object, required: true},
         router: {type: VueRouter, required: true},
-        options: {type: Object, default: () => ({})}
+        options: {type: Object, default: () => ({dark: false})}
     },
     data() {
         return {

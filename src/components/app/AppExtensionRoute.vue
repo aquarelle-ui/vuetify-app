@@ -48,9 +48,6 @@
                 contentHeight: '100%'
             };
         },
-        computed: {
-
-        },
         watch: {
             '$vuetify.breakpoint.height'(value) {
                 this.refreshToolbarHeight(value);

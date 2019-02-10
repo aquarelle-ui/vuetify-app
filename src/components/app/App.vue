@@ -5,14 +5,24 @@
 </template>
 <script>
     export default {
+        watch: {
+            dark() {
+                this.$nextTick(() => this.changeTheme(this.theme))
+            }
+        },
         created() {
-            Object.keys(this.theme).forEach(k => {
-                this.$vuetify.theme[k] = this.theme[k];
-            });
+            this.changeTheme(this.theme);
+        },
+        methods: {
+            changeTheme(theme) {
+                Object.keys(theme).forEach(k => {
+                    this.$vuetify.theme[k] = theme[k];
+                });
+            }
         },
         computed: {
             dark() {
-                return true;
+                return this.$app.options.dark || false;
             },
             theme() {
                 return this.dark
