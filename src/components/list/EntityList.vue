@@ -28,7 +28,7 @@
                     </slot>
                 </v-list-tile-content>
                 <v-list-tile-action>
-                    <v-btn icon ripple @click="showContextMenu(item, type, $event)">
+                    <v-btn icon ripple @click.stop="showContextMenu(item, type, $event)">
                         <v-icon>more_vert</v-icon>
                     </v-btn>
                 </v-list-tile-action>
