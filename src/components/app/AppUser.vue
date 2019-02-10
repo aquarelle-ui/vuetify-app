@@ -9,7 +9,7 @@
                 <v-list-tile-sub-title>{{user.email}}</v-list-tile-sub-title>
             </v-list-tile-content>
             <v-list-tile-action>
-                <v-menu>
+                <v-menu bottom left>
                     <v-btn icon slot="activator">
                         <v-icon>arrow_drop_down</v-icon>
                     </v-btn>
