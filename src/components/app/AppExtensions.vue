@@ -14,7 +14,7 @@
                     </v-list-tile-sub-title>
                 </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile v-for="item in vendor.extensions" :key="item.href" @click="goto(item.href)" :class="isLinkActive(item.extHref) ? ['v-list__tile--active', 'primary--text'] : undefined">
+            <v-list-tile v-for="item in vendor.extensions" :key="item.href" @click="goto(item.href)" :class="isLinkActive(item.extHref) ? activeClasses : undefined">
                 <v-list-tile-action>
                     <image-icon :src="item.icon || $intl.translate(item.title)"></image-icon>
                 </v-list-tile-action>
@@ -78,6 +78,9 @@
 
                 return vendors;
             },
+            activeClasses() {
+                return ['v-list__tile--active',  'primary--text'];
+            }
         },
         methods: {
             isLinkActive(href)

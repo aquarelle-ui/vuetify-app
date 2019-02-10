@@ -19,7 +19,7 @@
         props: {
             value: {type: String, default: '', required: false},
             lang: {type: String, default: 'html', required: false},
-            theme: {type: String, default: 'chrome', required: false},
+            theme: {type: String, default: null, required: false},
             options: {type: Object, default: () => ({minLines: 5, maxLines: 20, tabSize: 2}), required: false}
         },
         data()
@@ -42,7 +42,7 @@
             const editor = this.editor = ace.edit(this.$el);
             editor.$blockScrolling = Infinity;
             editor.getSession().setMode('ace/mode/' + this.lang);
-            editor.setTheme('ace/theme/' + this.theme);
+            editor.setTheme('ace/theme/' + (this.theme || this.defaultTheme));
             editor.setOptions(this.options);
             editor.setValue(this.value || '', 1);
 
@@ -71,12 +71,11 @@
             this.hasSyntaxError = false;
             this.editor = null;
         },
-
         watch: {
             theme(theme)
             {
                 const editor = this.editor;
-                editor && editor.setTheme('ace/theme/' + theme);
+                editor && editor.setTheme('ace/theme/' + (theme || this.defaultTheme));
             },
             value(val)
             {
@@ -102,6 +101,11 @@
             },
             hasSyntaxError(value) {
                 this.$emit('syntax-error', value);
+            }
+        },
+        computed: {
+            defaultTheme() {
+                return this.$vuetify.dark ? 'twilight' : 'chrome';
             }
         }
     };

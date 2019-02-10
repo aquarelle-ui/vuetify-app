@@ -17,22 +17,22 @@
             theme() {
                 return this.dark
                     ? {
-                        primary: '#2196f3',
-                        secondary: '#3f51b5',
-                        accent: '#673ab7',
-                        error: '#f44336',
-                        warning: '#ffc107',
-                        info: '#00bcd4',
+                        primary: '#ff862a',
+                        secondary: '#607d8b',
+                        accent: '#ffaa76',
+                        error: '#ff505a',
+                        warning: '#FFC107',
+                        info: '#009688',
                         success: '#4caf50',
                     }
                     : {
-                        primary: '#673ab7',
-                        secondary: '#3f51b5',
-                        accent: '#9c27b0',
-                        error: '#f44336',
-                        warning: '#ffc107',
-                        info: '#00bcd4',
-                        success: '#4caf50',
+                        primary: '#1976D2',
+                        secondary: '#424242',
+                        accent: '#82B1FF',
+                        error: '#FF5252',
+                        info: '#2196F3',
+                        success: '#4CAF50',
+                        warning: '#FFC107',
                     };
             }
         },
