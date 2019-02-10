@@ -1,5 +1,5 @@
 <template>
-    <v-app>
+    <app>
         <v-card flat>
             <v-toolbar color="primary" dark>
                 <v-toolbar-title>Welcome to Aquarelle</v-toolbar-title>
@@ -13,17 +13,18 @@
             <app-search-results v-show="search != null && search !== ''" :app="app" :search="search"></app-search-results>
             <app-extensions v-show="search == null || search === ''" :app="app" always-open></app-extensions>
         </v-card>
-    </v-app>
+    </app>
 </template>
 <script>
     import AppExtensions from "./AppExtensions";
     import AppUser from "./AppUser";
     import AppSearchResults from "./AppSearchResults";
+    import App from "./App";
     import {ImageIcon} from "../misc";
 
     export default {
         name: 'app-dashboard',
-        components: {ImageIcon, AppUser, AppExtensions, AppSearchResults},
+        components: {ImageIcon, AppUser, AppExtensions, AppSearchResults, App},
         props: {
             app: {type: Object, required: true}
         },

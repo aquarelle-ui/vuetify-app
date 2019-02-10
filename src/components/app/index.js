@@ -1,3 +1,4 @@
+export {default as App} from "./App";
 export {default as AppLayout} from "./AppLayout";
 export {default as AppMenu} from "./AppMenu";
 export {default as AppExtensions} from "./AppExtensions";

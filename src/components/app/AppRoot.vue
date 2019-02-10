@@ -1,22 +1,24 @@
 <template>
     <router-view v-if="ready"></router-view>
-    <v-app v-else>
+    <app v-else>
         <v-container fluid fill-height>
             <v-layout justify-center align-center>
                 <v-flex class="text-xs-center">
                     <img style="max-width: 80%" :src="logo">
-                    <v-progress-linear indeterminate></v-progress-linear>
+                    <v-progress-linear color="secondary" indeterminate></v-progress-linear>
                     <v-flex>{{status}}</v-flex>
                 </v-flex>
             </v-layout>
         </v-container>
-    </v-app>
+    </app>
 </template>
 <script>
     import Logo from "./logo.svg";
+    import App from "./App";
 
     export default {
         name: 'app-root',
+        components: {App},
         props: {
             user: {type: Object, required: true},
             options: {

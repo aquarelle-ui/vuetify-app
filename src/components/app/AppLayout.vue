@@ -1,5 +1,5 @@
 <template>
-    <v-app>
+    <app>
         <v-navigation-drawer app right fixed clipped v-model="rightDrawer">
             <slot name="app-right-drawer"></slot>
         </v-navigation-drawer>
@@ -22,7 +22,7 @@
         </v-navigation-drawer>
 
         <slot></slot>
-    </v-app>
+    </app>
 </template>
 <style>
     #app-actions > div, #app-actions .app-actions-wrapper {
@@ -30,8 +30,11 @@
     }
 </style>
 <script>
+    import App from "./App";
+
     export default {
         name: "app-layout",
+        components: {App},
         data() {
             return {
                 leftDrawer: null,
