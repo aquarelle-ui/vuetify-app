@@ -1,6 +1,6 @@
 {
   "name": "@aquarelle/vuetify-app",
-  "version": "0.0.46",
+  "version": "0.0.47",
   "private": true,
   "main": "dist/lib.cjs.js",
   "module": "dist/lib.esm.js",
@@ -15,14 +15,14 @@
   },
   "devDependencies": {
     "rollup": "^1.1.2",
-    "rollup-plugin-import-resolver": "^1.0.4",
-    "rollup-plugin-terser": "^4.0.3",
     "rollup-plugin-css-only": "^1.0.0",
+    "rollup-plugin-import-resolver": "^1.0.4",
+    "rollup-plugin-svg": "^1.0.1",
+    "rollup-plugin-terser": "^4.0.3",
     "rollup-plugin-vue": "^4.6.2",
     "vue-template-compiler": "^2.5.22",
     "vuedraggable": "^2.17.0",
-    "vuetify": "^1.4.4",
-    "rollup-plugin-svg": "^1.0.1"
+    "vuetify": "^1.4.4"
   },
   "scripts": {
     "build": "rollup -c --environment BUILD:production",

@@ -69,6 +69,6 @@
         margin-left: -72px;
     }
     .fab-wrapper > .v-btn.v-btn--floating {
-        margin: 0;
+        margin-left: -72px;
     }
 </style>

@@ -213,8 +213,6 @@ function normalizeComponent(template, style, script, scopeId, isFunctionalTempla
 
 /* script */
 const __vue_script__ = script;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script.__file = "LetterAvatar.vue";
 /* template */
 var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{class:_vm.avatarClass},[_c('span',{class:_vm.textClass},[_vm._v(_vm._s(_vm.letter))])])};
 var __vue_staticRenderFns__ = [];
@@ -464,8 +462,6 @@ var script$1 = {
 
 /* script */
 const __vue_script__$1 = script$1;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$1.__file = "ImageIcon.vue";
 /* template */
 var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.isIcon)?_c('v-icon',_vm._b({style:({width: _vm.size + 'px', height: _vm.size + 'px'})},'v-icon',_vm.$attrs,false),[_vm._v(_vm._s(_vm.$controlIcon(_vm.source)))]):(_vm.isURL)?_c('img',_vm._b({class:{'image-icon': true, 'squared': _vm.squared},style:({width: _vm.size + 'px', height: _vm.size + 'px'}),attrs:{"src":_vm.source}},'img',_vm.$attrs,false)):(_vm.letterFallback)?_c('letter-avatar',_vm._b({style:({width: _vm.size + 'px', height: _vm.size + 'px'}),attrs:{"text":_vm.src,"squared":_vm.squared}},'letter-avatar',_vm.$attrs,false)):_vm._e()};
 var __vue_staticRenderFns__$1 = [];
@@ -516,8 +512,6 @@ var script$2 = {
 
 /* script */
 const __vue_script__$2 = script$2;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$2.__file = "ContentLoader.vue";
 
 /* template */
 var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.loading)?_c('v-layout',{attrs:{"fill-height":"","justify-center":"","align-center":""}},[_c('v-progress-circular',{attrs:{"indeterminate":"","color":"secondary"}})],1):_c('v-layout',{attrs:{"column":"","fill-height":""}},[_vm._t("default")],2)};
@@ -625,8 +619,6 @@ var script$3 = {
 
 /* script */
 const __vue_script__$3 = script$3;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$3.__file = "control.vue";
 
 /* template */
 var __vue_render__$3 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-autocomplete',{attrs:{"error-messages":_vm.allErrors,"label":_vm.$intl.translate(_vm.display.title),"hint":_vm.$intl.translate(_vm.display.hint),"placeholder":_vm.$intl.translate(_vm.display.placeholder),"prepend-icon":_vm.$controlIcon(_vm.display.prependIcon),"append-icon":_vm.$controlIcon(_vm.display.appendIcon),"box":_vm.display.appearance === 'box',"solo":_vm.display.appearance === 'solo',"solo-inverted":_vm.display.appearance === 'solo-inverted',"outline":_vm.display.appearance === 'outline',"flat":!!_vm.display.flat,"multiple":_vm.config.multiple || false,"clearable":"","items":_vm.loadedItems,"item-value":_vm.getValue,"item-text":_vm.titleProp,"item-avatar":_vm.iconProp,"value-comparator":_vm.$equals,"loading":_vm.loading,"disabled":_vm.loading},scopedSlots:_vm._u([{key:"selection",fn:function(data){return [[_c('span',{staticClass:"ml-1 mr-1"},[_vm._v(_vm._s(data.item[_vm.titleProp]))])]]}},{key:"item",fn:function(data){return [_c('v-list-tile-avatar',[_c('image-icon',{attrs:{"src":data.item[_vm.iconProp] || data.item[_vm.titleProp],"squared":_vm.display.squared}})],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                "+_vm._s(data.item[_vm.titleProp])+"\n            ")]),_vm._v(" "),_c('v-list-tile-sub-title',[_vm._v("\n                "+_vm._s(data.item[_vm.descriptionProp])+"\n                "),(!_vm.display.hideType)?_c('small',[_vm._v("("+_vm._s(data.item.behavior ? data.item.type + ':' + data.item.behavior : data.item.type)+")")]):_vm._e()])],1)]}}]),model:{value:(_vm.model[_vm.name]),callback:function ($$v) {_vm.$set(_vm.model, _vm.name, $$v);},expression:"model[name]"}})};
@@ -755,11 +747,9 @@ var script$4 = {
 
 /* script */
 const __vue_script__$4 = script$4;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$4.__file = "control.vue";
 
 /* template */
-var __vue_render__$4 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-autocomplete',{attrs:{"error-messages":_vm.allErrors,"label":_vm.$intl.translate(_vm.display.title),"hint":_vm.$intl.translate(_vm.display.hint),"placeholder":_vm.$intl.translate(_vm.display.placeholder),"prepend-icon":_vm.$controlIcon(_vm.display.prependIcon),"append-icon":_vm.$controlIcon(_vm.display.appendIcon),"box":_vm.display.appearance === 'box',"solo":_vm.display.appearance === 'solo',"solo-inverted":_vm.display.appearance === 'solo-inverted',"outline":_vm.display.appearance === 'outline',"flat":!!_vm.display.flat,"multiple":_vm.config.multiple || false,"hide-selected":"","autocomplete":"","clearable":"","items":_vm.loadedItems,"item-value":_vm.valueProp,"item-text":_vm.titleProp,"value-comparator":_vm.$equals,"loading":_vm.loading,"disabled":_vm.loading},scopedSlots:_vm._u([{key:"selection",fn:function(data){return [(_vm.config.multiple && _vm.display.chips)?_c('v-chip',{attrs:{"close":"","selected":data.selected,"disabled":data.disabled},on:{"input":function($event){data.parent.selectItem(data.item);}}},[_vm._v("\n            "+_vm._s(data.item[_vm.titleProp])+"\n        ")]):_c('span',{staticClass:"ml-1 mr-1"},[_vm._v(_vm._s(data.item[_vm.titleProp]))])]}},{key:"item",fn:function(data){return [_c('v-list-tile-avatar',[_c('letter-avatar',{attrs:{"text":data.item[_vm.titleProp] || ''}})],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                "+_vm._s(data.item[_vm.titleProp])+"\n            ")]),_vm._v(" "),(!_vm.display.hideType)?_c('v-list-tile-sub-title',[_vm._v("\n                "+_vm._s(data.item.behavior ? data.item.type + ':' + data.item.behavior : data.item.type)+"\n            ")]):_c('v-list-tile-sub-title',[_vm._v("\n                "+_vm._s(data.item[_vm.descriptionProp] || '')+"\n            ")])],1)]}}]),model:{value:(_vm.model[_vm.name]),callback:function ($$v) {_vm.$set(_vm.model, _vm.name, $$v);},expression:"model[name]"}})};
+var __vue_render__$4 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-autocomplete',{attrs:{"error-messages":_vm.allErrors,"label":_vm.$intl.translate(_vm.display.title),"hint":_vm.$intl.translate(_vm.display.hint),"placeholder":_vm.$intl.translate(_vm.display.placeholder),"prepend-icon":_vm.$controlIcon(_vm.display.prependIcon),"append-icon":_vm.$controlIcon(_vm.display.appendIcon),"box":_vm.display.appearance === 'box',"solo":_vm.display.appearance === 'solo',"solo-inverted":_vm.display.appearance === 'solo-inverted',"outline":_vm.display.appearance === 'outline',"flat":!!_vm.display.flat,"multiple":_vm.config.multiple || false,"hide-selected":"","autocomplete":"","clearable":"","items":_vm.loadedItems,"item-value":_vm.valueProp,"item-text":_vm.titleProp,"value-comparator":_vm.$equals,"loading":_vm.loading,"disabled":_vm.loading},scopedSlots:_vm._u([{key:"selection",fn:function(data){return [(_vm.config.multiple && _vm.display.chips)?_c('v-chip',{attrs:{"close":"","selected":data.selected,"disabled":data.disabled},on:{"input":function($event){return data.parent.selectItem(data.item)}}},[_vm._v("\n            "+_vm._s(data.item[_vm.titleProp])+"\n        ")]):_c('span',{staticClass:"ml-1 mr-1"},[_vm._v(_vm._s(data.item[_vm.titleProp]))])]}},{key:"item",fn:function(data){return [_c('v-list-tile-avatar',[_c('letter-avatar',{attrs:{"text":data.item[_vm.titleProp] || ''}})],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                "+_vm._s(data.item[_vm.titleProp])+"\n            ")]),_vm._v(" "),(!_vm.display.hideType)?_c('v-list-tile-sub-title',[_vm._v("\n                "+_vm._s(data.item.behavior ? data.item.type + ':' + data.item.behavior : data.item.type)+"\n            ")]):_c('v-list-tile-sub-title',[_vm._v("\n                "+_vm._s(data.item[_vm.descriptionProp] || '')+"\n            ")])],1)]}}]),model:{value:(_vm.model[_vm.name]),callback:function ($$v) {_vm.$set(_vm.model, _vm.name, $$v);},expression:"model[name]"}})};
 var __vue_staticRenderFns__$4 = [];
 
   /* style */
@@ -1038,8 +1028,6 @@ var script$5 = {
 
 /* script */
 const __vue_script__$5 = script$5;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$5.__file = "JsonFormDisplayItemWrapper.vue";
 
 /* template */
 var __vue_render__$5 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[(_vm.title != null)?_c('span',{staticClass:"subheading font-weight-bold"},[_vm._v(_vm._s(_vm.$intl.translate(_vm.title))+": ")]):_vm._e(),_vm._v(" "),_vm._t("default",[(_vm.link == null)?_c('span',[_vm._v(_vm._s(_vm.value))]):_c('a',{attrs:{"href":_vm.link,"target":"_blank"}},[_vm._v(_vm._s(_vm.value))])])],2)};
@@ -1093,8 +1081,6 @@ var script$6 = {
 
 /* script */
 const __vue_script__$6 = script$6;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$6.__file = "text.vue";
 
 /* template */
 var __vue_render__$6 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title,"value":_vm.value}})};
@@ -1143,8 +1129,6 @@ var script$7 = {
 
 /* script */
 const __vue_script__$7 = script$7;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$7.__file = "textarea.vue";
 
 /* template */
 var __vue_render__$7 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title}},[_c('pre',[_vm._v(_vm._s(_vm.value))])])};
@@ -1200,8 +1184,6 @@ var script$8 = {
 
 /* script */
 const __vue_script__$8 = script$8;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$8.__file = "tel.vue";
 
 /* template */
 var __vue_render__$8 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title,"value":_vm.value,"link":_vm.link}})};
@@ -1257,8 +1239,6 @@ var script$9 = {
 
 /* script */
 const __vue_script__$9 = script$9;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$9.__file = "email.vue";
 
 /* template */
 var __vue_render__$9 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title,"value":_vm.value,"link":_vm.link}})};
@@ -1307,8 +1287,6 @@ var script$a = {
 
 /* script */
 const __vue_script__$a = script$a;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$a.__file = "url.vue";
 
 /* template */
 var __vue_render__$a = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title,"value":_vm.value,"link":_vm.value}})};
@@ -1365,8 +1343,6 @@ var script$b = {
 
 /* script */
 const __vue_script__$b = script$b;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$b.__file = "hidden.vue";
 
 /* template */
 var __vue_render__$b = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title,"value":_vm.value}})};
@@ -1415,8 +1391,6 @@ var script$c = {
 
 /* script */
 const __vue_script__$c = script$c;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$c.__file = "color.vue";
 
 /* template */
 var __vue_render__$c = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title}},[_c('span',[_vm._v(_vm._s(_vm.value))]),_vm._v(" "),_c('div',{style:({display: 'inline-block', width: '24px', height: '24px', backgroundColor: _vm.value})})])};
@@ -1465,8 +1439,6 @@ var script$d = {
 
 /* script */
 const __vue_script__$d = script$d;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$d.__file = "combobox.vue";
 
 /* template */
 var __vue_render__$d = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title}},[(!_vm.config.multiple)?_c('span',[_vm._v(_vm._s(_vm.value))]):(_vm.modelProxy != null)?_c('div',_vm._l((_vm.modelProxy),function(item,index){return _c('v-chip',{key:index},[_vm._v(_vm._s(item))])}),1):_vm._e()])};
@@ -1506,8 +1478,6 @@ var script$e = {
 
 /* script */
 const __vue_script__$e = script$e;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$e.__file = "chips.vue";
 
 /* template */
 var __vue_render__$e = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title}},[(_vm.modelProxy != null)?_c('div',_vm._l((_vm.modelProxy),function(item,index){return _c('v-chip',{key:index},[_vm._v(_vm._s(item))])}),1):_vm._e()])};
@@ -1568,8 +1538,6 @@ var script$f = {
 
 /* script */
 const __vue_script__$f = script$f;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$f.__file = "file.vue";
 
 /* template */
 var __vue_render__$f = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title}},[(_vm.value != null)?_vm._l((_vm.value),function(file,index){return _c('div',{key:index},[(file.url != null)?[_c('a',{attrs:{"href":_vm.getFileUrl(file.url),"target":"_blank"}},[_vm._v(_vm._s(file.name))])]:[_vm._v("\n                "+_vm._s(file.name)+"\n            ")],_vm._v("\n            ("+_vm._s(file.size)+" bytes) ("+_vm._s(file.type)+")\n        ")],2)}):_vm._e()],2)};
@@ -1609,8 +1577,6 @@ var script$g = {
 
 /* script */
 const __vue_script__$g = script$g;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$g.__file = "checkbox.vue";
 
 /* template */
 var __vue_render__$g = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title}},[_c('v-icon',{attrs:{"small":"","color":_vm.modelProxy ? 'green' : 'red'}},[_vm._v(_vm._s(_vm.modelProxy ? 'check' : 'clear'))])],1)};
@@ -1664,8 +1630,6 @@ var script$h = {
 
 /* script */
 const __vue_script__$h = script$h;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$h.__file = "JsonFormDisplayElement.vue";
 
 /* template */
 var __vue_render__$h = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.control.element != null)?_c(_vm.control.element,{tag:"component",attrs:{"model":_vm.model,"files":_vm.files,"name":_vm.control.name || null,"display":_vm.control.display || {},"config":_vm.control.config || {},"items":_vm.control.items || null}}):_vm._e()};
@@ -1724,8 +1688,6 @@ var script$i = {
 
 /* script */
 const __vue_script__$i = script$i;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$i.__file = "JsonFormDisplayGroup.vue";
 
 /* template */
 var __vue_render__$i = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.modelProxy != null && _vm.items != null && _vm.items.length> 0)?_c('div',{staticClass:"json-form-display-group"},_vm._l((_vm.items),function(control){return _c('json-form-display-element',{key:control.id || _vm.$uniqueObjectId(control),attrs:{"model":_vm.modelProxy,"files":_vm.files,"control":control}})}),1):_vm._e()};
@@ -1773,8 +1735,6 @@ var script$j = {
 
 /* script */
 const __vue_script__$j = script$j;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$j.__file = "group.vue";
 
 /* template */
 var __vue_render__$j = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.modelProxy != null)?_c('div',[(_vm.display.title != null)?_c('div',{staticClass:"font-weight-bold"},[_vm._v("\n        "+_vm._s(_vm.$intl.translate(_vm.display.title))+"\n    ")]):_vm._e(),_vm._v(" "),_c('json-form-display-group',{attrs:{"files":_vm.files,"items":_vm.groupItems,"model":_vm.model,"name":_vm.name}})],1):_vm._e()};
@@ -1829,8 +1789,6 @@ var script$k = {
 
 /* script */
 const __vue_script__$k = script$k;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$k.__file = "tabs.vue";
 
 /* template */
 var __vue_render__$k = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.modelProxy != null)?_c('v-tabs',[_vm._l((_vm.tabs),function(tab){return [_c('v-tab',{key:_vm.$uniqueObjectId(tab) + 'h'},[_vm._v(_vm._s(_vm.$intl.translate(tab.title)))]),_vm._v(" "),_c('v-tab-item',{key:_vm.$uniqueObjectId(tab) + 'c'},[_c('json-form-display-group',{attrs:{"files":_vm.files,"items":tab.items,"model":_vm.name == null ? _vm.model : _vm.modelProxy,"name":tab.name}})],1)]})],2):_vm._e()};
@@ -1934,8 +1892,6 @@ var script$l = {
 
 /* script */
 const __vue_script__$l = script$l;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$l.__file = "select.vue";
 
 /* template */
 var __vue_render__$l = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.value != null && _vm.value.length > 0)?_c('json-form-display-item-wrapper',{attrs:{"title":_vm.display.title}},_vm._l((_vm.value),function(item,index){return _c('v-chip',{key:index},[_vm._v(_vm._s(item))])}),1):_vm._e()};
@@ -2005,8 +1961,6 @@ var script$m = {
 
 /* script */
 const __vue_script__$m = script$m;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$m.__file = "variant.vue";
 
 /* template */
 var __vue_render__$m = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.variant != null)?_c('v-card',{attrs:{"flat":""}},[_c('v-card-title',[_c('div',[_c('div',{staticClass:"headline"},[_vm._v(_vm._s(_vm.$intl.translate(_vm.display.title)))]),_vm._v(" "),(_vm.variant.title != null)?_c('span',{staticClass:"grey--text"},[_vm._v(_vm._s(_vm.$intl.translate(_vm.variant.title)))]):_vm._e()])]),_vm._v(" "),_c('v-card-text',{staticClass:"pt-0"},[_c('json-form-display-group',{attrs:{"files":_vm.files,"items":_vm.variant.items,"model":_vm.modelProxy}})],1)],1):_vm._e()};
@@ -2054,8 +2008,6 @@ var script$n = {
 
 /* script */
 const __vue_script__$n = script$n;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$n.__file = "repeat.vue";
 
 /* template */
 var __vue_render__$n = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.modelProxy != null && _vm.modelProxy.length > 0 && _vm.repeatItems != null && _vm.repeatItems.length > 0)?_c('v-card',{attrs:{"flat":""}},[_c('v-card-title',[_c('div',{staticClass:"headline"},[_vm._v(_vm._s(_vm.$intl.translate(_vm.display.title)))])]),_vm._v(" "),_c('v-card-text',{staticClass:"pt-0"},[_vm._l((_vm.modelProxy),function(model,index){return [(index !== 0)?_c('v-divider'):_vm._e(),_vm._v(" "),_c('json-form-display-group',{attrs:{"files":_vm.files,"items":_vm.repeatItems,"model":model}})]})],2)],1):_vm._e()};
@@ -2118,8 +2070,6 @@ var script$o = {
 
 /* script */
 const __vue_script__$o = script$o;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$o.__file = "repeat-variants.vue";
 
 /* template */
 var __vue_render__$o = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.modelProxy != null)?_c('v-card',{attrs:{"flat":""}},[_c('v-card-title',[_c('div',{staticClass:"headline"},[_vm._v(_vm._s(_vm.$intl.translate(_vm.display.title)))])]),_vm._v(" "),_c('v-card-text',{staticClass:"pt-0"},[_vm._l((_vm.modelProxy),function(model,index){return [(index !== 0)?_c('v-divider'):_vm._e(),_vm._v(" "),_c('div',{staticClass:"grey--text"},[_vm._v(_vm._s(index + 1)+". "+_vm._s(_vm.$intl.translate(_vm.variants[model[_vm.variantField]].title)))]),_vm._v(" "),_c('json-form-display-group',{attrs:{"files":_vm.files,"items":_vm.variants[model[_vm.variantField]].items,"model":model}})]})],2)],1):_vm._e()};
@@ -2185,8 +2135,6 @@ var script$p = {
 
 /* script */
 const __vue_script__$p = script$p;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$p.__file = "group-repeat.vue";
 
 /* template */
 var __vue_render__$p = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.hasItems)?_c('v-card',{attrs:{"flat":""}},[_c('v-card-title',[_c('div',{staticClass:"headline"},[_vm._v(_vm._s(_vm.$intl.translate(_vm.display.title)))])]),_vm._v(" "),_vm._l((_vm.regions),function(region){return _c('v-card-text',{key:region.name,staticClass:"pt-0"},[(_vm.modelProxy[region.name] && _vm.modelProxy[region.name].length > 0)?[_c('div',{staticClass:"subheading"},[_vm._v(_vm._s(_vm.$intl.translate(region.title)))]),_vm._v(" "),_vm._l((_vm.modelProxy[region.name]),function(model,index){return [(index !== 0)?_c('v-divider'):_vm._e(),_vm._v(" "),_c('json-form-display-group',{attrs:{"files":_vm.files,"items":_vm.repeatItems,"model":model}})]})]:_vm._e()],2)})],2):_vm._e()};
@@ -2267,8 +2215,6 @@ var script$q = {
 
 /* script */
 const __vue_script__$q = script$q;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$q.__file = "group-repeat-variants.vue";
 
 /* template */
 var __vue_render__$q = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.hasItems)?_c('v-card',{attrs:{"flat":""}},[_c('v-card-title',[_c('div',{staticClass:"headline"},[_vm._v(_vm._s(_vm.$intl.translate(_vm.display.title)))])]),_vm._v(" "),_vm._l((_vm.regions),function(region){return _c('v-card-text',{key:region.name,staticClass:"pt-0"},[(_vm.modelProxy[region.name] && _vm.modelProxy[region.name].length > 0)?[_c('div',{staticClass:"subheading"},[_vm._v(_vm._s(_vm.$intl.translate(region.title)))]),_vm._v(" "),_vm._l((_vm.modelProxy[region.name]),function(model,index){return [(index !== 0)?_c('v-divider'):_vm._e(),_vm._v(" "),_c('div',{staticClass:"grey--text"},[_vm._v(_vm._s(index + 1)+". "+_vm._s(_vm.$intl.translate(_vm.variants[model[_vm.variantField]].title)))]),_vm._v(" "),_c('json-form-display-group',{attrs:{"files":_vm.files,"items":_vm.variants[model[_vm.variantField]].items,"model":model}})]})]:_vm._e()],2)})],2):_vm._e()};
@@ -2480,8 +2426,6 @@ var script$r = {
 
 /* script */
 const __vue_script__$r = script$r;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$r.__file = "AppLayout.vue";
 /* template */
 var __vue_render__$r = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-app',[_c('v-navigation-drawer',{attrs:{"app":"","fixed":"","clipped":""},model:{value:(_vm.leftDrawer),callback:function ($$v) {_vm.leftDrawer=$$v;},expression:"leftDrawer"}},[_vm._t("app-left-drawer")],2),_vm._v(" "),_c('v-navigation-drawer',{attrs:{"app":"","right":"","fixed":"","clipped":""},model:{value:(_vm.rightDrawer),callback:function ($$v) {_vm.rightDrawer=$$v;},expression:"rightDrawer"}},[_vm._t("app-right-drawer")],2),_vm._v(" "),_c('v-toolbar',{ref:"toolbar",attrs:{"app":"","fixed":"","clipped-left":"","clipped-right":"","color":"primary","dark":""}},[_c('v-toolbar-side-icon',{on:{"click":function($event){$event.stopPropagation();_vm.leftDrawer = !_vm.leftDrawer;}}}),_vm._v(" "),_c('v-toolbar-title',{staticClass:"ml-0",attrs:{"id":"app-title"}}),_vm._v(" "),_c('v-spacer'),_vm._v(" "),_vm._t("app-actions",[_c('div',{attrs:{"id":"app-actions"}})]),_vm._v(" "),_c('v-btn',{attrs:{"icon":"","flat":""},on:{"click":function($event){$event.stopPropagation();_vm.rightDrawer = !_vm.rightDrawer;}}},[_c('v-icon',[_vm._v(_vm._s(_vm.actionIcon))])],1)],2),_vm._v(" "),_vm._t("default")],2)};
 var __vue_staticRenderFns__$r = [];
@@ -2609,8 +2553,6 @@ var script$s = {
 
 /* script */
 const __vue_script__$s = script$s;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$s.__file = "AppMenu.vue";
 
 /* template */
 var __vue_render__$s = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-list',_vm._b({attrs:{"two-line":""}},'v-list',_vm.$attrs,false),[_vm._l((_vm.menus),function(region){return [_c('v-subheader',[_vm._v(_vm._s(_vm.$intl.translate(region.title)))]),_vm._v(" "),_vm._l((region.items),function(item){return _c('v-list-tile',{key:item.href,attrs:{"to":item.href}},[_c('v-list-tile-action',[_c('v-icon',[_vm._v(_vm._s(_vm.$controlIcon(item.icon)))])],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                    "+_vm._s(_vm.$intl.translate(item.title))+"\n                ")]),_vm._v(" "),(item.description !== null)?_c('v-list-tile-sub-title',[_vm._v("\n                    "+_vm._s(_vm.$intl.translate(item.description))+"\n                ")]):_vm._e()],1)],1)})]})],2)};
@@ -2750,11 +2692,9 @@ var script$t = {
 
 /* script */
 const __vue_script__$t = script$t;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$t.__file = "AppExtensions.vue";
 
 /* template */
-var __vue_render__$t = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-list',_vm._b({attrs:{"two-line":""}},'v-list',_vm.$attrs,false),_vm._l((_vm.vendors),function(vendor){return _c('v-list-group',{key:vendor.name,attrs:{"value":_vm.alwaysOpen || vendor.name === _vm.currentVendor}},[_c('v-list-tile',{attrs:{"slot":"activator"},slot:"activator"},[_c('v-list-tile-action',[_c('image-icon',{attrs:{"src":vendor.icon || _vm.$intl.translate(vendor.title)}})],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                    "+_vm._s(_vm.$intl.translate(vendor.title))+"\n                ")]),_vm._v(" "),_c('v-list-tile-sub-title',[_vm._v("\n                    "+_vm._s(_vm.$intl.translate(vendor.description))+"\n                ")])],1)],1),_vm._v(" "),_vm._l((vendor.extensions),function(item){return _c('v-list-tile',{key:item.href,class:_vm.isLinkActive(item.extHref) ? ['v-list__tile--active', 'primary--text'] : undefined,on:{"click":function($event){_vm.goto(item.href);}}},[_c('v-list-tile-action',[_c('image-icon',{attrs:{"src":item.icon || _vm.$intl.translate(item.title)}})],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                    "+_vm._s(_vm.$intl.translate(item.title))+"\n                ")]),_vm._v(" "),_c('v-list-tile-sub-title',[_vm._v("\n                    "+_vm._s(_vm.$intl.translate(item.description))+"\n                ")])],1)],1)})],2)}),1)};
+var __vue_render__$t = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-list',_vm._b({attrs:{"two-line":""}},'v-list',_vm.$attrs,false),_vm._l((_vm.vendors),function(vendor){return _c('v-list-group',{key:vendor.name,attrs:{"value":_vm.alwaysOpen || vendor.name === _vm.currentVendor}},[_c('v-list-tile',{attrs:{"slot":"activator"},slot:"activator"},[_c('v-list-tile-action',[_c('image-icon',{attrs:{"src":vendor.icon || _vm.$intl.translate(vendor.title)}})],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                    "+_vm._s(_vm.$intl.translate(vendor.title))+"\n                ")]),_vm._v(" "),_c('v-list-tile-sub-title',[_vm._v("\n                    "+_vm._s(_vm.$intl.translate(vendor.description))+"\n                ")])],1)],1),_vm._v(" "),_vm._l((vendor.extensions),function(item){return _c('v-list-tile',{key:item.href,class:_vm.isLinkActive(item.extHref) ? ['v-list__tile--active', 'primary--text'] : undefined,on:{"click":function($event){return _vm.goto(item.href)}}},[_c('v-list-tile-action',[_c('image-icon',{attrs:{"src":item.icon || _vm.$intl.translate(item.title)}})],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                    "+_vm._s(_vm.$intl.translate(item.title))+"\n                ")]),_vm._v(" "),_c('v-list-tile-sub-title',[_vm._v("\n                    "+_vm._s(_vm.$intl.translate(item.description))+"\n                ")])],1)],1)})],2)}),1)};
 var __vue_staticRenderFns__$t = [];
 
   /* style */
@@ -2805,8 +2745,6 @@ var script$u = {
 
 /* script */
 const __vue_script__$u = script$u;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$u.__file = "AppUser.vue";
 
 /* template */
 var __vue_render__$u = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-card',{attrs:{"flat":""}},[_c('v-container',{attrs:{"fluid":"","grid-list-sm":""}},[_c('v-layout',{attrs:{"row":""}},[_c('v-flex',[_c('image-icon',{attrs:{"squared":"","size":80,"letters-count":2,"src":_vm.user.avatar || _vm.user.name}})],1),_vm._v(" "),_c('v-flex',[_c('div',{staticClass:"headline"},[_vm._v(_vm._s(_vm.user.name))]),_vm._v(" "),_c('div',[_vm._v(_vm._s(_vm.user.email))]),_vm._v(" "),_c('div',[_c('a',{attrs:{"href":"#"},on:{"click":function($event){$event.preventDefault();$event.stopPropagation();return _vm.signOut($event)}}},[_vm._v("Sign out")])])])],1)],1)],1)};
@@ -2882,8 +2820,6 @@ var script$v = {
 
 /* script */
 const __vue_script__$v = script$v;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$v.__file = "AppRoot.vue";
 /* template */
 var __vue_render__$v = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.ready)?_c('router-view'):_c('v-app',[_c('v-container',{attrs:{"fluid":"","fill-height":""}},[_c('v-layout',{attrs:{"justify-center":"","align-center":""}},[_c('v-flex',{staticClass:"text-xs-center"},[_c('img',{staticStyle:{"max-width":"80%"},attrs:{"src":_vm.logo}}),_vm._v(" "),_c('v-progress-linear',{attrs:{"indeterminate":""}}),_vm._v(" "),_c('v-flex',[_vm._v(_vm._s(_vm.status))])],1)],1)],1)],1)};
 var __vue_staticRenderFns__$v = [];
@@ -2973,8 +2909,6 @@ var script$w = {
 
 /* script */
 const __vue_script__$w = script$w;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$w.__file = "AppToolbar.vue";
 
 /* template */
 var __vue_render__$w = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"show",rawName:"v-show",value:(false),expression:"false"}]},[_c('span',{directives:[{name:"dom-portal",rawName:"v-dom-portal",value:(_vm.titleSelector),expression:"titleSelector"}]},[(_vm.showBack)?_c('v-btn',{directives:[{name:"show",rawName:"v-show",value:(_vm.back.length > 0),expression:"back.length > 0"}],staticClass:"ml-0 mr-0",attrs:{"exact":"","small":"","icon":"","to":_vm.back}},[_c('v-icon',[_vm._v("arrow_back")])],1):_vm._e(),_vm._v("\n        "+_vm._s(_vm.title)+"\n    ")],1),_vm._v(" "),_c('div',{directives:[{name:"dom-portal",rawName:"v-dom-portal",value:(_vm.toolbarSelector),expression:"toolbarSelector"}]},[_vm._t("default")],2)])};
@@ -3075,11 +3009,9 @@ var script$x = {
 
 /* script */
 const __vue_script__$x = script$x;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$x.__file = "AppNotifier.vue";
 
 /* template */
-var __vue_render__$x = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-snackbar',_vm._b({attrs:{"color":_vm.type,"timeout":_vm.timeout,"vertical":_vm.vertical,"multi-line":_vm.multiLine},model:{value:(_vm.snackbar),callback:function ($$v) {_vm.snackbar=$$v;},expression:"snackbar"}},'v-snackbar',_vm.position,false),[_vm._t("default",[_vm._v("\n        "+_vm._s(_vm.message)+"\n    ")],{message:_vm.message}),_vm._v(" "),_vm._t("actions",[_c('v-btn',{attrs:{"icon":"","flat":""},nativeOn:{"click":function($event){$event.stopPropagation();_vm.hide();}}},[_c('v-icon',[_vm._v("close")])],1)])],2)};
+var __vue_render__$x = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-snackbar',_vm._b({attrs:{"color":_vm.type,"timeout":_vm.timeout,"vertical":_vm.vertical,"multi-line":_vm.multiLine},model:{value:(_vm.snackbar),callback:function ($$v) {_vm.snackbar=$$v;},expression:"snackbar"}},'v-snackbar',_vm.position,false),[_vm._t("default",[_vm._v("\n        "+_vm._s(_vm.message)+"\n    ")],{"message":_vm.message}),_vm._v(" "),_vm._t("actions",[_c('v-btn',{attrs:{"icon":"","flat":""},nativeOn:{"click":function($event){$event.stopPropagation();return _vm.hide()}}},[_c('v-icon',[_vm._v("close")])],1)])],2)};
 var __vue_staticRenderFns__$x = [];
 
   /* style */
@@ -3204,11 +3136,9 @@ var script$y = {
 
 /* script */
 const __vue_script__$y = script$y;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$y.__file = "AppPage.vue";
 
 /* template */
-var __vue_render__$y = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-flex',{attrs:{"grow":""}},[_c('app-toolbar',{attrs:{"title":_vm.title,"back":_vm.back,"show-back":_vm.showBack}},[_vm._t("toolbar")],2),_vm._v(" "),(_vm.loading)?_c('v-layout',{attrs:{"fill-height":"","justify-center":"","align-center":""}},[_c('v-progress-circular',{attrs:{"indeterminate":"","color":"secondary"}})],1):_vm._t("default"),_vm._v(" "),_c('app-notifier',{ref:"notifier"}),_vm._v(" "),_c('v-dialog',{attrs:{"lazy":"","persistent":"","max-width":"320"},model:{value:(_vm.showLogin),callback:function ($$v) {_vm.showLogin=$$v;},expression:"showLogin"}},[_c('v-card',[_c('v-card-title',{staticClass:"headline"},[_vm._v("You are not signed in")]),_vm._v(" "),_c('v-card-text',[_c('v-text-field',{attrs:{"disabled":_vm.processingLogin,"rules":_vm.emailRules,"label":"E-mail","type":"email","prepend-icon":"email"},model:{value:(_vm.email),callback:function ($$v) {_vm.email=$$v;},expression:"email"}}),_vm._v(" "),_c('v-text-field',{attrs:{"disabled":_vm.processingLogin,"rules":_vm.passRules,"label":"Password","type":"password","prepend-icon":"lock"},model:{value:(_vm.pass),callback:function ($$v) {_vm.pass=$$v;},expression:"pass"}})],1),_vm._v(" "),_c('v-card-actions',[_c('span',{directives:[{name:"show",rawName:"v-show",value:(_vm.loginError),expression:"loginError"}],staticClass:"red--text"},[_c('v-icon',{attrs:{"color":"red"}},[_vm._v("error")]),_vm._v("Sign in failed\n                ")],1),_vm._v(" "),_c('v-spacer'),_vm._v(" "),_c('v-btn',{attrs:{"flat":"","disabled":_vm.processingLogin || !_vm.canLogin,"loading":_vm.processingLogin},on:{"click":function($event){$event.stopPropagation();_vm.tryLogin(_vm.email, _vm.pass);}}},[_vm._v("\n                    Sign in "),_c('v-icon',[_vm._v("navigate_next")])],1)],1)],1)],1)],2)};
+var __vue_render__$y = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-flex',{attrs:{"grow":""}},[_c('app-toolbar',{attrs:{"title":_vm.title,"back":_vm.back,"show-back":_vm.showBack}},[_vm._t("toolbar")],2),_vm._v(" "),(_vm.loading)?_c('v-layout',{attrs:{"fill-height":"","justify-center":"","align-center":""}},[_c('v-progress-circular',{attrs:{"indeterminate":"","color":"secondary"}})],1):_vm._t("default"),_vm._v(" "),_c('app-notifier',{ref:"notifier"}),_vm._v(" "),_c('v-dialog',{attrs:{"lazy":"","persistent":"","max-width":"320"},model:{value:(_vm.showLogin),callback:function ($$v) {_vm.showLogin=$$v;},expression:"showLogin"}},[_c('v-card',[_c('v-card-title',{staticClass:"headline"},[_vm._v("You are not signed in")]),_vm._v(" "),_c('v-card-text',[_c('v-text-field',{attrs:{"disabled":_vm.processingLogin,"rules":_vm.emailRules,"label":"E-mail","type":"email","prepend-icon":"email"},model:{value:(_vm.email),callback:function ($$v) {_vm.email=$$v;},expression:"email"}}),_vm._v(" "),_c('v-text-field',{attrs:{"disabled":_vm.processingLogin,"rules":_vm.passRules,"label":"Password","type":"password","prepend-icon":"lock"},model:{value:(_vm.pass),callback:function ($$v) {_vm.pass=$$v;},expression:"pass"}})],1),_vm._v(" "),_c('v-card-actions',[_c('span',{directives:[{name:"show",rawName:"v-show",value:(_vm.loginError),expression:"loginError"}],staticClass:"red--text"},[_c('v-icon',{attrs:{"color":"red"}},[_vm._v("error")]),_vm._v("Sign in failed\n                ")],1),_vm._v(" "),_c('v-spacer'),_vm._v(" "),_c('v-btn',{attrs:{"flat":"","disabled":_vm.processingLogin || !_vm.canLogin,"loading":_vm.processingLogin},on:{"click":function($event){$event.stopPropagation();return _vm.tryLogin(_vm.email, _vm.pass)}}},[_vm._v("\n                    Sign in "),_c('v-icon',[_vm._v("navigate_next")])],1)],1)],1)],1)],2)};
 var __vue_staticRenderFns__$y = [];
 
   /* style */
@@ -3350,8 +3280,6 @@ var script$z = {
 
 /* script */
 const __vue_script__$z = script$z;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$z.__file = "AppSearchResults.vue";
 
 /* template */
 var __vue_render__$z = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.filtered.length === 0)?_c('div',{staticClass:"text-xs-center caption"},[_vm._v("\n    "+_vm._s(_vm.empty)+"\n")]):_c('v-list',_vm._b({attrs:{"two-line":""}},'v-list',_vm.$attrs,false),_vm._l((_vm.filtered),function(item){return _c('v-list-tile',{key:item.href,attrs:{"to":item.href}},[_c('v-list-tile-action',[(item.icon != null)?_c('v-icon',[_vm._v(_vm._s(_vm.$controlIcon(item.icon)))]):_c('image-icon',{attrs:{"src":_vm.$intl.translate(item.title)}})],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                "+_vm._s(_vm.$intl.translate(item.title))+"\n            ")]),_vm._v(" "),_c('v-list-tile-sub-title',[_vm._v("\n                "+_vm._s(_vm.$intl.translate(item.category))+" » "+_vm._s(_vm.$intl.translate(item.description))+"\n            ")])],1)],1)}),1)};
@@ -3446,8 +3374,6 @@ var script$A = {
 
 /* script */
 const __vue_script__$A = script$A;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$A.__file = "AppDashboard.vue";
 
 /* template */
 var __vue_render__$A = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-app',[_c('v-card',{attrs:{"flat":""}},[_c('v-toolbar',{attrs:{"color":"primary","dark":""}},[_c('v-toolbar-title',[_vm._v("Welcome to Aquarelle")]),_vm._v(" "),_c('v-spacer'),_vm._v(" "),_c('v-menu',{attrs:{"offset-x":"","max-width":"320"}},[_c('v-btn',{attrs:{"slot":"activator","icon":""},slot:"activator"},[_c('v-icon',[_vm._v("person")])],1),_vm._v(" "),_c('app-user',{staticStyle:{"width":"320px"},attrs:{"user":_vm.app.user}})],1)],1),_vm._v(" "),_c('v-text-field',{attrs:{"label":"Search...","append-icon":"search","clearable":"","solo":"","hide-details":"","flat":""},model:{value:(_vm.search),callback:function ($$v) {_vm.search=(typeof $$v === 'string'? $$v.trim(): $$v);},expression:"search"}}),_vm._v(" "),_c('app-search-results',{directives:[{name:"show",rawName:"v-show",value:(_vm.search != null && _vm.search !== ''),expression:"search != null && search !== ''"}],attrs:{"app":_vm.app,"search":_vm.search}}),_vm._v(" "),_c('app-extensions',{directives:[{name:"show",rawName:"v-show",value:(_vm.search == null || _vm.search === ''),expression:"search == null || search === ''"}],attrs:{"app":_vm.app,"always-open":""}})],1)],1)};
@@ -3527,8 +3453,6 @@ var script$B = {
 
 /* script */
 const __vue_script__$B = script$B;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$B.__file = "AppExtensionRoute.vue";
 
 /* template */
 var __vue_render__$B = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('app-layout',{ref:"layout"},[_c('app-menu',{attrs:{"slot":"app-left-drawer","user":_vm.appInfo.user,"app":_vm.appInfo.app,"vendor":_vm.appInfo.vendor,"extension":_vm.appInfo.extension},slot:"app-left-drawer"}),_vm._v(" "),_c('template',{slot:"app-right-drawer"},[_c('app-user',{attrs:{"user":_vm.appInfo.user}}),_vm._v(" "),_c('v-text-field',{attrs:{"label":"Search...","append-icon":"search","clearable":"","solo":"","hide-details":"","flat":""},model:{value:(_vm.search),callback:function ($$v) {_vm.search=(typeof $$v === 'string'? $$v.trim(): $$v);},expression:"search"}}),_vm._v(" "),_c('app-search-results',{directives:[{name:"show",rawName:"v-show",value:(_vm.search != null && _vm.search !== ''),expression:"search != null && search !== ''"}],attrs:{"app":_vm.appInfo.app,"search":_vm.search}}),_vm._v(" "),_c('app-extensions',{directives:[{name:"show",rawName:"v-show",value:(_vm.search == null || _vm.search === ''),expression:"search == null || search === ''"}],attrs:{"user":_vm.appInfo.user,"app":_vm.appInfo.app,"current-vendor":_vm.appInfo.vendor}})],1),_vm._v(" "),_c('v-content',[_c('v-layout',{style:({height: _vm.contentHeight})},[_c('router-view')],1)],1)],2)};
@@ -4401,11 +4325,9 @@ var script$C = {
 
 /* script */
 const __vue_script__$C = script$C;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$C.__file = "EntityCreateForm.vue";
 
 /* template */
-var __vue_render__$C = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('app-page',{ref:"page",attrs:{"title":_vm.$intl.translate(_vm.title),"back":_vm.back,"loading":_vm.loading}},[(_vm.loaderError)?_c('div',[_vm._v("\n        Error! There is no such entity "+_vm._s(_vm.entity)+"\n    ")]):_c('stepper-form',{ref:"form",attrs:{"processing":_vm.processing,"items":_vm.parsedSteps,"next-button-text":_vm.nextButtonText,"finish-button-text":_vm.finishButtonText,"fill-height":_vm.fillHeight,"options":_vm.formOptions},on:{"input":function($event){_vm.onSubmit($event);}},model:{value:(_vm.model),callback:function ($$v) {_vm.model=$$v;},expression:"model"}})],1)};
+var __vue_render__$C = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('app-page',{ref:"page",attrs:{"title":_vm.$intl.translate(_vm.title),"back":_vm.back,"loading":_vm.loading}},[(_vm.loaderError)?_c('div',[_vm._v("\n        Error! There is no such entity "+_vm._s(_vm.entity)+"\n    ")]):_c('stepper-form',{ref:"form",attrs:{"processing":_vm.processing,"items":_vm.parsedSteps,"next-button-text":_vm.nextButtonText,"finish-button-text":_vm.finishButtonText,"fill-height":_vm.fillHeight,"options":_vm.formOptions},on:{"input":function($event){return _vm.onSubmit($event)}},model:{value:(_vm.model),callback:function ($$v) {_vm.model=$$v;},expression:"model"}})],1)};
 var __vue_staticRenderFns__$C = [];
 
   /* style */
@@ -4789,11 +4711,9 @@ var script$D = {
 
 /* script */
 const __vue_script__$D = script$D;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$D.__file = "EntityEditForm.vue";
 
 /* template */
-var __vue_render__$D = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('app-page',{ref:"page",attrs:{"title":_vm.$intl.translate(_vm.title),"back":_vm.back,"loading":_vm.loading}},[(_vm.loaderError)?_c('div',[_vm._v("\n        Error! Cannot load "+_vm._s(_vm.entity)+":"+_vm._s(_vm.id)+"\n    ")]):[(_vm.contextActions && _vm.contextActions.length)?_c('template',{slot:"toolbar"},[_c('v-menu',{attrs:{"offset-y":"","offset-x":"","left":""}},[_c('v-btn',{attrs:{"slot":"activator","dark":"","icon":""},slot:"activator"},[_c('v-icon',[_vm._v(_vm._s(_vm.$controlIcon(_vm.contextIcon)))])],1),_vm._v(" "),_c('v-list',_vm._l((_vm.contextActions),function(item){return _c('v-list-tile',{key:_vm.$uniqueObjectId(item),attrs:{"disabled":_vm.isContextItemDisabled(item)},on:{"click":function($event){_vm.contextItemAction(item);}}},[_c('v-list-tile-avatar',[_c('v-icon',[_vm._v(_vm._s(_vm.$controlIcon(item.icon || '')))])],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                                "+_vm._s(_vm.$intl.translate(item.title))+"\n                            ")])],1),_vm._v(" "),_c('v-list-tile-action',[_vm._v(" ")])],1)}),1)],1)],1):_vm._e(),_vm._v(" "),_c('block-form',{ref:"form",attrs:{"fill-height":_vm.fillHeight,"processing":_vm.processing,"title":_vm.instanceTitle,"items":_vm.parsedFields,"submit-button":_vm.submitButtonText,"options":_vm.formOptions},on:{"submit":function($event){_vm.onSubmit($event);}},model:{value:(_vm.model),callback:function ($$v) {_vm.model=$$v;},expression:"model"}})]],2)};
+var __vue_render__$D = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('app-page',{ref:"page",attrs:{"title":_vm.$intl.translate(_vm.title),"back":_vm.back,"loading":_vm.loading}},[(_vm.loaderError)?_c('div',[_vm._v("\n        Error! Cannot load "+_vm._s(_vm.entity)+":"+_vm._s(_vm.id)+"\n    ")]):[(_vm.contextActions && _vm.contextActions.length)?_c('template',{slot:"toolbar"},[_c('v-menu',{attrs:{"offset-y":"","offset-x":"","left":""}},[_c('v-btn',{attrs:{"slot":"activator","dark":"","icon":""},slot:"activator"},[_c('v-icon',[_vm._v(_vm._s(_vm.$controlIcon(_vm.contextIcon)))])],1),_vm._v(" "),_c('v-list',_vm._l((_vm.contextActions),function(item){return _c('v-list-tile',{key:_vm.$uniqueObjectId(item),attrs:{"disabled":_vm.isContextItemDisabled(item)},on:{"click":function($event){return _vm.contextItemAction(item)}}},[_c('v-list-tile-avatar',[_c('v-icon',[_vm._v(_vm._s(_vm.$controlIcon(item.icon || '')))])],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                                "+_vm._s(_vm.$intl.translate(item.title))+"\n                            ")])],1),_vm._v(" "),_c('v-list-tile-action',[_vm._v(" ")])],1)}),1)],1)],1):_vm._e(),_vm._v(" "),_c('block-form',{ref:"form",attrs:{"fill-height":_vm.fillHeight,"processing":_vm.processing,"title":_vm.instanceTitle,"items":_vm.parsedFields,"submit-button":_vm.submitButtonText,"options":_vm.formOptions},on:{"submit":function($event){return _vm.onSubmit($event)}},model:{value:(_vm.model),callback:function ($$v) {_vm.model=$$v;},expression:"model"}})]],2)};
 var __vue_staticRenderFns__$D = [];
 
   /* style */
@@ -4954,11 +4874,9 @@ var script$E = {
 
 /* script */
 const __vue_script__$E = script$E;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$E.__file = "EntityListTemplate.vue";
 
 /* template */
-var __vue_render__$E = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.ready && _vm.items.length > 0)?_c('v-flex',{attrs:{"align-center":""}},[_c('v-list',_vm._b({},'v-list',_vm.$attrs,false),[_vm._l((_vm.items),function(item,index){return _vm._t("item",null,{item:item,type:_vm.getItemType(item),index:index,itemList:_vm.items})})],2),_vm._v(" "),_vm._t("default")],2):_c('v-container',{attrs:{"fluid":"","fill-height":""}},[_c('v-layout',{attrs:{"column":"","justify-center":"","align-center":""}},[(!_vm.ready)?_c('v-progress-circular',{attrs:{"indeterminate":"","color":"secondary"}}):[_vm._t("empty",[_vm._v("\n                "+_vm._s(_vm.$intl.translate(this.emptyText))+"\n            ")]),_vm._v(" "),_vm._t("default")]],2)],1)};
+var __vue_render__$E = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.ready && _vm.items.length > 0)?_c('v-flex',{attrs:{"align-center":""}},[_c('v-list',_vm._b({},'v-list',_vm.$attrs,false),[_vm._l((_vm.items),function(item,index){return _vm._t("item",null,{"item":item,"type":_vm.getItemType(item),"index":index,"itemList":_vm.items})})],2),_vm._v(" "),_vm._t("default")],2):_c('v-container',{attrs:{"fluid":"","fill-height":""}},[_c('v-layout',{attrs:{"column":"","justify-center":"","align-center":""}},[(!_vm.ready)?_c('v-progress-circular',{attrs:{"indeterminate":"","color":"secondary"}}):[_vm._t("empty",[_vm._v("\n                "+_vm._s(_vm.$intl.translate(this.emptyText))+"\n            ")]),_vm._v(" "),_vm._t("default")]],2)],1)};
 var __vue_staticRenderFns__$E = [];
 
   /* style */
@@ -5073,8 +4991,6 @@ var script$F = {
 
 /* script */
 const __vue_script__$F = script$F;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$F.__file = "EntityChangeTitleDialog.vue";
 
 /* template */
 var __vue_render__$F = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-dialog',_vm._b({attrs:{"persistent":""},model:{value:(_vm.showDialog),callback:function ($$v) {_vm.showDialog=$$v;},expression:"showDialog"}},'v-dialog',_vm.$attrs,false),[_c('v-card',[_c('v-card-title',{staticClass:"headline"},[_vm._v("\n            "+_vm._s(_vm.$intl.translate(_vm.title))+"\n        ")]),_vm._v(" "),(!_vm.processingMode)?_c('v-card-text',[_c('v-text-field',{attrs:{"label":_vm.$intl.translate(_vm.titleLabel),"error-messages":_vm.error === null ? undefined : [_vm.error],"required":""},model:{value:(_vm.itemTitle),callback:function ($$v) {_vm.itemTitle=$$v;},expression:"itemTitle"}})],1):_c('v-card-text',[_c('v-progress-linear',{attrs:{"indeterminate":""}})],1),_vm._v(" "),_c('v-card-actions',{directives:[{name:"show",rawName:"v-show",value:(!_vm.processingMode),expression:"!processingMode"}]},[_c('v-spacer'),_vm._v(" "),_c('v-btn',{attrs:{"color":"secondary","flat":"","disabled":_vm.processingMode},nativeOn:{"click":function($event){return _vm.cancelDialog($event)}}},[_vm._v("\n                "+_vm._s(_vm.$intl.translate({text: 'Cancel', key: 'common.cancel'}))+"\n            ")]),_vm._v(" "),_c('v-btn',{attrs:{"color":"primary","flat":"","disabled":_vm.saveDisabled},nativeOn:{"click":function($event){return _vm.confirmDialog($event)}}},[_vm._v("\n                "+_vm._s(_vm.$intl.translate({text: 'Save', key: 'common.save'}))+"\n            ")])],1)],1)],1)};
@@ -5191,8 +5107,6 @@ var script$G = {
 
 /* script */
 const __vue_script__$G = script$G;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$G.__file = "EntityDeleteDialog.vue";
 
 /* template */
 var __vue_render__$G = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-dialog',_vm._b({attrs:{"persistent":""},model:{value:(_vm.showDialog),callback:function ($$v) {_vm.showDialog=$$v;},expression:"showDialog"}},'v-dialog',_vm.$attrs,false),[_c('v-card',[_c('v-card-title',{staticClass:"headline"},[_vm._v(_vm._s(_vm.$intl.translate(_vm.title)))]),_vm._v(" "),(!_vm.deleteMode)?_c('v-card-text',[(_vm.error !== null)?_c('div',{staticClass:"red--text"},[_c('v-icon',{attrs:{"color":"red"}},[_vm._v("warning")]),_vm._v(" "+_vm._s(_vm.error))],1):[_vm._v("\n                "+_vm._s(_vm.$intl.translate(_vm.message))+"\n            ")]],2):_c('v-card-text',[_c('v-progress-linear',{attrs:{"indeterminate":""}})],1),_vm._v(" "),_c('v-card-actions',{directives:[{name:"show",rawName:"v-show",value:(!_vm.deleteMode),expression:"!deleteMode"}]},[_c('v-spacer'),_vm._v(" "),_c('v-btn',{attrs:{"color":"secondary","flat":"","disabled":_vm.deleteMode},nativeOn:{"click":function($event){return _vm.cancelDialog($event)}}},[_vm._v("\n                "+_vm._s(_vm.$intl.translate({text: 'Cancel', key: 'common.cancel'}))+"\n            ")]),_vm._v(" "),_c('v-btn',{attrs:{"color":"red","flat":"","disabled":_vm.deleteMode},nativeOn:{"click":function($event){return _vm.confirmDialog($event)}}},[_vm._v("\n                "+_vm._s(_vm.$intl.translate({text: 'Delete', key: 'common.delete'}))+"\n            ")])],1)],1)],1)};
@@ -5304,11 +5218,9 @@ var script$H = {
 
 /* script */
 const __vue_script__$H = script$H;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$H.__file = "ContextMenu.vue";
 
 /* template */
-var __vue_render__$H = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-menu',{directives:[{name:"show",rawName:"v-show",value:(false),expression:"false"}],attrs:{"left":_vm.openLeft,"position-x":_vm.x,"position-y":_vm.y},model:{value:(_vm.contextMenu),callback:function ($$v) {_vm.contextMenu=$$v;},expression:"contextMenu"}},[(_vm.item !== null)?_c('v-list',[_vm._t("default"),_vm._v(" "),(_vm.showTitle)?[_c('v-list-tile',{attrs:{"disabled":_vm.isTitleDisabled},on:{"click":function($event){$event.stopPropagation();_vm.contextMenu = false; _vm.showTitleDialog = true;}}},[_c('v-list-tile-avatar',[_c('v-icon',[_vm._v("title")])],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                        "+_vm._s(_vm.$intl.translate({text: 'Change title', key: 'common.changeTitle'}))+"\n                    ")])],1),_vm._v(" "),_c('v-list-tile-action',[_c('entity-change-title-dialog',{ref:"titleDialog",attrs:{"show-dialog":_vm.showTitleDialog,"item":_vm.item,"loader":_vm.loader,"max-width":"300"},on:{"update:showDialog":function($event){_vm.showTitleDialog=$event;},"changed":_vm.onTitleChanged,"mustlogin":function($event){_vm.$emit('mustlogin', $event);}}})],1)],1)]:_vm._e(),_vm._v(" "),(_vm.showDelete)?[_c('v-divider'),_vm._v(" "),_c('v-list-tile',{attrs:{"disabled":_vm.isDeleteDisabled},on:{"click":function($event){$event.stopPropagation();_vm.contextMenu = false; _vm.showDeleteDialog = true;}}},[_c('v-list-tile-avatar',[_c('v-icon',[_vm._v("delete")])],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                        "+_vm._s(_vm.$intl.translate({text: 'Delete', key: 'common.delete'}))+"\n                    ")])],1),_vm._v(" "),_c('v-list-tile-action',[_c('entity-delete-dialog',{ref:"deleteDialog",attrs:{"show-dialog":_vm.showDeleteDialog,"item":_vm.item,"loader":_vm.loader,"max-width":"300"},on:{"update:showDialog":function($event){_vm.showDeleteDialog=$event;},"delete":_vm.onDelete,"mustlogin":function($event){_vm.$emit('mustlogin', $event);}}})],1)],1)]:_vm._e()],2):_vm._e()],1)};
+var __vue_render__$H = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-menu',{directives:[{name:"show",rawName:"v-show",value:(false),expression:"false"}],attrs:{"left":_vm.openLeft,"position-x":_vm.x,"position-y":_vm.y},model:{value:(_vm.contextMenu),callback:function ($$v) {_vm.contextMenu=$$v;},expression:"contextMenu"}},[(_vm.item !== null)?_c('v-list',[_vm._t("default"),_vm._v(" "),(_vm.showTitle)?[_c('v-list-tile',{attrs:{"disabled":_vm.isTitleDisabled},on:{"click":function($event){$event.stopPropagation();_vm.contextMenu = false; _vm.showTitleDialog = true;}}},[_c('v-list-tile-avatar',[_c('v-icon',[_vm._v("title")])],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                        "+_vm._s(_vm.$intl.translate({text: 'Change title', key: 'common.changeTitle'}))+"\n                    ")])],1),_vm._v(" "),_c('v-list-tile-action',[_c('entity-change-title-dialog',{ref:"titleDialog",attrs:{"show-dialog":_vm.showTitleDialog,"item":_vm.item,"loader":_vm.loader,"max-width":"300"},on:{"update:showDialog":function($event){_vm.showTitleDialog=$event;},"update:show-dialog":function($event){_vm.showTitleDialog=$event;},"changed":_vm.onTitleChanged,"mustlogin":function($event){return _vm.$emit('mustlogin', $event)}}})],1)],1)]:_vm._e(),_vm._v(" "),(_vm.showDelete)?[_c('v-divider'),_vm._v(" "),_c('v-list-tile',{attrs:{"disabled":_vm.isDeleteDisabled},on:{"click":function($event){$event.stopPropagation();_vm.contextMenu = false; _vm.showDeleteDialog = true;}}},[_c('v-list-tile-avatar',[_c('v-icon',[_vm._v("delete")])],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',[_vm._v("\n                        "+_vm._s(_vm.$intl.translate({text: 'Delete', key: 'common.delete'}))+"\n                    ")])],1),_vm._v(" "),_c('v-list-tile-action',[_c('entity-delete-dialog',{ref:"deleteDialog",attrs:{"show-dialog":_vm.showDeleteDialog,"item":_vm.item,"loader":_vm.loader,"max-width":"300"},on:{"update:showDialog":function($event){_vm.showDeleteDialog=$event;},"update:show-dialog":function($event){_vm.showDeleteDialog=$event;},"delete":_vm.onDelete,"mustlogin":function($event){return _vm.$emit('mustlogin', $event)}}})],1)],1)]:_vm._e()],2):_vm._e()],1)};
 var __vue_staticRenderFns__$H = [];
 
   /* style */
@@ -5446,15 +5358,13 @@ var script$I = {
 
 /* script */
 const __vue_script__$I = script$I;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$I.__file = "EntityList.vue";
 
 /* template */
-var __vue_render__$I = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('entity-list-template',_vm._b({ref:"list",attrs:{"two-line":"","loader":_vm.loader,"handler":_vm.handler,"filterArgs":_vm.searchData},on:{"refresh":function($event){_vm.$emit('refresh', $event);},"load":function($event){_vm.$emit('load', $event);},"dataloaded":function($event){_vm.$emit('dataloaded', $event);},"mustlogin":function($event){_vm.$emit('mustlogin', $event);}},scopedSlots:_vm._u([{key:"item",fn:function(ref){
+var __vue_render__$I = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('entity-list-template',_vm._b({ref:"list",attrs:{"two-line":"","loader":_vm.loader,"handler":_vm.handler,"filterArgs":_vm.searchData},on:{"refresh":function($event){return _vm.$emit('refresh', $event)},"load":function($event){return _vm.$emit('load', $event)},"dataloaded":function($event){return _vm.$emit('dataloaded', $event)},"mustlogin":function($event){return _vm.$emit('mustlogin', $event)}},scopedSlots:_vm._u([{key:"item",fn:function(ref){
 var item = ref.item;
 var type = ref.type;
 var index = ref.index;
-return [(index > 0)?_c('v-divider'):_vm._e(),_vm._v(" "),_c('v-list-tile',{key:item.id,on:{"click":function($event){_vm.showContextMenu(item, type, $event);}}},[(_vm.hasIcon)?_c('v-list-tile-avatar',{staticClass:"avatar--tile"},[_vm._t("item-avatar",[(!!item.icon)?_c('image-icon',{attrs:{"squared":_vm.squaredIcon,"src":item.icon}}):_vm._e()],{item:item,type:type,loader:_vm.loaderObject})],2):_vm._e(),_vm._v(" "),_c('v-list-tile-content',[_vm._t("item-text",[_c('v-list-tile-title',[_vm._v(_vm._s(item.title))]),_vm._v(" "),(type !== null)?_c('v-list-tile-sub-title',[_vm._v("\n                        "+_vm._s(type.title)+"\n                        "),_c('small',[_vm._v("("+_vm._s(item.behavior ? item.type + ':' + item.behavior : item.type)+")")])]):_vm._e()],{item:item,type:type,loader:_vm.loaderObject})],2),_vm._v(" "),_c('v-list-tile-action',[_c('v-btn',{attrs:{"icon":"","ripple":""},on:{"click":function($event){_vm.showContextMenu(item, type, $event);}}},[_c('v-icon',[_vm._v("more_vert")])],1)],1)],1)]}}])},'entity-list-template',_vm.$attrs,false),[_c('context-menu',{ref:"contextMenu",attrs:{"loader":_vm.loaderObject,"show-title":_vm.editableTitle !== false,"show-delete":_vm.deletable !== false,"is-title-disabled":!_vm.isTitleEditable,"is-delete-disabled":!_vm.isDeletable},on:{"titlechanged":_vm.onTitleChanged,"delete":_vm.onDelete,"mustlogin":function($event){_vm.$emit('mustlogin', $event);}}},[(_vm.currentItem !== null)?_vm._t("item-actions",null,{item:_vm.currentItem,type:_vm.currentItemType,loader:_vm.loaderObject}):_vm._e()],2),_vm._v(" "),_vm._t("default")],2)};
+return [(index > 0)?_c('v-divider'):_vm._e(),_vm._v(" "),_c('v-list-tile',{key:item.id,on:{"click":function($event){return _vm.showContextMenu(item, type, $event)}}},[(_vm.hasIcon)?_c('v-list-tile-avatar',{staticClass:"avatar--tile"},[_vm._t("item-avatar",[(!!item.icon)?_c('image-icon',{attrs:{"squared":_vm.squaredIcon,"src":item.icon}}):_vm._e()],{"item":item,"type":type,"loader":_vm.loaderObject})],2):_vm._e(),_vm._v(" "),_c('v-list-tile-content',[_vm._t("item-text",[_c('v-list-tile-title',[_vm._v(_vm._s(item.title))]),_vm._v(" "),(type !== null)?_c('v-list-tile-sub-title',[_vm._v("\n                        "+_vm._s(type.title)+"\n                        "),_c('small',[_vm._v("("+_vm._s(item.behavior ? item.type + ':' + item.behavior : item.type)+")")])]):_vm._e()],{"item":item,"type":type,"loader":_vm.loaderObject})],2),_vm._v(" "),_c('v-list-tile-action',[_c('v-btn',{attrs:{"icon":"","ripple":""},on:{"click":function($event){return _vm.showContextMenu(item, type, $event)}}},[_c('v-icon',[_vm._v("more_vert")])],1)],1)],1)]}}])},'entity-list-template',_vm.$attrs,false),[_vm._v(" "),_c('context-menu',{ref:"contextMenu",attrs:{"loader":_vm.loaderObject,"show-title":_vm.editableTitle !== false,"show-delete":_vm.deletable !== false,"is-title-disabled":!_vm.isTitleEditable,"is-delete-disabled":!_vm.isDeletable},on:{"titlechanged":_vm.onTitleChanged,"delete":_vm.onDelete,"mustlogin":function($event){return _vm.$emit('mustlogin', $event)}}},[(_vm.currentItem !== null)?_vm._t("item-actions",null,{"item":_vm.currentItem,"type":_vm.currentItemType,"loader":_vm.loaderObject}):_vm._e()],2),_vm._v(" "),_vm._t("default")],2)};
 var __vue_staticRenderFns__$I = [];
 
   /* style */
@@ -5776,17 +5686,15 @@ var script$J = {
 
 /* script */
 const __vue_script__$J = script$J;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$J.__file = "EntityListForm.vue";
 
 /* template */
-var __vue_render__$J = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('app-page',{ref:"page",attrs:{"title":_vm.pageTitle,"back":_vm.back}},[_c('template',{slot:"toolbar"},[(_vm.refreshButton)?_c('v-btn',{attrs:{"dark":"","icon":""},on:{"click":function($event){$event.stopPropagation();_vm.$refs.list && _vm.$refs.list.refreshList();}}},[_c('v-icon',[_vm._v(_vm._s(_vm.$controlIcon('refresh')))])],1):_vm._e(),_vm._v(" "),(_vm.filterForm && _vm.filterForm.length)?[_c('v-dialog',{attrs:{"lazy":"","max-width":"500"},model:{value:(_vm.dialog),callback:function ($$v) {_vm.dialog=$$v;},expression:"dialog"}},[_c('v-btn',{attrs:{"slot":"activator","dark":"","icon":""},on:{"click":function($event){_vm.makeDialogModel();}},slot:"activator"},[_c('v-icon',[_vm._v(_vm._s(_vm.$controlIcon(_vm.contextIcon)))])],1),_vm._v(" "),_c('block-form',{ref:"filterForm",attrs:{"title":"Search...","items":_vm.filterForm,"submit-button":"Search","options":_vm.formOptions},on:{"submit":function($event){_vm.filterItems($event);}},scopedSlots:_vm._u([{key:"default",fn:function(props){return [_c('v-btn',{attrs:{"flat":""},on:{"click":function($event){$event.stopPropagation();_vm.dialogModel = {}, _vm.filterItems(_vm.dialogModel);}}},[_c('v-icon',[_vm._v("clear")]),_vm._v("\n                            Reset\n                        ")],1),_vm._v(" "),_c('v-spacer'),_vm._v(" "),_c('v-btn',{attrs:{"color":"primary","disabled":props.submitDisabled},on:{"click":function($event){$event.stopPropagation();props.submit();}}},[_c('v-icon',[_vm._v("search")]),_vm._v("\n                            Search\n                        ")],1)]}}]),model:{value:(_vm.dialogModel),callback:function ($$v) {_vm.dialogModel=$$v;},expression:"dialogModel"}})],1)]:_vm._e()],2),_vm._v(" "),_c('entity-list',{ref:"list",attrs:{"page":_vm.listPage,"loader":_vm.entity,"deletable":_vm.hasDelete && _vm.canDelete,"editable-title":_vm.hasTitle && _vm.canEdit,"has-icon":_vm.hasIcon,"handler":_vm.loadHandler,"filter-args":_vm.filters,"collection-key":_vm.collectionKey,"type-key":_vm.typeKey,"behavior-key":_vm.behaviorKey,"type-cache-key":_vm.typeCacheKey,"rows":_vm.rows,"squared-icon":_vm.squaredIcon},on:{"load":function($event){_vm.onListLoaded();},"refresh":function($event){_vm.onListRefresh();},"dataloaded":function($event){_vm.onListDataLoadedCheck($event);},"itemdeleted":function($event){_vm.onItemDeletedCheck($event);},"mustlogin":function($event){_vm.doLogin($event);}},scopedSlots:_vm._u([{key:"item-text",fn:function(ref){
+var __vue_render__$J = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('app-page',{ref:"page",attrs:{"title":_vm.pageTitle,"back":_vm.back}},[_c('template',{slot:"toolbar"},[(_vm.refreshButton)?_c('v-btn',{attrs:{"dark":"","icon":""},on:{"click":function($event){$event.stopPropagation();_vm.$refs.list && _vm.$refs.list.refreshList();}}},[_c('v-icon',[_vm._v(_vm._s(_vm.$controlIcon('refresh')))])],1):_vm._e(),_vm._v(" "),(_vm.filterForm && _vm.filterForm.length)?[_c('v-dialog',{attrs:{"lazy":"","max-width":"500"},model:{value:(_vm.dialog),callback:function ($$v) {_vm.dialog=$$v;},expression:"dialog"}},[_c('v-btn',{attrs:{"slot":"activator","dark":"","icon":""},on:{"click":function($event){return _vm.makeDialogModel()}},slot:"activator"},[_c('v-icon',[_vm._v(_vm._s(_vm.$controlIcon(_vm.contextIcon)))])],1),_vm._v(" "),_c('block-form',{ref:"filterForm",attrs:{"title":"Search...","items":_vm.filterForm,"submit-button":"Search","options":_vm.formOptions},on:{"submit":function($event){return _vm.filterItems($event)}},scopedSlots:_vm._u([{key:"default",fn:function(props){return [_c('v-btn',{attrs:{"flat":""},on:{"click":function($event){$event.stopPropagation();_vm.dialogModel = {}, _vm.filterItems(_vm.dialogModel);}}},[_c('v-icon',[_vm._v("clear")]),_vm._v("\n                            Reset\n                        ")],1),_vm._v(" "),_c('v-spacer'),_vm._v(" "),_c('v-btn',{attrs:{"color":"primary","disabled":props.submitDisabled},on:{"click":function($event){$event.stopPropagation();return props.submit()}}},[_c('v-icon',[_vm._v("search")]),_vm._v("\n                            Search\n                        ")],1)]}}]),model:{value:(_vm.dialogModel),callback:function ($$v) {_vm.dialogModel=$$v;},expression:"dialogModel"}})],1)]:_vm._e()],2),_vm._v(" "),_c('entity-list',{ref:"list",attrs:{"page":_vm.listPage,"loader":_vm.entity,"deletable":_vm.hasDelete && _vm.canDelete,"editable-title":_vm.hasTitle && _vm.canEdit,"has-icon":_vm.hasIcon,"handler":_vm.loadHandler,"filter-args":_vm.filters,"collection-key":_vm.collectionKey,"type-key":_vm.typeKey,"behavior-key":_vm.behaviorKey,"type-cache-key":_vm.typeCacheKey,"rows":_vm.rows,"squared-icon":_vm.squaredIcon},on:{"load":function($event){return _vm.onListLoaded()},"refresh":function($event){return _vm.onListRefresh()},"dataloaded":function($event){return _vm.onListDataLoadedCheck($event)},"itemdeleted":function($event){return _vm.onItemDeletedCheck($event)},"mustlogin":function($event){return _vm.doLogin($event)}},scopedSlots:_vm._u([{key:"item-text",fn:function(ref){
 var item = ref.item;
 var type = ref.type;
 return (_vm.customText != null)?[_c('v-list-tile-title',{domProps:{"innerHTML":_vm._s(_vm.getCustomTitle(item, type) || '')}}),_vm._v(" "),_c('v-list-tile-sub-title',{domProps:{"innerHTML":_vm._s(_vm.getCustomDescription(item, type) || '')}})]:undefined}},{key:"item-actions",fn:function(ref){
 var item = ref.item;
 var type = ref.type;
-return (_vm.actions.length > 0)?_vm._l((_vm.actions),function(action){return _c('v-list-tile',{key:_vm.$uniqueObjectId(action),attrs:{"to":action.callback ? undefined : _vm.actionHref(action.href, item, type),"disabled":!_vm.canEdit || (action.disabled && action.disabled(item, type))},on:{"click":function($event){action.callback && _vm.canEdit && !(action.disabled && action.disabled(item, type)) && action.callback(item, type);}}},[_c('v-list-tile-avatar',[(action.icon)?_c('v-icon',[_vm._v(_vm._s(action.icon))]):_vm._e()],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',{domProps:{"innerHTML":_vm._s(_vm.actionTitle(action.title, item, type))}})],1),_vm._v(" "),_c('v-list-tile-action',[_vm._v(" ")])],1)}):undefined}}])}),_vm._v(" "),(_vm.lastPage > 1)?_c('v-layout',{directives:[{name:"show",rawName:"v-show",value:(_vm.listLoaded),expression:"listLoaded"}],staticClass:"white",attrs:{"align-center":"","justify-center":""}},[_c('v-pagination',{attrs:{"circle":"","length":_vm.lastPage,"total-visible":_vm.visiblePages},model:{value:(_vm.page),callback:function ($$v) {_vm.page=$$v;},expression:"page"}})],1):_vm._e(),_vm._v(" "),_c('div',{staticClass:"fab-wrapper"},[_c('v-fab-transition',[(_vm.canAdd && _vm.listLoaded)?_c('v-btn',{attrs:{"fab":"","bottom":"","right":"","color":"accent","to":_vm.addHref}},[_c('v-icon',[_vm._v("add")])],1):_vm._e()],1)],1)],2)};
+return (_vm.actions.length > 0)?_vm._l((_vm.actions),function(action){return _c('v-list-tile',{key:_vm.$uniqueObjectId(action),attrs:{"to":action.callback ? undefined : _vm.actionHref(action.href, item, type),"disabled":!_vm.canEdit || (action.disabled && action.disabled(item, type))},on:{"click":function($event){action.callback && _vm.canEdit && !(action.disabled && action.disabled(item, type)) && action.callback(item, type);}}},[_c('v-list-tile-avatar',[(action.icon)?_c('v-icon',[_vm._v(_vm._s(action.icon))]):_vm._e()],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',{domProps:{"innerHTML":_vm._s(_vm.actionTitle(action.title, item, type))}})],1),_vm._v(" "),_c('v-list-tile-action',[_vm._v(" ")])],1)}):undefined}}],true)}),_vm._v(" "),(_vm.lastPage > 1)?_c('v-layout',{directives:[{name:"show",rawName:"v-show",value:(_vm.listLoaded),expression:"listLoaded"}],staticClass:"white",attrs:{"align-center":"","justify-center":""}},[_c('v-pagination',{attrs:{"circle":"","length":_vm.lastPage,"total-visible":_vm.visiblePages},model:{value:(_vm.page),callback:function ($$v) {_vm.page=$$v;},expression:"page"}})],1):_vm._e(),_vm._v(" "),_c('div',{staticClass:"fab-wrapper"},[_c('v-fab-transition',[(_vm.canAdd && _vm.listLoaded)?_c('v-btn',{attrs:{"fab":"","fixed":"","bottom":"","color":"accent","to":_vm.addHref}},[_c('v-icon',[_vm._v("add")])],1):_vm._e()],1)],1)],2)};
 var __vue_staticRenderFns__$J = [];
 
   /* style */
@@ -6033,10 +5941,8 @@ var script$K = {
 
 /* script */
 const __vue_script__$K = script$K;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$K.__file = "QuillEditor.vue";
 /* template */
-var __vue_render__$K = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',_vm._b({staticClass:"quillWrapper"},'div',_vm.$attrs,false),[_c('div',{ref:"quillContainer"}),_vm._v(" "),(_vm.useCustomImageHandler)?_c('input',{ref:"fileInput",staticStyle:{"display":"none"},attrs:{"type":"file"},on:{"change":function($event){_vm.emitImageInfo($event);}}}):_vm._e()])};
+var __vue_render__$K = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',_vm._b({staticClass:"quillWrapper"},'div',_vm.$attrs,false),[_c('div',{ref:"quillContainer"}),_vm._v(" "),(_vm.useCustomImageHandler)?_c('input',{ref:"fileInput",staticStyle:{"display":"none"},attrs:{"type":"file"},on:{"change":function($event){return _vm.emitImageInfo($event)}}}):_vm._e()])};
 var __vue_staticRenderFns__$K = [];
 
   /* style */
@@ -6160,8 +6066,6 @@ var script$L = {
 
 /* script */
 const __vue_script__$L = script$L;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$L.__file = "AceEditor.vue";
 /* template */
 var __vue_render__$L = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',_vm._b({staticClass:"ace-editor"},'div',_vm.$attrs,false))};
 var __vue_staticRenderFns__$L = [];
@@ -6214,11 +6118,9 @@ var script$M = {
 
 /* script */
 const __vue_script__$M = script$M;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$M.__file = "control.vue";
 
 /* template */
-var __vue_render__$M = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"my-2"},[_c('control-label',{attrs:{"text":_vm.$intl.translate(_vm.display.title),"has-error":_vm.allErrors.length > 0,"required":_vm.config.required}}),_vm._v(" "),_c('ace-editor',{ref:"editor",staticClass:"mt-1",attrs:{"options":_vm.config.editor,"lang":_vm.config.lang},on:{"input":function($event){_vm.validate();},"syntax-error":function($event){_vm.hasSyntaxError = $event;}},model:{value:(_vm.model[_vm.name]),callback:function ($$v) {_vm.$set(_vm.model, _vm.name, $$v);},expression:"model[name]"}}),_vm._v(" "),_c('block-error',{staticClass:"mt-1",attrs:{"error":_vm.allErrors.length > 0 ? _vm.allErrors[0] : undefined}})],1)};
+var __vue_render__$M = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"my-2"},[_c('control-label',{attrs:{"text":_vm.$intl.translate(_vm.display.title),"has-error":_vm.allErrors.length > 0,"required":_vm.config.required}}),_vm._v(" "),_c('ace-editor',{ref:"editor",staticClass:"mt-1",attrs:{"options":_vm.config.editor,"lang":_vm.config.lang},on:{"input":function($event){return _vm.validate()},"syntax-error":function($event){_vm.hasSyntaxError = $event;}},model:{value:(_vm.model[_vm.name]),callback:function ($$v) {_vm.$set(_vm.model, _vm.name, $$v);},expression:"model[name]"}}),_vm._v(" "),_c('block-error',{staticClass:"mt-1",attrs:{"error":_vm.allErrors.length > 0 ? _vm.allErrors[0] : undefined}})],1)};
 var __vue_staticRenderFns__$M = [];
 
   /* style */
@@ -6259,8 +6161,6 @@ var script$N = {
 
 /* script */
 const __vue_script__$N = script$N;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$N.__file = "control.vue";
 
 /* template */
 var __vue_render__$N = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"my-2"},[_c('control-label',{attrs:{"text":_vm.$intl.translate(_vm.display.title),"has-error":_vm.allErrors.length > 0,"required":_vm.config.required}}),_vm._v(" "),_c('quill-editor',{staticClass:"mt-1",attrs:{"placeholder":_vm.$intl.translate(_vm.display.placeholder),"editor-modules":_vm.config.mode},model:{value:(_vm.model[_vm.name]),callback:function ($$v) {_vm.$set(_vm.model, _vm.name, $$v);},expression:"model[name]"}}),_vm._v(" "),_c('block-error',{staticClass:"mt-1",attrs:{"error":_vm.allErrors.length > 0 ? _vm.allErrors[0] : undefined}})],1)};
@@ -6340,11 +6240,9 @@ var script$O = {
 
 /* script */
 const __vue_script__$O = script$O;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$O.__file = "control.vue";
 
 /* template */
-var __vue_render__$O = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"my-2"},[_c('control-label',{attrs:{"text":_vm.$intl.translate(_vm.display.title),"has-error":_vm.allErrors.length > 0,"required":_vm.config.required}}),_vm._v(" "),_c('ace-editor',{ref:"editor",staticClass:"mt-1",attrs:{"lang":"json"},on:{"input":function($event){_vm.onCode($event);},"syntax-error":function($event){_vm.hasSyntaxError = $event;}},model:{value:(_vm.code),callback:function ($$v) {_vm.code=$$v;},expression:"code"}}),_vm._v(" "),_c('block-error',{staticClass:"mt-1",attrs:{"error":_vm.allErrors.length > 0 ? _vm.allErrors[0] : undefined}})],1)};
+var __vue_render__$O = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"my-2"},[_c('control-label',{attrs:{"text":_vm.$intl.translate(_vm.display.title),"has-error":_vm.allErrors.length > 0,"required":_vm.config.required}}),_vm._v(" "),_c('ace-editor',{ref:"editor",staticClass:"mt-1",attrs:{"lang":"json"},on:{"input":function($event){return _vm.onCode($event)},"syntax-error":function($event){_vm.hasSyntaxError = $event;}},model:{value:(_vm.code),callback:function ($$v) {_vm.code=$$v;},expression:"code"}}),_vm._v(" "),_c('block-error',{staticClass:"mt-1",attrs:{"error":_vm.allErrors.length > 0 ? _vm.allErrors[0] : undefined}})],1)};
 var __vue_staticRenderFns__$O = [];
 
   /* style */
