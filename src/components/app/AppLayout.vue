@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-navigation-drawer app right fixed clipped v-model="rightDrawer">
+        <v-navigation-drawer app right fixed clipped v-model="rightDrawer" mobile-break-point="960">
             <slot name="app-right-drawer"></slot>
         </v-navigation-drawer>
 
@@ -41,7 +41,7 @@
         props: {
             actionIcon: {
                 type: String,
-                default: 'apps'
+                default: 'view_list'
             }
         },
     }

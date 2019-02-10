@@ -2427,7 +2427,7 @@ var script$r = {
     props: {
         actionIcon: {
             type: String,
-            default: 'apps'
+            default: 'view_list'
         }
     },
 };
@@ -2435,7 +2435,7 @@ var script$r = {
 /* script */
 const __vue_script__$r = script$r;
 /* template */
-var __vue_render__$r = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-app',[_c('v-navigation-drawer',{attrs:{"app":"","right":"","fixed":"","clipped":""},model:{value:(_vm.rightDrawer),callback:function ($$v) {_vm.rightDrawer=$$v;},expression:"rightDrawer"}},[_vm._t("app-right-drawer")],2),_vm._v(" "),_c('v-toolbar',{ref:"toolbar",attrs:{"app":"","fixed":"","clipped-right":"","color":"primary","dark":""}},[_c('v-toolbar-side-icon',{on:{"click":function($event){$event.stopPropagation();_vm.leftDrawer = !_vm.leftDrawer;}}}),_vm._v(" "),_c('v-toolbar-title',{staticClass:"ml-0",attrs:{"id":"app-title"}}),_vm._v(" "),_c('v-spacer'),_vm._v(" "),_vm._t("app-actions",[_c('div',{attrs:{"id":"app-actions"}})]),_vm._v(" "),_c('v-btn',{attrs:{"icon":"","flat":""},on:{"click":function($event){$event.stopPropagation();_vm.rightDrawer = !_vm.rightDrawer;}}},[_c('v-icon',[_vm._v(_vm._s(_vm.actionIcon))])],1)],2),_vm._v(" "),_c('v-navigation-drawer',{attrs:{"app":"","fixed":""},model:{value:(_vm.leftDrawer),callback:function ($$v) {_vm.leftDrawer=$$v;},expression:"leftDrawer"}},[_vm._t("app-left-drawer")],2),_vm._v(" "),_vm._t("default")],2)};
+var __vue_render__$r = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-app',[_c('v-navigation-drawer',{attrs:{"app":"","right":"","fixed":"","clipped":"","mobile-break-point":"960"},model:{value:(_vm.rightDrawer),callback:function ($$v) {_vm.rightDrawer=$$v;},expression:"rightDrawer"}},[_vm._t("app-right-drawer")],2),_vm._v(" "),_c('v-toolbar',{ref:"toolbar",attrs:{"app":"","fixed":"","clipped-right":"","color":"primary","dark":""}},[_c('v-toolbar-side-icon',{on:{"click":function($event){$event.stopPropagation();_vm.leftDrawer = !_vm.leftDrawer;}}}),_vm._v(" "),_c('v-toolbar-title',{staticClass:"ml-0",attrs:{"id":"app-title"}}),_vm._v(" "),_c('v-spacer'),_vm._v(" "),_vm._t("app-actions",[_c('div',{attrs:{"id":"app-actions"}})]),_vm._v(" "),_c('v-btn',{attrs:{"icon":"","flat":""},on:{"click":function($event){$event.stopPropagation();_vm.rightDrawer = !_vm.rightDrawer;}}},[_c('v-icon',[_vm._v(_vm._s(_vm.actionIcon))])],1)],2),_vm._v(" "),_c('v-navigation-drawer',{attrs:{"app":"","fixed":""},model:{value:(_vm.leftDrawer),callback:function ($$v) {_vm.leftDrawer=$$v;},expression:"leftDrawer"}},[_vm._t("app-left-drawer")],2),_vm._v(" "),_vm._t("default")],2)};
 var __vue_staticRenderFns__$r = [];
 
   /* style */
@@ -2755,7 +2755,7 @@ var script$u = {
 const __vue_script__$u = script$u;
 
 /* template */
-var __vue_render__$u = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-card',{attrs:{"flat":""}},[_c('v-container',{attrs:{"fluid":"","grid-list-sm":""}},[_c('v-layout',{attrs:{"row":""}},[_c('v-flex',[_c('image-icon',{attrs:{"squared":"","size":80,"letters-count":2,"src":_vm.user.avatar || _vm.user.name}})],1),_vm._v(" "),_c('v-flex',[_c('div',{staticClass:"headline"},[_vm._v(_vm._s(_vm.user.name))]),_vm._v(" "),_c('div',[_vm._v(_vm._s(_vm.user.email))]),_vm._v(" "),_c('div',[_c('a',{attrs:{"href":"#"},on:{"click":function($event){$event.preventDefault();$event.stopPropagation();return _vm.signOut($event)}}},[_vm._v("Sign out")])])])],1)],1)],1)};
+var __vue_render__$u = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-list',[_c('v-list-tile',{attrs:{"avatar":""}},[_c('v-list-tile-avatar',[_c('image-icon',{attrs:{"letters-count":1,"src":_vm.user.avatar || _vm.user.name}})],1),_vm._v(" "),_c('v-list-tile-content',[_c('v-list-tile-title',{staticClass:"text--primary"},[_vm._v(_vm._s(_vm.user.name))]),_vm._v(" "),_c('v-list-tile-sub-title',[_vm._v(_vm._s(_vm.user.email))])],1),_vm._v(" "),_c('v-list-tile-action',[_c('v-btn',{attrs:{"icon":""},on:{"click":function($event){$event.preventDefault();$event.stopPropagation();return _vm.signOut($event)}}},[_c('v-icon',[_vm._v("exit_to_app")])],1)],1)],1),_vm._v(" "),_c('v-divider')],1)};
 var __vue_staticRenderFns__$u = [];
 
   /* style */
