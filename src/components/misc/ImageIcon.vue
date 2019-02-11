@@ -1,5 +1,10 @@
 <template>
     <v-icon v-if="isIcon" :style="{width: size + 'px', height: size + 'px'}" v-bind="$attrs">{{$controlIcon(source)}}</v-icon>
+    <svg v-else-if="isURL && allowSvgFragments && isSvgFragment"
+          xmlns="http://www.w3.org/2000/svg"
+         :width="size" :height="size" :class="{'image-icon': true, 'squared': squared}" v-bind="$attrs">
+            <use :xlink:href="src"></use>
+    </svg>
     <img v-else-if="isURL" :style="{width: size + 'px', height: size + 'px'}"
          :class="{'image-icon': true, 'squared': squared}" :src="source" v-bind="$attrs">
     <letter-avatar v-else-if="letterFallback" :style="{width: size + 'px', height: size + 'px'}" :text="src"
@@ -23,8 +28,9 @@
     import LetterAvatar from "./LetterAvatar";
     import Requestor from "../../loader/Requestor";
 
-    const SVG = /^\s*\<svg(\s|\>)/i;
-    const URL = /^(https?\:|data\:|\/)/i;
+    const SVG_PATTERN = /^\s*\<svg(\s|\>)/i;
+    const URL_PATTERN = /^(https?\:|data\:|\/)/i;
+    const SVG_FRAGMENT = /^.*\.svg#[^#]*$/i;
 
     export default {
         name: 'image-icon',
@@ -45,6 +51,10 @@
             size: {
                 type: Number,
                 default: 40
+            },
+            allowSvgFragments: {
+                type: Boolean,
+                default: true
             }
         },
         computed: {
@@ -54,7 +64,7 @@
                 if (this.isIcon) {
                     return src.substring(1);
                 }
-                if (SVG.test(src)) {
+                if (SVG_PATTERN.test(src)) {
                     if (src.indexOf('xmlns="http://www.w3.org/2000/svg"') === -1) {
                         src = src.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
                     }
@@ -68,7 +78,10 @@
             },
             isURL()
             {
-                return URL.test(this.source);
+                return URL_PATTERN.test(this.source);
+            },
+            isSvgFragment() {
+                return !this.src.startsWith('data:') && SVG_FRAGMENT.test(this.src);
             },
             isIcon()
             {
