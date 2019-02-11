@@ -6,11 +6,13 @@
 <script>
     export default {
         watch: {
-            dark() {
-                this.$nextTick(() => this.changeTheme(this.theme))
+            dark(val) {
+                this.saveDark(val);
+                this.changeTheme(this.theme);
             }
         },
         created() {
+            this.$app.options.dark = this.readDark();
             this.changeTheme(this.theme);
         },
         methods: {
@@ -18,6 +20,12 @@
                 Object.keys(theme).forEach(k => {
                     this.$vuetify.theme[k] = theme[k];
                 });
+            },
+            readDark() {
+                return window.localStorage.getItem('ui.dark') === '1';
+            },
+            saveDark(value) {
+                return window.localStorage.setItem('ui.dark', value ? '1' : '0');
             }
         },
         computed: {
