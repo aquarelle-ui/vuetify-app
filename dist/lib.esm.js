@@ -436,7 +436,7 @@ var script$1 = {
         },
         embedSvgDoc: {
             type: Boolean,
-            default: false
+            default: true
         }
     },
     computed: {
@@ -496,7 +496,7 @@ var script$1 = {
 /* script */
 const __vue_script__$1 = script$1;
 /* template */
-var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.isIcon)?_c('v-icon',_vm._b({style:({width: _vm.size + 'px', height: _vm.size + 'px'})},'v-icon',_vm.$attrs,false),[_vm._v(_vm._s(_vm.$controlIcon(_vm.source)))]):(_vm.isURL && _vm.allowSvgFragments && _vm.isSvgFragment)?_c('svg',_vm._b({class:{'image-icon': true, 'squared': _vm.squared},attrs:{"xmlns":"http://www.w3.org/2000/svg","width":_vm.size,"height":_vm.size}},'svg',_vm.$attrs,false),[_c('use',{attrs:{"xlink:href":_vm.src}})]):(_vm.embedSvgDoc && _vm.isSvgDocument)?_c('v-icon',_vm._b({domProps:{"innerHTML":_vm._s(_vm.source)}},'v-icon',_vm.$attrs,false)):(_vm.isURL)?_c('img',_vm._b({class:{'image-icon': true, 'squared': _vm.squared},style:({width: _vm.size + 'px', height: _vm.size + 'px'}),attrs:{"src":_vm.source}},'img',_vm.$attrs,false)):(_vm.letterFallback)?_c('letter-avatar',_vm._b({style:({width: _vm.size + 'px', height: _vm.size + 'px'}),attrs:{"text":_vm.src,"squared":_vm.squared}},'letter-avatar',_vm.$attrs,false)):_vm._e()};
+var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.isIcon)?_c('v-icon',_vm._b({style:({width: _vm.size + 'px', height: _vm.size + 'px'})},'v-icon',_vm.$attrs,false),[_vm._v(_vm._s(_vm.$controlIcon(_vm.source)))]):(_vm.isURL && _vm.allowSvgFragments && _vm.isSvgFragment)?_c('svg',_vm._b({class:{'image-icon': true, 'squared': _vm.squared},attrs:{"xmlns":"http://www.w3.org/2000/svg","width":_vm.size,"height":_vm.size}},'svg',_vm.$attrs,false),[_c('use',{attrs:{"xlink:href":_vm.src}})]):(_vm.embedSvgDoc && _vm.isSvgDocument)?_c('div',_vm._b({class:{'v-icon': true, 'theme--light': !_vm.$vuetify.dark, 'theme--dark': _vm.$vuetify.dark},domProps:{"innerHTML":_vm._s(_vm.source)}},'div',_vm.$attrs,false)):(_vm.isURL)?_c('img',_vm._b({class:{'image-icon': true, 'squared': _vm.squared},style:({width: _vm.size + 'px', height: _vm.size + 'px'}),attrs:{"src":_vm.source}},'img',_vm.$attrs,false)):(_vm.letterFallback)?_c('letter-avatar',_vm._b({style:({width: _vm.size + 'px', height: _vm.size + 'px'}),attrs:{"text":_vm.src,"squared":_vm.squared}},'letter-avatar',_vm.$attrs,false)):_vm._e()};
 var __vue_staticRenderFns__$1 = [];
 
   /* style */
