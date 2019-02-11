@@ -406,7 +406,7 @@ class Requestor
 
 //
 
-const SVG_PATTERN = /^\s*\<svg(\s|\>)/i;
+const SVG_PATTERN = /^data\:image\/svg\+xml;base64,/i;
 const URL_PATTERN = /^(https?\:|data\:|\/)/i;
 const SVG_FRAGMENT = /^.*\.svg#[^#]*$/i;
 
@@ -433,36 +433,61 @@ var script$1 = {
         allowSvgFragments: {
             type: Boolean,
             default: true
+        },
+        embedSvgDoc: {
+            type: Boolean,
+            default: false
         }
     },
     computed: {
-        source()
-        {
+        source() {
             let src = this.src;
+
             if (this.isIcon) {
                 return src.substring(1);
             }
-            if (SVG_PATTERN.test(src)) {
-                if (src.indexOf('xmlns="http://www.w3.org/2000/svg"') === -1) {
-                    src = src.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
+
+            if (this.isSvgDocument) {
+                let svg = document.createElement('div');
+                svg.innerHTML = atob(src.substring(src.indexOf(',') + 1));
+                svg = svg.firstElementChild;
+
+                if (!svg.hasAttribute('xmlns')) {
+                    svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
                 }
-                return 'data:image/svg+xml;base64,' + btoa(src);
+
+                if (this.embedSvgDoc) {
+                    svg.classList.add('image-icon');
+                    if (this.squared) {
+                        svg.classList.add('squared');
+                    }
+                    svg.style.width = this.size + 'px';
+                    svg.style.height = this.size + 'px';
+
+                    return svg.outerHTML;
+                }
+
+                return 'data:image/svg+xml;base64,' + btoa(svg.outerHTML);
             }
+
             const base = Requestor.getBaseUrl();
+
             if (base && src.startsWith('/')) {
                 src = base + src;
             }
+
             return src;
         },
-        isURL()
-        {
-            return URL_PATTERN.test(this.source);
+        isURL() {
+            return URL_PATTERN.test(this.src);
+        },
+        isSvgDocument() {
+            return SVG_PATTERN.test(this.src);
         },
         isSvgFragment() {
             return !this.src.startsWith('data:') && SVG_FRAGMENT.test(this.src);
         },
-        isIcon()
-        {
+        isIcon() {
             return this.src.length > 0 && this.src[0] === '@';
         }
     }
@@ -471,7 +496,7 @@ var script$1 = {
 /* script */
 const __vue_script__$1 = script$1;
 /* template */
-var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.isIcon)?_c('v-icon',_vm._b({style:({width: _vm.size + 'px', height: _vm.size + 'px'})},'v-icon',_vm.$attrs,false),[_vm._v(_vm._s(_vm.$controlIcon(_vm.source)))]):(_vm.isURL && _vm.allowSvgFragments && _vm.isSvgFragment)?_c('svg',_vm._b({class:{'image-icon': true, 'squared': _vm.squared},attrs:{"xmlns":"http://www.w3.org/2000/svg","width":_vm.size,"height":_vm.size}},'svg',_vm.$attrs,false),[_c('use',{attrs:{"xlink:href":_vm.src}})]):(_vm.isURL)?_c('img',_vm._b({class:{'image-icon': true, 'squared': _vm.squared},style:({width: _vm.size + 'px', height: _vm.size + 'px'}),attrs:{"src":_vm.source}},'img',_vm.$attrs,false)):(_vm.letterFallback)?_c('letter-avatar',_vm._b({style:({width: _vm.size + 'px', height: _vm.size + 'px'}),attrs:{"text":_vm.src,"squared":_vm.squared}},'letter-avatar',_vm.$attrs,false)):_vm._e()};
+var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.isIcon)?_c('v-icon',_vm._b({style:({width: _vm.size + 'px', height: _vm.size + 'px'})},'v-icon',_vm.$attrs,false),[_vm._v(_vm._s(_vm.$controlIcon(_vm.source)))]):(_vm.isURL && _vm.allowSvgFragments && _vm.isSvgFragment)?_c('svg',_vm._b({class:{'image-icon': true, 'squared': _vm.squared},attrs:{"xmlns":"http://www.w3.org/2000/svg","width":_vm.size,"height":_vm.size}},'svg',_vm.$attrs,false),[_c('use',{attrs:{"xlink:href":_vm.src}})]):(_vm.embedSvgDoc && _vm.isSvgDocument)?_c('v-icon',_vm._b({domProps:{"innerHTML":_vm._s(_vm.source)}},'v-icon',_vm.$attrs,false)):(_vm.isURL)?_c('img',_vm._b({class:{'image-icon': true, 'squared': _vm.squared},style:({width: _vm.size + 'px', height: _vm.size + 'px'}),attrs:{"src":_vm.source}},'img',_vm.$attrs,false)):(_vm.letterFallback)?_c('letter-avatar',_vm._b({style:({width: _vm.size + 'px', height: _vm.size + 'px'}),attrs:{"text":_vm.src,"squared":_vm.squared}},'letter-avatar',_vm.$attrs,false)):_vm._e()};
 var __vue_staticRenderFns__$1 = [];
 
   /* style */
