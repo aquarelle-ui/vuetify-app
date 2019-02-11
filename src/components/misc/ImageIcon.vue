@@ -5,7 +5,9 @@
          :width="size" :height="size" :class="{'image-icon': true, 'squared': squared}" v-bind="$attrs">
             <use :xlink:href="src"></use>
     </svg>
-    <v-icon v-else-if="embedSvgDoc && isSvgDocument" v-html="source" v-bind="$attrs"></v-icon>
+    <div v-else-if="embedSvgDoc && isSvgDocument"
+         :class="{'v-icon': true, 'theme--light': !$vuetify.dark, 'theme--dark': $vuetify.dark}"
+         v-html="source" v-bind="$attrs"></div>
     <img v-else-if="isURL" :style="{width: size + 'px', height: size + 'px'}"
          :class="{'image-icon': true, 'squared': squared}" :src="source" v-bind="$attrs">
     <letter-avatar v-else-if="letterFallback" :style="{width: size + 'px', height: size + 'px'}" :text="src"
@@ -59,7 +61,7 @@
             },
             embedSvgDoc: {
                 type: Boolean,
-                default: false
+                default: true
             }
         },
         computed: {
