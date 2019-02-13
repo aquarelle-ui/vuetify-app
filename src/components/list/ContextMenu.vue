@@ -2,30 +2,52 @@
     <v-menu v-show="false" v-model="contextMenu" :left="openLeft" :position-x="x" :position-y="y">
         <v-list>
             <slot></slot>
-            <template v-if="item && showTitle">
-                <v-list-tile :disabled="isTitleDisabled"
-                             @click.stop="contextMenu = false; showTitleDialog = true">
-                    <v-list-tile-avatar>
-                        <v-icon>title</v-icon>
-                    </v-list-tile-avatar>
-                    <v-list-tile-content>
-                        <v-list-tile-title>
-                            {{$intl.translate({text: 'Change title', key: 'common.changeTitle'})}}
-                        </v-list-tile-title>
-                    </v-list-tile-content>
-                    <v-list-tile-action>
-                        <entity-change-title-dialog
-                                :show-dialog.sync="showTitleDialog"
-                                :item="item"
-                                :loader="loader"
-                                ref="titleDialog"
-                                @changed="onTitleChanged"
-                                @mustlogin="$emit('mustlogin', $event)"
-                                max-width="300">
-                        </entity-change-title-dialog>
-                    </v-list-tile-action>
-                </v-list-tile>
-            </template>
+
+            <v-list-tile v-if="item && showTitle" :disabled="isTitleDisabled"
+                         @click.stop="contextMenu = false; showTitleDialog = true">
+                <v-list-tile-avatar>
+                    <v-icon>title</v-icon>
+                </v-list-tile-avatar>
+                <v-list-tile-content>
+                    <v-list-tile-title>
+                        {{$intl.translate({text: 'Change title', key: 'common.changeTitle'})}}
+                    </v-list-tile-title>
+                </v-list-tile-content>
+                <v-list-tile-action>
+                    <entity-change-title-dialog
+                            :show-dialog.sync="showTitleDialog"
+                            :item="item"
+                            :loader="loader"
+                            ref="titleDialog"
+                            @changed="onTitleChanged"
+                            @mustlogin="$emit('mustlogin', $event)"
+                            max-width="300">
+                    </entity-change-title-dialog>
+                </v-list-tile-action>
+            </v-list-tile>
+
+            <v-list-tile v-if="item && showClone" :disabled="isCloneEnabled"
+                         @click.stop="contextMenu = false; showCloneDialog = true">
+                <v-list-tile-avatar>
+                    <v-icon>control_point_duplicate</v-icon>
+                </v-list-tile-avatar>
+                <v-list-tile-content>
+                    <v-list-tile-title>
+                        {{$intl.translate({text: 'Clone', key: 'common.clone'})}}
+                    </v-list-tile-title>
+                </v-list-tile-content>
+                <v-list-tile-action>
+                    <entity-clone-dialog
+                            :show-dialog.sync="showCloneDialog"
+                            :item="item"
+                            :loader="loader"
+                            ref="cloneDialog"
+                            @cloned="onClone"
+                            @mustlogin="$emit('mustlogin', $event)"
+                            max-width="300">
+                    </entity-clone-dialog>
+                </v-list-tile-action>
+            </v-list-tile>
 
             <template v-if="item && showDelete">
                 <v-divider></v-divider>
@@ -56,18 +78,20 @@
     </v-menu>
 </template>
 <script>
-    import {EntityChangeTitleDialog, EntityDeleteDialog} from "../dialog";
+    import {EntityChangeTitleDialog, EntityCloneDialog, EntityDeleteDialog} from "../dialog";
 
     export default {
         components: {
             EntityChangeTitleDialog,
-            EntityDeleteDialog
+            EntityDeleteDialog,
+            EntityCloneDialog,
         },
         data() {
             return {
                 contextMenu: false,
                 showTitleDialog: false,
                 showDeleteDialog: false,
+                showCloneDialog: false,
                 item: null,
                 x: 0,
                 y: 0,
@@ -91,6 +115,14 @@
                 type: Boolean,
                 default: true
             },
+            showClone: {
+                type: Boolean,
+                default: false,
+            },
+            isCloneEnabled: {
+                type: Boolean,
+                default: false,
+            },
 
             loader: {
                 type: Object,
@@ -111,6 +143,9 @@
             onTitleChanged(item, title) {
                 this.$emit('titlechanged', item, title);
             },
+            onClone(data) {
+                this.$emit('itemcloned', data);
+            },
             onDelete(item) {
                this.$emit('delete', item);
             },
@@ -118,6 +153,12 @@
             {
                 if (this.showTitle) {
                     if (!func(this.$refs.titleDialog)) {
+                        return false;
+                    }
+                }
+
+                if (this.showClone) {
+                    if (!func(this.$refs.cloneDialog)) {
                         return false;
                     }
                 }

@@ -37,11 +37,14 @@
         <context-menu ref="contextMenu"
                       @titlechanged="onTitleChanged"
                       @delete="onDelete"
+                      @cloned="onClone"
                       @mustlogin="$emit('mustlogin', $event)"
                       :loader="loaderObject"
                       :show-title="editableTitle !== false"
                       :show-delete="deletable !== false"
+                      :show-clone="cloneable !== false"
                       :is-title-disabled="!isTitleEditable"
+                      :is-clone-disabled="!isCloneable"
                       :is-delete-disabled="!isDeletable">
             <template #default>
                 <slot v-if="currentItem !== null" name="item-actions"
@@ -86,6 +89,10 @@
                 default: false
             },
             editableTitle: {
+                type: [Boolean, String, Array],
+                default: false
+            },
+            cloneable: {
                 type: [Boolean, String, Array],
                 default: false
             },
@@ -137,6 +144,10 @@
                     this.$emit('itemdeleted', {item, list});
                 }
             },
+            onClone(data)
+            {
+                this.$emit('cloned', data.id);
+            },
             refreshList(args)
             {
                 const list = this.$refs.list;
@@ -173,6 +184,13 @@
                     return this.editableTitle;
                 }
                 return this.$user.hasPermission(this.editableTitle);
+            },
+            isCloneable()
+            {
+                if (typeof this.cloneable === 'boolean') {
+                    return this.cloneable;
+                }
+                return this.$user.hasPermission(this.cloneable);
             }
         }
     };

@@ -43,6 +43,7 @@
                 ref="list"
 
                 :deletable="hasDelete && canDelete"
+                :cloneable="hasClone && canAdd"
                 :editable-title="hasTitle && canEdit"
                 :has-icon="hasIcon"
 
@@ -61,6 +62,7 @@
                 @refresh="onListRefresh()"
                 @dataloaded="onListDataLoadedCheck($event)"
                 @itemdeleted="onItemDeletedCheck($event)"
+                @itemcloned="onItemClonedCheck($event)"
                 @mustlogin="doLogin($event)"
         >
 
@@ -148,6 +150,10 @@
                 type: Boolean,
                 default: true
             },
+            hasClone: {
+                type: Boolean,
+                default: false
+            },
             actions: {
                 type: Array,
                 default: () => ([])
@@ -208,7 +214,10 @@
                 type: Function,
                 default: null
             },
-
+            clonedAction: {
+                type: [Function, String],
+                default: null
+            },
             refreshButton: {
                 type: Boolean,
                 default: false
@@ -276,6 +285,10 @@
                     this.afterDelete(data, this);
                 }
                 this.onItemDeleted(data);
+            },
+            onItemClonedCheck(data) {
+                let url = this.actionHref(this.clonedAction, data, null);
+                this.$route.push(url);
             },
             filterItems(data)
             {
