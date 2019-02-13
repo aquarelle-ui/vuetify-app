@@ -5371,7 +5371,7 @@ var script$I = {
             if (value) {
                 this.processingMode = false;
                 this.error = null;
-                this.itemTitle = this.item.title;
+                this.itemTitle = 'Clone: ' + this.item.title;
             }
         }
     },
@@ -5518,7 +5518,7 @@ var script$J = {
             this.$emit('titlechanged', item, title);
         },
         onClone(data) {
-            this.$emit('itemcloned', data);
+            this.$emit('cloned', data);
         },
         onDelete(item) {
            this.$emit('delete', item);
@@ -5667,7 +5667,7 @@ var script$K = {
         },
         onClone(data)
         {
-            this.$emit('cloned', data.id);
+            this.$emit('itemcloned', data);
         },
         refreshList(args)
         {
@@ -5959,7 +5959,7 @@ var script$L = {
         },
         onItemClonedCheck(data) {
             let url = this.actionHref(this.clonedAction, data, null);
-            this.$route.push(url);
+            this.$nextTick(() => this.$router.push(url));
         },
         filterItems(data)
         {
@@ -7112,7 +7112,7 @@ class CachedDataLoader extends DataLoader {
 
     clone(id, data)
     {
-        return this._sendData(data, id, '/clone').then(r => this._clearCache(r));
+        return this._sendData(data, null, '/' + id + '/clone').then(r => this._clearCache(r));
     }
 
     cached(what) {

@@ -146,7 +146,7 @@
             },
             onClone(data)
             {
-                this.$emit('cloned', data.id);
+                this.$emit('itemcloned', data);
             },
             refreshList(args)
             {

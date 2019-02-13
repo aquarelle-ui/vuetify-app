@@ -1,6 +1,6 @@
 {
   "name": "@aquarelle/vuetify-app",
-  "version": "0.0.55",
+  "version": "0.0.56",
   "private": true,
   "main": "dist/lib.cjs.js",
   "module": "dist/lib.esm.js",

@@ -63,7 +63,7 @@
                 if (value) {
                     this.processingMode = false;
                     this.error = null;
-                    this.itemTitle = this.item.title;
+                    this.itemTitle = 'Clone: ' + this.item.title;
                 }
             }
         },

@@ -144,7 +144,7 @@
                 this.$emit('titlechanged', item, title);
             },
             onClone(data) {
-                this.$emit('itemcloned', data);
+                this.$emit('cloned', data);
             },
             onDelete(item) {
                this.$emit('delete', item);

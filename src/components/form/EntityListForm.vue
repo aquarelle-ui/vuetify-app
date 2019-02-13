@@ -288,7 +288,7 @@
             },
             onItemClonedCheck(data) {
                 let url = this.actionHref(this.clonedAction, data, null);
-                this.$route.push(url);
+                this.$nextTick(() => this.$router.push(url));
             },
             filterItems(data)
             {
