@@ -49,7 +49,7 @@ export default class Requestor
     {
         url = this._resolveUrl(url);
         options = {
-            method: "get",
+            method: "GET",
             headers: fetchHeaders,
             credentials: fetchCredentials,
             ...options
@@ -66,7 +66,7 @@ export default class Requestor
      * @returns {Promise<Object|ServerError>}
      * @protected
      */
-    _send(url, data, method = 'post')
+    _send(url, data, method = 'POST')
     {
         url = this._resolveUrl(url);
         return fetch(url, {

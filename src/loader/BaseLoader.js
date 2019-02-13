@@ -55,7 +55,7 @@ export default class BaseLoader extends Requestor
   {
     let url = this._url + '/' + id;
     return this._fetch(url, {
-      method: "delete"
+      method: "DELETE"
     });
   }
 
@@ -70,6 +70,6 @@ export default class BaseLoader extends Requestor
   _sendData(data, id, append = '')
   {
     let url = id ? this._url + '/' + id : this._url;
-    return this._send(url + append, data, id ? 'put' : 'post');
+    return this._send(url + append, data, id ? 'PUT' : 'POST');
   }
 }

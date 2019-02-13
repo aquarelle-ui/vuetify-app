@@ -14,12 +14,12 @@ class Loader extends DataLoader
 
     signOut(key = '')
     {
-        return this._send(this._url + '/signout', {key}, 'post');
+        return this._send(this._url + '/signout', {key}, 'POST');
     }
 
-    signIn(email, password)
+    signIn(email, password, csrf = undefined)
     {
-        return this._send(this._url + '/signin', {email, password}, 'post');
+        return this._send(this._url + '/signin', {email, password, csrf}, 'POST');
     }
 }
 
@@ -84,8 +84,8 @@ export default {
             return true;
         });
     },
-    signIn(email, pass)
+    signIn(email, pass, csrf = undefined)
     {
-        return this.loader.signIn(email, pass).then(data => mapUser(this, data));
+        return this.loader.signIn(email, pass, csrf).then(data => mapUser(this, data));
     }
 };

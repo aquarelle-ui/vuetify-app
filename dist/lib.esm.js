@@ -323,7 +323,7 @@ class Requestor
     {
         url = this._resolveUrl(url);
         options = {
-            method: "get",
+            method: "GET",
             headers: fetchHeaders,
             credentials: fetchCredentials,
             ...options
@@ -340,7 +340,7 @@ class Requestor
      * @returns {Promise<Object|ServerError>}
      * @protected
      */
-    _send(url, data, method = 'post')
+    _send(url, data, method = 'POST')
     {
         url = this._resolveUrl(url);
         return fetch(url, {
@@ -3288,6 +3288,7 @@ var script$z = {
             this.processingLogin = true;
             this.loginError = false;
 
+            // TODO: add csrf token
             this.$user.signIn(email, pass)
                 .then(() => {
                     this.processingLogin = false;
@@ -3783,7 +3784,7 @@ class BaseLoader extends Requestor
   {
     let url = this._url + '/' + id;
     return this._fetch(url, {
-      method: "delete"
+      method: "DELETE"
     });
   }
 
@@ -3798,7 +3799,7 @@ class BaseLoader extends Requestor
   _sendData(data, id, append = '')
   {
     let url = id ? this._url + '/' + id : this._url;
-    return this._send(url + append, data, id ? 'put' : 'post');
+    return this._send(url + append, data, id ? 'PUT' : 'POST');
   }
 }
 
@@ -3846,12 +3847,12 @@ class Loader extends DataLoader
 
     signOut(key = '')
     {
-        return this._send(this._url + '/signout', {key}, 'post');
+        return this._send(this._url + '/signout', {key}, 'POST');
     }
 
-    signIn(email, password)
+    signIn(email, password, csrf = undefined)
     {
-        return this._send(this._url + '/signin', {email, password}, 'post');
+        return this._send(this._url + '/signin', {email, password, csrf}, 'POST');
     }
 }
 
@@ -3916,9 +3917,9 @@ var User = {
             return true;
         });
     },
-    signIn(email, pass)
+    signIn(email, pass, csrf = undefined)
     {
-        return this.loader.signIn(email, pass).then(data => mapUser(this, data));
+        return this.loader.signIn(email, pass, csrf).then(data => mapUser(this, data));
     }
 };
 
@@ -6936,6 +6937,11 @@ class CachedDataLoader extends DataLoader {
     delete(id)
     {
         return super.delete(id).then(r => this._clearCache(r));
+    }
+
+    clone(id, data)
+    {
+        return this._sendData(data, id, '/clone').then(r => this._clearCache(r));
     }
 
     cached(what) {

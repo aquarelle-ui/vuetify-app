@@ -35,6 +35,11 @@ export default class extends DataLoader {
         return super.delete(id).then(r => this._clearCache(r));
     }
 
+    clone(id, data)
+    {
+        return this._sendData(data, id, '/clone').then(r => this._clearCache(r));
+    }
+
     cached(what) {
         return Cache.load(this._key + '/' + what);
     }

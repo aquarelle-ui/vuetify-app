@@ -117,6 +117,7 @@
                 this.processingLogin = true;
                 this.loginError = false;
 
+                // TODO: add csrf token
                 this.$user.signIn(email, pass)
                     .then(() => {
                         this.processingLogin = false;
