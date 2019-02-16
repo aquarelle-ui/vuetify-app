@@ -287,8 +287,12 @@
                 this.onItemDeleted(data);
             },
             onItemClonedCheck(data) {
-                let url = this.actionHref(this.clonedAction, data, null);
-                this.$nextTick(() => this.$router.push(url));
+                if (this.clonedAction) {
+                    let url = this.actionHref(this.clonedAction, data, null);
+                    this.$nextTick(() => this.$router.push(url));
+                    return;
+                }
+                this.$refs.list.refreshList();
             },
             filterItems(data)
             {
