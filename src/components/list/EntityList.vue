@@ -46,13 +46,12 @@
                       :is-title-disabled="!isTitleEditable"
                       :is-clone-disabled="!isCloneable"
                       :is-delete-disabled="!isDeletable">
-            <template #default>
-                <slot v-if="currentItem !== null" name="item-actions"
-                      :item="currentItem"
-                      :type="currentItemType"
-                      :loader="loaderObject">
-                </slot>
-            </template>
+            <slot v-if="currentItem !== null"
+                  name="item-actions"
+                  :item="currentItem"
+                  :type="currentItemType"
+                  :loader="loaderObject">
+            </slot>
         </context-menu>
 
         <slot></slot>
